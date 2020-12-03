@@ -1,9 +1,14 @@
 package FC;
 
 public class Card {
+    private String id;
     private String term;
     private String def;
     private boolean mastered;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getDef() {
         return def;
