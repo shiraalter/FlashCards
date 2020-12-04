@@ -26,7 +26,11 @@ public class Card {
         this.term = term;
     }
 
-    public void toggleMastered() {
-        mastered = !mastered;
+    public void masterCard() {
+        mastered = true;
+    }
+
+    public void unmasterCard() {
+        mastered = false;
     }
 }
