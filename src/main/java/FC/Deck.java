@@ -28,4 +28,10 @@ public class Deck {
     public int getSize(){
         return cards.size();
     }
+
+    public void resetDeck(){
+        for(Card card : cards){
+        //    card.unmasterCard();
+        }
+    }
 }
