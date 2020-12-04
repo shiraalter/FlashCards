@@ -17,5 +17,15 @@ public class Deck {
         cards.add(card);
     }
 
+    public void removeCard(Card card){
+        cards.remove(card);
+    }
 
+    public Card getCard(int index){
+        return cards.get(index);
+    }
+
+    public int getSize(){
+        return cards.size();
+    }
 }
