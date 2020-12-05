@@ -4,7 +4,6 @@ public class Card {
     private String id;
     private String term;
     private String def;
-    private boolean mastered;
 
     public void setId(String id) {
         this.id = id;
@@ -25,12 +24,5 @@ public class Card {
     public void setTerm(String term) {
         this.term = term;
     }
-
-    public void masterCard() {
-        mastered = true;
-    }
-
-    public void unmasterCard() {
-        mastered = false;
-    }
+    
 }
