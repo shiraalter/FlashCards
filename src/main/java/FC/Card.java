@@ -1,9 +1,17 @@
 package FC;
 
 public class Card {
+
+
     private String id;
     private String term;
     private String def;
+
+    public Card(String id, String term, String def){
+        this.id = id;
+        this.term = term;
+        this.def = def;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -12,7 +20,9 @@ public class Card {
     public String getDef() {
         return def;
     }
-
+    public String getId() {
+        return id;
+    }
     public void setDef(String def) {
         this.def = def;
     }
@@ -24,5 +34,15 @@ public class Card {
     public void setTerm(String term) {
         this.term = term;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass().equals(this.getClass())){
+            Card card = (Card) obj;
+            return this.id == card.getId();
+        } else {
+            return false;
+        }
+
+    }
 }
