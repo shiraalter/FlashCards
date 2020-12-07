@@ -31,6 +31,23 @@ public class Connect {
             System.out.println(e.getMessage());
         }
     }
+
+    /**
+     * Delete a card/row from a given deck/table
+     */
+
+    public void deleteCard(String id, String table){
+        try {
+            String removeCard = "DELETE FROM " + table + " WHERE id = " + id + ";";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(removeCard);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /**
      * Delete a table/deck in the database
      */
