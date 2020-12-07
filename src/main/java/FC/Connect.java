@@ -23,7 +23,7 @@ public class Connect {
     public void addDeck(String title) {
         try {
             String createTable = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
-            executeSqlCud(createTable);
+            executeCud(createTable);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -36,7 +36,7 @@ public class Connect {
     public void deleteCard(String id, String table){
         try {
             String removeCard = "DELETE FROM " + table + " WHERE id = " + id + ";";
-            executeSqlCud(removeCard);
+            executeCud(removeCard);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -48,7 +48,7 @@ public class Connect {
     public void updateTerm(String table, String term, String id){
         try {
             String updateTerm = "UPDATE " + table + "SET term = " + term + "WHERE id = " + id + ";";
-            executeSqlCud(updateTerm);
+            executeCud(updateTerm);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -61,7 +61,7 @@ public class Connect {
     public void updateDef(String table, String def, String id){
         try {
             String updateDef= "UPDATE " + table + "SET def = " + def + "WHERE id = " + id + ";";
-            executeSqlCud(updateDef);
+            executeCud(updateDef);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,7 +74,7 @@ public class Connect {
     public void deleteDeck(String table){
         try {
             String deleteTable = "DROP TABLE " + table +";";
-            executeSqlCud(deleteTable);
+            executeCud(deleteTable);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -87,14 +87,14 @@ public class Connect {
     public void insertCard(String table, String id, String term, String def){
         try {
             String insertCard = "INSERT INTO " + table + " VALUES (" + id +", " + term + ", " + def + ");";
-            executeSqlCud(insertCard);
+            executeCud(insertCard);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    private void executeSqlCud(String insertCard) throws SQLException {
+    private void executeCud(String insertCard) throws SQLException {
         Connection conn = this.connect();
         Statement stmt = conn.createStatement();
         stmt.execute(insertCard);
@@ -112,9 +112,7 @@ public class Connect {
     private void getDeckData(String table, Deck deck) {
         try {
             String sql = "SELECT * FROM " + table;
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery(sql);
+            ResultSet results = this.connect().createStatement().executeQuery(sql);
 
             while (results.next()) {
                 addCardFromDB(deck, results);
