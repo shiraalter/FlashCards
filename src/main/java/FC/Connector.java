@@ -1,6 +1,8 @@
 package FC;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Connector {
     private final String menuTable = "menu";
@@ -113,7 +115,26 @@ public class Connector {
     }
 
     /**
-     * select all rows in the given deck's table
+     *
+     * @return Array of all decks in the db
+     */
+    public String[] getAllDecks(){
+        List<String> deckList = new ArrayList<>();
+        try {
+            String selectStmt = "SELECT * FROM menu";
+            ResultSet results = this.connect().createStatement().executeQuery(selectStmt);
+
+            while (results.next()) {
+                deckList.add(results.getString("deck_title"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return (String[]) deckList.toArray();
+    }
+
+    /**
+     * populate a deck object using given deck's table
      */
     public Deck getDeck(String table) {
         Deck deck = new Deck();
