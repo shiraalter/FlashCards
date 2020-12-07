@@ -23,7 +23,7 @@ public class Connect {
      */
     public void addDeck(String title) {
         try {
-            String createTableStmt = "CREATE TABLE " + title + " (term STRING NOT NULL, def STRING NOT NULL);";
+            String createTableStmt = "CREATE TABLE " + title + " (term TEXT NOT NULL, def TEXT NOT NULL);";
             executeCud(createTableStmt);
             addDeckToMenuTable(title);
 
