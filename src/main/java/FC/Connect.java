@@ -19,21 +19,24 @@ public class Connect {
     /**
      * select all rows in the given deck's table
      */
-    public void selectAll(String table){
+    public Deck getDeck(String table){
         String sql = "SELECT * FROM " + table;
-
+        Deck deck = new Deck();
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
              ResultSet rs    = stmt.executeQuery(sql)){
 
             // loop through the result set
             while (rs.next()) {
-                System.out.println(rs.getInt("id") +  "\t" +
-                        rs.getString("term") + "\t" +
-                        rs.getString("def"));
+//                System.out.println(rs.getInt("id") +  "\t" +
+//                        rs.getString("term") + "\t" +
+//                        rs.getString("def"));
+                Card card = new Card();
+
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        return deck;
     }
 }
