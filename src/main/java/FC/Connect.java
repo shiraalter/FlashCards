@@ -3,6 +3,7 @@ package FC;
 import java.sql.*;
 
 public class Connect {
+    private final String menuTable = "menu";
     /**
      * est. connection to cards database
      */
@@ -22,12 +23,18 @@ public class Connect {
      */
     public void addDeck(String title) {
         try {
-            String createTable = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
-            executeCud(createTable);
+            String createTableStmt = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
+            executeCud(createTableStmt);
+            addDeckToMenuTable(title);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void addDeckToMenuTable(String title) throws SQLException {
+        String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title +");";
+        executeCud(insertToMenuStmt);
     }
 
     /**
@@ -35,8 +42,8 @@ public class Connect {
      */
     public void deleteCard(Card card, String table) {
         try {
-            String removeCard = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
-            executeCud(removeCard);
+            String removeCardStmt = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
+            executeCud(removeCardStmt);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -48,8 +55,8 @@ public class Connect {
      */
     public void updateTerm(String table, Card card) {
         try {
-            String updateTerm = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
-            executeCud(updateTerm);
+            String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
+            executeCud(updateTermStmt);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -61,8 +68,8 @@ public class Connect {
      */
     public void updateDef(String table, Card card) {
         try {
-            String updateDef = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
-            executeCud(updateDef);
+            String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
+            executeCud(updateDefStmt);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,8 +81,8 @@ public class Connect {
      */
     public void deleteDeck(String table) {
         try {
-            String deleteTable = "DROP TABLE " + table + ";";
-            executeCud(deleteTable);
+            String deleteDeckStmt = "DROP TABLE " + table + ";";
+            executeCud(deleteDeckStmt);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -87,8 +94,8 @@ public class Connect {
      */
     public void insertCard(String table, String term, String def) {
         try {
-            String insertCard = "INSERT INTO " + table + "(term, def) VALUES (" + term + ", " + def + ");";
-            executeCud(insertCard);
+            String insertCardStmt = "INSERT INTO " + table + "(term, def) VALUES (" + term + ", " + def + ");";
+            executeCud(insertCardStmt);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -112,8 +119,8 @@ public class Connect {
 
     private void getDeckData(String table, Deck deck) {
         try {
-            String sql = "SELECT * FROM " + table;
-            ResultSet results = this.connect().createStatement().executeQuery(sql);
+            String selectStmt = "SELECT * FROM " + table;
+            ResultSet results = this.connect().createStatement().executeQuery(selectStmt);
 
             while (results.next()) {
                 addCardFromDB(deck, results);
