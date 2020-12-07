@@ -3,6 +3,9 @@ package FC;
 import java.sql.*;
 
 public class Connect {
+    /**
+     * est. connection to cards database
+     */
     private Connection connect() {
         // SQLite connection string
         String url = "jdbc:sqlite:cards.db";
@@ -19,24 +22,29 @@ public class Connect {
     /**
      * select all rows in the given deck's table
      */
-    public Deck getDeck(String table){
-        String sql = "SELECT * FROM " + table;
+    public Deck getDeck(String table) {
         Deck deck = new Deck();
-        try (Connection conn = this.connect();
-             Statement stmt  = conn.createStatement();
-             ResultSet rs    = stmt.executeQuery(sql)){
+        getDeckData(table, deck);
+        return deck;
+    }
 
-            // loop through the result set
-            while (rs.next()) {
-//                System.out.println(rs.getInt("id") +  "\t" +
-//                        rs.getString("term") + "\t" +
-//                        rs.getString("def"));
-                Card card = new Card();
+    private void getDeckData(String table, Deck deck) {
+        try {
+            String sql = "SELECT * FROM " + table;
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet results = stmt.executeQuery(sql);
 
+            while (results.next()) {
+                addCardFromDB(deck, results);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return deck;
+    }
+
+    private void addCardFromDB(Deck deck, ResultSet rs) throws SQLException {
+        deck.addCard(new Card(rs.getString("id"),
+                rs.getString("term"), rs.getString("def")));
     }
 }
