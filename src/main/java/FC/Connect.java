@@ -33,21 +33,22 @@ public class Connect {
     /**
      * Delete a card/row from a given deck/table
      */
-    public void deleteCard(String id, String table){
+    public void deleteCard(Card card, String table) {
         try {
-            String removeCard = "DELETE FROM " + table + " WHERE id = " + id + ";";
+            String removeCard = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
             executeCud(removeCard);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
+
     /**
      * Update a given card's term
      */
-    public void updateTerm(String table, String term, String id){
+    public void updateTerm(String table, Card card) {
         try {
-            String updateTerm = "UPDATE " + table + "SET term = " + term + "WHERE id = " + id + ";";
+            String updateTerm = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
             executeCud(updateTerm);
 
         } catch (Exception e) {
@@ -58,9 +59,9 @@ public class Connect {
     /**
      * Update a given card's def
      */
-    public void updateDef(String table, String def, String id){
+    public void updateDef(String table, Card card) {
         try {
-            String updateDef= "UPDATE " + table + "SET def = " + def + "WHERE id = " + id + ";";
+            String updateDef = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
             executeCud(updateDef);
 
         } catch (Exception e) {
@@ -71,9 +72,9 @@ public class Connect {
     /**
      * Delete a table/deck in the database
      */
-    public void deleteDeck(String table){
+    public void deleteDeck(String table) {
         try {
-            String deleteTable = "DROP TABLE " + table +";";
+            String deleteTable = "DROP TABLE " + table + ";";
             executeCud(deleteTable);
 
         } catch (Exception e) {
@@ -84,9 +85,9 @@ public class Connect {
     /**
      * Add card to an existing table/deck
      */
-    public void insertCard(String table, String id, String term, String def){
+    public void insertCard(String table, String term, String def) {
         try {
-            String insertCard = "INSERT INTO " + table + " VALUES (" + id +", " + term + ", " + def + ");";
+            String insertCard = "INSERT INTO " + table + "(term, def) VALUES (" + term + ", " + def + ");";
             executeCud(insertCard);
 
         } catch (Exception e) {
@@ -94,10 +95,10 @@ public class Connect {
         }
     }
 
-    private void executeCud(String insertCard) throws SQLException {
+    private void executeCud(String cudStatement) throws SQLException {
         Connection conn = this.connect();
         Statement stmt = conn.createStatement();
-        stmt.execute(insertCard);
+        stmt.execute(cudStatement);
     }
 
     /**
