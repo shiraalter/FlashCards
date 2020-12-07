@@ -2,7 +2,7 @@ package FC;
 
 import java.sql.*;
 
-public class Connect {
+public class Connector {
     private final String menuTable = "menu";
     /**
      * est. connection to cards database
