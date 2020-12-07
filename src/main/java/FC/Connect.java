@@ -8,7 +8,7 @@ public class Connect {
      * est. connection to cards database
      */
     private Connection connect() {
-        String url = "jdbc:sqlite:cards.db";
+        String url = "jdbc:sqlite:flash_cards.db";
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url);
