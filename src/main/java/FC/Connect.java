@@ -7,7 +7,6 @@ public class Connect {
      * est. connection to cards database
      */
     private Connection connect() {
-        // SQLite connection string
         String url = "jdbc:sqlite:cards.db";
         Connection connection = null;
         try {
@@ -18,6 +17,49 @@ public class Connect {
         return connection;
     }
 
+    /**
+     * Create a new table/deck in the database
+     */
+    public void addDeck(String title) {
+        try {
+            String createTable = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(createTable);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    /**
+     * Delete a table/deck in the database
+     */
+    public void deleteDeck(String table){
+        try {
+            String deleteTable = "DROP TABLE " + table +";";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(deleteTable);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Add card to an existing table/deck
+     */
+    public void insertCard(String table, String id, String term, String def){
+        try {
+            String insertCard = "INSERT INTO " + table + " VALUES (" + id +", " + term + ", " + def + ");";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(insertCard);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * select all rows in the given deck's table
