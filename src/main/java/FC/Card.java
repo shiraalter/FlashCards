@@ -7,6 +7,12 @@ public class Card {
     private String term;
     private String def;
 
+    public Card(String id, String term, String def){
+        this.id = id;
+        this.term = term;
+        this.def = def;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
