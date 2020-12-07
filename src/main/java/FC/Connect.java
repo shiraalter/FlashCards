@@ -23,9 +23,7 @@ public class Connect {
     public void addDeck(String title) {
         try {
             String createTable = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(createTable);
+            executeSqlCud(createTable);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -38,9 +36,7 @@ public class Connect {
     public void deleteCard(String id, String table){
         try {
             String removeCard = "DELETE FROM " + table + " WHERE id = " + id + ";";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(removeCard);
+            executeSqlCud(removeCard);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -52,9 +48,7 @@ public class Connect {
     public void updateTerm(String table, String term, String id){
         try {
             String updateTerm = "UPDATE " + table + "SET term = " + term + "WHERE id = " + id + ";";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(updateTerm);
+            executeSqlCud(updateTerm);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -67,9 +61,7 @@ public class Connect {
     public void updateDef(String table, String def, String id){
         try {
             String updateDef= "UPDATE " + table + "SET def = " + def + "WHERE id = " + id + ";";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(updateDef);
+            executeSqlCud(updateDef);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -82,9 +74,7 @@ public class Connect {
     public void deleteDeck(String table){
         try {
             String deleteTable = "DROP TABLE " + table +";";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(deleteTable);
+            executeSqlCud(deleteTable);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -97,13 +87,17 @@ public class Connect {
     public void insertCard(String table, String id, String term, String def){
         try {
             String insertCard = "INSERT INTO " + table + " VALUES (" + id +", " + term + ", " + def + ");";
-            Connection conn = this.connect();
-            Statement stmt = conn.createStatement();
-            stmt.execute(insertCard);
+            executeSqlCud(insertCard);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void executeSqlCud(String insertCard) throws SQLException {
+        Connection conn = this.connect();
+        Statement stmt = conn.createStatement();
+        stmt.execute(insertCard);
     }
 
     /**
