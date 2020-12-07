@@ -23,7 +23,7 @@ public class Connect {
      */
     public void addDeck(String title) {
         try {
-            String createTableStmt = "CREATE TABLE " + title + " (id STRING NOT NULL, term STRING NOT NULL, def STRING NOT NULL);";
+            String createTableStmt = "CREATE TABLE " + title + " (term STRING NOT NULL, def STRING NOT NULL);";
             executeCud(createTableStmt);
             addDeckToMenuTable(title);
 
@@ -42,7 +42,7 @@ public class Connect {
      */
     public void deleteCard(Card card, String table) {
         try {
-            String removeCardStmt = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
+            String removeCardStmt = "DELETE FROM " + table + " WHERE rowid = " + card.getId() + ";";
             executeCud(removeCardStmt);
 
         } catch (Exception e) {
@@ -55,7 +55,7 @@ public class Connect {
      */
     public void updateTerm(String table, Card card) {
         try {
-            String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
+            String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE rowid = " + card.getId() + ";";
             executeCud(updateTermStmt);
 
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class Connect {
      */
     public void updateDef(String table, Card card) {
         try {
-            String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
+            String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE rowid = " + card.getId() + ";";
             executeCud(updateDefStmt);
 
         } catch (Exception e) {
@@ -94,7 +94,7 @@ public class Connect {
      */
     public void insertCard(String table, String term, String def) {
         try {
-            String insertCardStmt = "INSERT INTO " + table + "(term, def) VALUES (" + term + ", " + def + ");";
+            String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
             executeCud(insertCardStmt);
 
         } catch (Exception e) {
@@ -103,9 +103,7 @@ public class Connect {
     }
 
     private void executeCud(String cudStatement) throws SQLException {
-        Connection conn = this.connect();
-        Statement stmt = conn.createStatement();
-        stmt.execute(cudStatement);
+        this.connect().createStatement().execute(cudStatement);
     }
 
     /**
@@ -131,7 +129,7 @@ public class Connect {
     }
 
     private void addCardFromDB(Deck deck, ResultSet rs) throws SQLException {
-        deck.addCard(new Card(rs.getString("id"),
+        deck.addCard(new Card(rs.getString("rowid"),
                 rs.getString("term"), rs.getString("def")));
     }
 }
