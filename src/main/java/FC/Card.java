@@ -38,8 +38,8 @@ public class Card {
     @Override
     public boolean equals(Object obj) {
         if(obj.getClass().equals(this.getClass())){
-            Card c = (Card) obj;
-            return this.id == ((Card) obj).getId();
+            Card card = (Card) obj;
+            return this.id == card.getId();
         } else {
             return false;
         }
