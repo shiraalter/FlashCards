@@ -83,10 +83,16 @@ public class Connect {
         try {
             String deleteDeckStmt = "DROP TABLE " + table + ";";
             executeCud(deleteDeckStmt);
+            removeFromMenu(table);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void removeFromMenu(String table) throws SQLException {
+        String deleteMenuItemStmt = "DELETE FROM " + menuTable + " WHERE deck_title = " + table + ";";
+        executeCud(deleteMenuItemStmt);
     }
 
     /**
