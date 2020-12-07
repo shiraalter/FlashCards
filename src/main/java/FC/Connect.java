@@ -35,13 +35,41 @@ public class Connect {
     /**
      * Delete a card/row from a given deck/table
      */
-
     public void deleteCard(String id, String table){
         try {
             String removeCard = "DELETE FROM " + table + " WHERE id = " + id + ";";
             Connection conn = this.connect();
             Statement stmt = conn.createStatement();
             stmt.execute(removeCard);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    /**
+     * Update a given card's term
+     */
+    public void updateTerm(String table, String term, String id){
+        try {
+            String updateTerm = "UPDATE " + table + "SET term = " + term + "WHERE id = " + id + ";";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(updateTerm);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    /**
+     * Update a given card's def
+     */
+    public void updateDef(String table, String def, String id){
+        try {
+            String updateDef= "UPDATE " + table + "SET def = " + def + "WHERE id = " + id + ";";
+            Connection conn = this.connect();
+            Statement stmt = conn.createStatement();
+            stmt.execute(updateDef);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
