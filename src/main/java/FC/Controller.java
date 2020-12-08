@@ -107,14 +107,18 @@ public class Controller {
      */
     private String[] getAllDecks() throws SQLException{
         List<String> deckList = new ArrayList<>();
-            String selectStmt = "SELECT * FROM menu";
-            ResultSet results = connection.createStatement().executeQuery(selectStmt);
+        ResultSet results = selectAll(menuTable);
 
-            while (results.next()) {
+        while (results.next()) {
                 deckList.add(results.getString("deck_title"));
             }
 
         return (String[]) deckList.toArray();
+    }
+
+    private ResultSet selectAll(String table) throws SQLException {
+        String selectStmt = "SELECT * FROM " + table;
+        return connection.createStatement().executeQuery(selectStmt);
     }
 
     /**
@@ -127,10 +131,9 @@ public class Controller {
     }
 
     private void getDeckData(String table, Deck deck) throws SQLException{
-            String selectStmt = "SELECT * FROM " + table;
-            ResultSet results = connection.createStatement().executeQuery(selectStmt);
+        ResultSet results = selectAll(table);
 
-            while (results.next()) {
+        while (results.next()) {
                 addCardFromDB(deck, results);
             }
     }
