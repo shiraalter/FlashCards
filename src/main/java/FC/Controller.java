@@ -128,7 +128,7 @@ public class Controller {
 
     private void getDeckData(String table, Deck deck) throws SQLException{
             String selectStmt = "SELECT * FROM " + table;
-            ResultSet results = connector.connect().createStatement().executeQuery(selectStmt);
+            ResultSet results = connection.createStatement().executeQuery(selectStmt);
 
             while (results.next()) {
                 addCardFromDB(deck, results);
