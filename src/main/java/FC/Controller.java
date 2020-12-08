@@ -108,7 +108,7 @@ public class Controller {
     private String[] getAllDecks() throws SQLException{
         List<String> deckList = new ArrayList<>();
             String selectStmt = "SELECT * FROM menu";
-            ResultSet results = connector.connect().createStatement().executeQuery(selectStmt);
+            ResultSet results = connection.createStatement().executeQuery(selectStmt);
 
             while (results.next()) {
                 deckList.add(results.getString("deck_title"));
