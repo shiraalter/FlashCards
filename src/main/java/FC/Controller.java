@@ -35,7 +35,7 @@ public class Controller {
      */
     public void startNewStudySession(String deckName) throws SQLException{
         unMastered = getDeck(deckName);
-        //add clear method to deck class and clear mastered deck;
+        mastered.clear();
     }
 
     /**
