@@ -3,6 +3,7 @@ package FC;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Controller {
 
@@ -11,6 +12,14 @@ public class Controller {
     private final Connector connector = new Connector(dBFile);
     private Deck unMastered;
     private Deck mastered;
+    private Random rand = new Random();
+
+    /**
+     * Sends ui the next card to study
+     */
+    public Card getNextToStudy(){
+        return unMastered.getCard(rand.nextInt(unMastered.getSize())-1);
+    }
 
     /**
      * Create a new table/deck in the database
@@ -27,7 +36,7 @@ public class Controller {
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
-        String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title +");";
+        String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title + ");";
         executeCud(insertToMenuStmt);
     }
 
