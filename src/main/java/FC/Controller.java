@@ -15,10 +15,17 @@ public class Controller {
     private Random rand = new Random();
 
     /**
-     * Sends ui the next card to study
+     * Returns the next card to study
      */
     public Card getNextToStudy(){
         return unMastered.getCard(rand.nextInt(unMastered.getSize())-1);
+    }
+    /**
+     * Moves card from unMastered to mastered
+     */
+    public void masterCard(Card card){
+        unMastered.removeCard(card);
+        mastered.addCard(card);
     }
 
     /**
