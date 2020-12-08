@@ -9,7 +9,8 @@ public class Controller {
     private final String menuTable = "menu";
     private final String dBFile = "flash_cards.db";
     private final Connector connector = new Connector(dBFile);
-
+    private Deck unMastered;
+    private Deck mastered;
 
     /**
      * Create a new table/deck in the database
