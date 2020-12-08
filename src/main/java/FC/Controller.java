@@ -10,7 +10,7 @@ public class Controller {
     private final String menuTable = "menu";
     private final String dBFile = "flash_cards.db";
     private final Connector connector = new Connector(dBFile);
-    //have Connection Object
+    private final Connection connection = connector.connect();
     private Deck unMastered;
     private Deck mastered;
     private Random rand = new Random();
@@ -99,8 +99,7 @@ public class Controller {
     }
 
     private void executeCud(String cudStatement) throws SQLException {
-        connector.connect().createStatement().execute(cudStatement);
-        //use connection field
+        connection.createStatement().execute(cudStatement);
     }
 
     /**
