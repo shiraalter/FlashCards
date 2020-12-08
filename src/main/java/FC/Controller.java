@@ -29,6 +29,14 @@ public class Controller {
     }
 
     /**
+     * Loads new deck to unMastered and clears mastered
+     */
+    public void startNewStudySession(String deckName){
+        unMastered = getDeck(deckName);
+        //add clear method to deck class and clear mastered deck;
+    }
+
+    /**
      * Create a new table/deck in the database
      */
     private void addDeck(String title) {
