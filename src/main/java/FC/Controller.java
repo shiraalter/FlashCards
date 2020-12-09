@@ -43,13 +43,13 @@ public class Controller {
      */
     private void addDeck(String title) throws SQLException {
         String createTableStmt = "CREATE TABLE " + title + " (term TEXT NOT NULL, def TEXT NOT NULL);";
-        executeCud(createTableStmt);
+        executeCUD(createTableStmt);
         addDeckToMenuTable(title);
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
         String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title + ");";
-        executeCud(insertToMenuStmt);
+        executeCUD(insertToMenuStmt);
     }
 
     /**
@@ -57,7 +57,7 @@ public class Controller {
      */
     private void deleteCard(Card card, String table) throws SQLException {
         String removeCardStmt = "DELETE FROM " + table + " WHERE rowid = " + card.getId() + ";";
-        executeCud(removeCardStmt);
+        executeCUD(removeCardStmt);
     }
 
     /**
@@ -65,7 +65,7 @@ public class Controller {
      */
     private void updateTerm(String table, Card card) throws SQLException {
         String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE rowid = " + card.getId() + ";";
-        executeCud(updateTermStmt);
+        executeCUD(updateTermStmt);
     }
 
     /**
@@ -73,7 +73,7 @@ public class Controller {
      */
     private void updateDef(String table, Card card) throws SQLException {
         String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE rowid = " + card.getId() + ";";
-        executeCud(updateDefStmt);
+        executeCUD(updateDefStmt);
     }
 
     /**
@@ -81,13 +81,13 @@ public class Controller {
      */
     private void deleteDeck(String table) throws SQLException{
             String deleteDeckStmt = "DROP TABLE " + table + ";";
-            executeCud(deleteDeckStmt);
+            executeCUD(deleteDeckStmt);
             removeFromMenu(table);
     }
 
     private void removeFromMenu(String table) throws SQLException {
         String deleteMenuItemStmt = "DELETE FROM " + menuTable + " WHERE deck_title = " + table + ";";
-        executeCud(deleteMenuItemStmt);
+        executeCUD(deleteMenuItemStmt);
     }
 
     /**
@@ -95,10 +95,10 @@ public class Controller {
      */
     private void insertCard(String table, String term, String def) throws SQLException{
             String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
-            executeCud(insertCardStmt);
+            executeCUD(insertCardStmt);
     }
 
-    private void executeCud(String cudStatement) throws SQLException {
+    private void executeCUD(String cudStatement) throws SQLException {
         connection.createStatement().execute(cudStatement);
     }
 
