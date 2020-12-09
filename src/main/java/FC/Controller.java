@@ -32,7 +32,10 @@ public class Controller {
     /**
      * Delete a card/row from a given deck/table
      */
-
+    protected void deleteCard(Card card, String table) throws SQLException {
+        String removeCardStmt = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
+        executeCUD(removeCardStmt);
+    }
 
 
     /**

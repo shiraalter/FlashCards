@@ -19,12 +19,9 @@ public class EditController extends Controller{
 //        editDeck.addCard(card);
     }
     //combined delete methods
-    public void deleteCard(Card card, String table) throws SQLException {
-
-        String removeCardStmt = "DELETE FROM " + table + " WHERE rowid = " + card.getId() + ";";
-        executeCUD(removeCardStmt);
-        //make sure this works
+    public void deleteCard(Card card, String deckName) throws SQLException {
         editDeck.removeCard(card);
+        super.deleteCard(card, deckName);
     }
     //    /**
 //     * Creates a new card in the deck
