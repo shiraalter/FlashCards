@@ -7,14 +7,15 @@ public class StudyController extends Controller{
     private Deck unMastered;
     private final Random rand = new Random();
 
-    public StudyController() throws SQLException {
+    public StudyController(String deckName) throws SQLException {
+        this.unMastered = getDeck(deckName);
     }
 
     /**
      * Returns the next card to study
      */
     public Card getNextToStudy() {
-        return unMastered.getCard(rand.nextInt(unMastered.getSize()) - 1);
+        return unMastered.getCard(rand.nextInt(unMastered.getSize()));
     }
 
     /**
@@ -28,6 +29,6 @@ public class StudyController extends Controller{
      * Loads new deck to unMastered and clears mastered
      */
     public void startNewStudySession(String deckName) throws SQLException {
-        unMastered = super.getDeck(deckName);
+        unMastered = getDeck(deckName);
     }
 }

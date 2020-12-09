@@ -6,9 +6,10 @@ import java.util.List;
 
 public class Controller {
 
-    private final String menuTable = "menu";
-    private final String dBFile = "flash_cards.db";
-    private final Connection connection = new Connector(dBFile).connect();
+    private final String MENU_TABLE = "menu";
+    private final String DB_FILE = "flash_cards.db";
+    private final Connection CONNECTION = new Connector(DB_FILE).connect();
+    private final int MAX_TABLES = 50; //Arbitrary but didn't know how else to do it
 
 
     public Controller() throws SQLException {
@@ -24,7 +25,7 @@ public class Controller {
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
-        String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title + ");";
+        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "VALUES (" + title + ");";
         executeCUD(insertToMenuStmt);
     }
 
@@ -64,7 +65,7 @@ public class Controller {
     }
 
     protected void removeFromMenu(String table) throws SQLException {
-        String deleteMenuItemStmt = "DELETE FROM " + menuTable + " WHERE deck_title = " + table + ";";
+        String deleteMenuItemStmt = "DELETE FROM " + MENU_TABLE + " WHERE deck_title = " + table + ";";
         executeCUD(deleteMenuItemStmt);
     }
 
@@ -80,7 +81,7 @@ public class Controller {
 
 
     protected void executeCUD(String cudStatement) throws SQLException {
-        connection.createStatement().execute(cudStatement);
+        CONNECTION.createStatement().execute(cudStatement);
     }
 
     /**
@@ -88,27 +89,29 @@ public class Controller {
      */
     protected String[] getAllDecks() throws SQLException {
 
-        List<String> deckList = new ArrayList<>();
-        ResultSet results = selectAll(menuTable);
+        ResultSet results = selectAll(MENU_TABLE);
+        String[] deckList = new String[MAX_TABLES];
+        int index = 0;
 
         while (results.next()) {
-            deckList.add(results.getString("deck_title"));
+            deckList[index] = results.getString("deck_title").toString();
+            index ++;
         }
 
-        return (String[]) deckList.toArray();
+        return deckList;
     }
 
     protected ResultSet selectAll(String table) throws SQLException {
         String selectStmt = "SELECT * FROM " + table;
-        return connection.createStatement().executeQuery(selectStmt);
+        return CONNECTION.createStatement().executeQuery(selectStmt);
     }
 
     /**
      * populate a deck object using given deck's table
      */
     protected Deck getDeck(String table) throws SQLException {
-
-        Deck deck = new Deck();
+        List<Card> cards = new ArrayList<>();
+        Deck deck = new Deck(cards);
         writeDataToDeck(table, deck);
         return deck;
     }
