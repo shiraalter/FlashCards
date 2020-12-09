@@ -1,18 +1,15 @@
 package FC;
 
-import javafx.scene.layout.BorderRepeat;
-import javafx.scene.layout.BorderStroke;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.StrokeBorder;
 import java.awt.*;
+import java.sql.SQLException;
+
+//TODO: add feature to show user what card they're up to
 
 public class Frame extends JFrame {
 
-
+    Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
     private JComboBox<String> deckBox;
@@ -34,8 +31,16 @@ public class Frame extends JFrame {
     private JButton enterDeckButton;
 
     private JPanel studyPanel;
+    private JLabel cardTextArea;
+    private JLabel deckName;
+    private JButton correctButton;
+    private JButton incorrectButton;
+    private JButton definitionButton;
+    private JButton resetButton;
+    private JPanel studyButtonPanel;
 
-
+    StudyController studyController;
+    String deckSelected;
 
     public Frame(){
         setSize(750,750);
@@ -52,23 +57,59 @@ public class Frame extends JFrame {
         middlePanel = new JPanel();
        //middlePanel.setLayout(new BorderLayout());
         setupNewDeckField();
+        setupStudyMode();
 
 
-
-        deckBox.addItem("HAPPY");
+        deckBox.addItem("Sample");
         deckBox.addActionListener(actionEvent -> comboboxClicked());
         newDeckButton.addActionListener(actionEvent-> newDeckClicked());
+        studyButton.addActionListener(actionEvent -> {
+            try {
+                studyOrResetClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        resetButton.addActionListener(actionEvent -> {
+            try {
+                studyOrResetClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+
 
 
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel, BorderLayout.CENTER);
 
 
-
-
     }
 
+    private void setupStudyMode() {
+        studyPanel = new JPanel();
+        studyButtonPanel = new JPanel(new GridLayout(1,3));
+        studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
+        studyPanel.setBorder(new EmptyBorder(200,0,0,0));
+        deckName = new JLabel("Deck Name: ");
+        cardTextArea = new JLabel();    //populate it here?
 
+        correctButton = new JButton("CORRECT!");
+        incorrectButton = new JButton("INCORRECT!");
+        definitionButton = new JButton("View Definition");
+        resetButton = new JButton("RESET");
+        studyButtonPanel.add(correctButton);
+        studyButtonPanel.add(incorrectButton);
+        studyButtonPanel.add(definitionButton);
+        studyButtonPanel.add(resetButton);
+
+        studyPanel.add(cardTextArea);
+        studyPanel.add(Box.createVerticalStrut(15));
+        studyPanel.add(studyButtonPanel);
+        studyPanel.setVisible(false);
+        middlePanel.add(studyPanel);
+    }
 
     private void setupNewDeckField() {
         newDeckPanel = new JPanel();
@@ -90,10 +131,49 @@ public class Frame extends JFrame {
     private void newDeckClicked(){
         newDeckPanel.setVisible(true);
         existingDeckPanel.setVisible(false);
+        studyPanel.setVisible(false);
     }
     private void comboboxClicked(){
+        deckSelected = deckBox.getSelectedItem().toString();
         newDeckPanel.setVisible(false);
         existingDeckPanel.setVisible(true);
+        studyPanel.setVisible(false);
+
+    }
+
+
+    private void studyOrResetClicked() throws SQLException {
+        studyController = new StudyController(deckSelected);
+        studyController.startNewStudySession(deckSelected);
+        currentCard = studyController.getNextToStudy();
+        cardTextArea.setText(currentCard.getTerm());
+
+        correctButton.setEnabled(true);
+        incorrectButton.setEnabled(true);
+        definitionButton.setEnabled(true);
+        definitionButton.addActionListener(actionEvent -> cardTextArea.setText(currentCard.getDef()));
+        correctButton.addActionListener(actionEvent -> correctButtonClicked());
+        incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
+        studyPanel.setVisible(true);
+    }
+
+    private void incorrectButtonClicked() {
+        currentCard = studyController.getNextToStudy();
+        cardTextArea.setText(currentCard.getTerm());
+    }
+
+    private void correctButtonClicked() {
+        currentCard = studyController.getNextToStudy();
+        if(currentCard != null){
+            studyController.masterCard(currentCard);
+            cardTextArea.setText(currentCard.getTerm());
+        }
+        else{
+        cardTextArea.setText("You finished the deck! Click RESET to start over.");
+        correctButton.setEnabled(false);
+        incorrectButton.setEnabled(false);
+        definitionButton.setEnabled(false);
+        }
     }
 
     private void setupExistingDeckOptions() {
