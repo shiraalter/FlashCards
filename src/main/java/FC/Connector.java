@@ -5,7 +5,7 @@ import java.sql.*;
 public class Connector {
     private final String dBFile;
 
-    public Connector(String dBFile) {
+    public Connector(String dBFile)   {
         this.dBFile = dBFile;
     }
 

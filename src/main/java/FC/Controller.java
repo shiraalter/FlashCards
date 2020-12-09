@@ -14,6 +14,9 @@ public class Controller {
     private Deck mastered;
     private final Random rand = new Random();
 
+    public Controller() throws SQLException {
+    }
+
     /**
      * Returns the next card to study
      */
@@ -35,6 +38,13 @@ public class Controller {
     public void startNewStudySession(String deckName) throws SQLException{
         unMastered = getDeck(deckName);
         mastered.clear();
+    }
+
+    public Deck getMastered(){
+        return mastered;
+    }
+    public Deck getUnmastered(){
+        return unMastered;
     }
 
     /**
