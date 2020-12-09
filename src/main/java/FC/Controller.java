@@ -12,10 +12,31 @@ public class Controller {
     private final Connection connection = new Connector(dBFile).connect();
     private Deck unMastered;
     private Deck mastered;
+    private Deck editDeck;
     private final Random rand = new Random();
 
     public Controller() throws SQLException {
     }
+
+//    /**
+//     * Creates a new card in the deck
+//     */
+//    public void createCardInDeck(String term, String def, String deckName) throws SQLException {
+//        editDeck = getDeck(deckName);
+//        Card card = new Card();
+//        insertCard(deckName, term, def);
+//        editDeck.addCard(card);
+//    }
+//
+//    /**
+//     * Deletes the selected card from the deck
+//     */
+//    public void deleteCardFromDeck(Card card, String deckName) throws SQLException {
+//        editDeck = getDeck(deckName);
+//        deleteCard(editDeck.getCard(), deckName);
+//        editDeck.removeCard(card);
+//    }
+
 
     /**
      * Returns the next card to study
@@ -35,7 +56,7 @@ public class Controller {
     /**
      * Loads new deck to unMastered and clears mastered
      */
-    public void startNewStudySession(String deckName) throws SQLException{
+    public void startNewStudySession(String deckName) throws SQLException {
         unMastered = getDeck(deckName);
         mastered.clear();
     }
@@ -57,9 +78,13 @@ public class Controller {
     /**
      * Delete a card/row from a given deck/table
      */
-    private void deleteCard(Card card, String table) throws SQLException {
+    //combined delete methods
+    public void deleteCard(Card card, String table) throws SQLException {
+        editDeck = getDeck(table);
         String removeCardStmt = "DELETE FROM " + table + " WHERE rowid = " + card.getId() + ";";
         executeCUD(removeCardStmt);
+        //make sure this works
+        editDeck.removeCard(card);
     }
 
     /**
@@ -81,10 +106,10 @@ public class Controller {
     /**
      * Delete a table/deck in the database
      */
-    private void deleteDeck(String table) throws SQLException{
-            String deleteDeckStmt = "DROP TABLE " + table + ";";
-            executeCUD(deleteDeckStmt);
-            removeFromMenu(table);
+    private void deleteDeck(String table) throws SQLException {
+        String deleteDeckStmt = "DROP TABLE " + table + ";";
+        executeCUD(deleteDeckStmt);
+        removeFromMenu(table);
     }
 
     private void removeFromMenu(String table) throws SQLException {
@@ -95,9 +120,15 @@ public class Controller {
     /**
      * Add card to an existing table/deck
      */
-    private void insertCard(String table, String term, String def) throws SQLException{
-            String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
-            executeCUD(insertCardStmt);
+    //combined both and made public
+    public void insertCard(String table, String term, String def) throws SQLException {
+        editDeck = getDeck(table);
+        String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
+        executeCUD(insertCardStmt);
+        //fix what id is
+        String id = "";
+        Card card = new Card(id, term, def);
+        editDeck.addCard(card);
     }
 
     private void executeCUD(String cudStatement) throws SQLException {
@@ -107,13 +138,13 @@ public class Controller {
     /**
      * @return Array of all decks in the db
      */
-    private String[] getAllDecks() throws SQLException{
+    private String[] getAllDecks() throws SQLException {
         List<String> deckList = new ArrayList<>();
         ResultSet results = selectAll(menuTable);
 
         while (results.next()) {
-                deckList.add(results.getString("deck_title"));
-            }
+            deckList.add(results.getString("deck_title"));
+        }
 
         return (String[]) deckList.toArray();
     }
@@ -126,22 +157,22 @@ public class Controller {
     /**
      * populate a deck object using given deck's table
      */
-    private Deck getDeck(String table) throws SQLException{
+    private Deck getDeck(String table) throws SQLException {
         Deck deck = new Deck();
         getDeckData(table, deck);
         return deck;
     }
 
-    private void getDeckData(String table, Deck deck) throws SQLException{
+    private void getDeckData(String table, Deck deck) throws SQLException {
         ResultSet results = selectAll(table);
 
         while (results.next()) {
-                addCardFromDB(deck, results);
-            }
+            addCardFromDB(deck, results);
+        }
     }
 
     private void addCardFromDB(Deck deck, ResultSet rs) throws SQLException {
-        deck.addCard(new Card(rs.getString("rowid"),
+        deck.addCard(new Card(rs.getString("row id"),
                 rs.getString("term"), rs.getString("def")));
     }
 
