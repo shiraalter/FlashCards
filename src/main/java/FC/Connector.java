@@ -8,16 +8,11 @@ public class Connector {
         this.dBFile = dBFile;
     }
     /**
-     * est. connection to cards database
+     * est. connection to a database file
      */
-     Connection connect() {
+     Connection connect() throws  SQLException{
         String url = "jdbc:sqlite:"+ dBFile;
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        Connection connection = DriverManager.getConnection(url);
         return connection;
     }
 
