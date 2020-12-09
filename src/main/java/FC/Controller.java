@@ -13,7 +13,7 @@ public class Controller {
     private final Connection connection = connector.connect();
     private Deck unMastered;
     private Deck mastered;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     /**
      * Returns the next card to study
