@@ -15,7 +15,7 @@ public class StudyController extends Controller{
      * Returns the next card to study
      */
     public Card getNextToStudy() {
-        return unMastered.getCard(rand.nextInt(unMastered.getSize()));
+        return unMastered.getSize()!= 0 ? unMastered.getCard(rand.nextInt(unMastered.getSize())) : null;
     }
 
     /**
