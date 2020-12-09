@@ -3,7 +3,6 @@ package FC;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Controller {
 
@@ -87,8 +86,6 @@ public class Controller {
     /**
      * @return Array of all decks in the db
      */
-
-
     protected String[] getAllDecks() throws SQLException {
 
         List<String> deckList = new ArrayList<>();
@@ -109,16 +106,15 @@ public class Controller {
     /**
      * populate a deck object using given deck's table
      */
-
     protected Deck getDeck(String table) throws SQLException {
 
         Deck deck = new Deck();
-        getDeckData(table, deck);
+        writeDataToDeck(table, deck);
         return deck;
     }
 
 
-    private void getDeckData(String table, Deck deck) throws SQLException {
+    private void writeDataToDeck(String table, Deck deck) throws SQLException {
 
         ResultSet results = selectAll(table);
 
@@ -126,9 +122,6 @@ public class Controller {
             addCardFromDB(deck, results);
         }
     }
-
-
-
 
     private void addCardFromDB(Deck deck, ResultSet rs) throws SQLException {
         deck.addCard(new Card(rs.getString("id"),
