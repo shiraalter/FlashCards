@@ -1,11 +1,12 @@
 package FC;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.SQLException;
 
-//TODO: add feature to show user what card they're up to
+//TODO: bug - click correct twice before number updates
 
 public class Frame extends JFrame {
 
@@ -38,6 +39,8 @@ public class Frame extends JFrame {
     private JButton definitionButton;
     private JButton resetButton;
     private JPanel studyButtonPanel;
+    private JPanel topPanel;
+    private JLabel numOfCards;
 
     StudyController studyController;
     String deckSelected;
@@ -55,7 +58,8 @@ public class Frame extends JFrame {
 
 
         middlePanel = new JPanel();
-       //middlePanel.setLayout(new BorderLayout());
+        topPanel = new JPanel(new FlowLayout());
+
         setupNewDeckField();
         setupStudyMode();
 
@@ -83,17 +87,19 @@ public class Frame extends JFrame {
 
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel, BorderLayout.CENTER);
+        add(topPanel, BorderLayout.NORTH);
 
 
     }
 
     private void setupStudyMode() {
         studyPanel = new JPanel();
-        studyButtonPanel = new JPanel(new GridLayout(1,3));
+        studyButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200,0,0,0));
-        deckName = new JLabel("Deck Name: ");
-        cardTextArea = new JLabel();    //populate it here?
+        deckName = new JLabel();
+        cardTextArea = new JLabel();    //text starts in middle
+        numOfCards = new JLabel();
 
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
@@ -108,6 +114,12 @@ public class Frame extends JFrame {
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
+        //deckName.setHorizontalAlignment(SwingConstants.CENTER);
+
+        topPanel.add(deckName, BorderLayout.CENTER);
+        topPanel.add(numOfCards, BorderLayout.EAST);
+        topPanel.setVisible(false);
+
         middlePanel.add(studyPanel);
     }
 
@@ -132,29 +144,35 @@ public class Frame extends JFrame {
         newDeckPanel.setVisible(true);
         existingDeckPanel.setVisible(false);
         studyPanel.setVisible(false);
+        topPanel.setVisible(false);
     }
     private void comboboxClicked(){
         deckSelected = deckBox.getSelectedItem().toString();
+        deckName.setText("Deck: " + deckSelected);
         newDeckPanel.setVisible(false);
         existingDeckPanel.setVisible(true);
         studyPanel.setVisible(false);
+        topPanel.setVisible(true);
+
 
     }
 
 
     private void studyOrResetClicked() throws SQLException {
-        studyController = new StudyController(deckSelected);
+        studyController = new StudyController();
         studyController.startNewStudySession(deckSelected);
         currentCard = studyController.getNextToStudy();
         cardTextArea.setText(currentCard.getTerm());
+        setNumOfCardsLabel();
 
         correctButton.setEnabled(true);
         incorrectButton.setEnabled(true);
         definitionButton.setEnabled(true);
-        definitionButton.addActionListener(actionEvent -> cardTextArea.setText(currentCard.getDef()));
+        definitionButton.addActionListener(actionEvent -> cardTextArea.setText("<html>" + currentCard.getDef() + "</html>"));
         correctButton.addActionListener(actionEvent -> correctButtonClicked());
         incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
         studyPanel.setVisible(true);
+        topPanel.setVisible(true);
     }
 
     private void incorrectButtonClicked() {
@@ -162,8 +180,11 @@ public class Frame extends JFrame {
         cardTextArea.setText(currentCard.getTerm());
     }
 
+    //BUG
     private void correctButtonClicked() {
+
         currentCard = studyController.getNextToStudy();
+        setNumOfCardsLabel();
         if(currentCard != null){
             studyController.masterCard(currentCard);
             cardTextArea.setText(currentCard.getTerm());
@@ -174,6 +195,10 @@ public class Frame extends JFrame {
         incorrectButton.setEnabled(false);
         definitionButton.setEnabled(false);
         }
+    }
+
+    private void setNumOfCardsLabel() {
+        numOfCards.setText("Cards left: " + getRemainingCards());
     }
 
     private void setupExistingDeckOptions() {
@@ -208,5 +233,8 @@ public class Frame extends JFrame {
         leftPanel.add(chooseDeckPanel);
     }
 
+    private int getRemainingCards(){
+        return studyController.sizeOfUnmastered();
+    }
 }
 
