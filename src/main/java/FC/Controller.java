@@ -9,8 +9,7 @@ public class Controller {
 
     private final String menuTable = "menu";
     private final String dBFile = "flash_cards.db";
-    private final Connector connector = new Connector(dBFile);
-    private final Connection connection = connector.connect();
+    private final Connection connection = new Connector(dBFile).connect();
     private Deck unMastered;
     private Deck mastered;
     private final Random rand = new Random();
