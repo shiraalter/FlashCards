@@ -14,6 +14,9 @@ public class Controller {
     private Deck mastered;
     private final Random rand = new Random();
 
+    public Controller() throws SQLException {
+    }
+
     /**
      * Returns the next card to study
      */

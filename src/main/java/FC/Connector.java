@@ -14,8 +14,7 @@ public class Connector {
      */
     Connection connect() throws SQLException {
         String url = "jdbc:sqlite:" + dBFile;
-        Connection connection = DriverManager.getConnection(url);
-        return connection;
+        return DriverManager.getConnection(url);
     }
 
 }
