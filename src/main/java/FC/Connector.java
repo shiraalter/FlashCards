@@ -3,7 +3,7 @@ package FC;
 import java.sql.*;
 
 public class Connector {
-    private String dBFile;
+    private final String dBFile;
 
     public Connector(String dBFile) {
         this.dBFile = dBFile;
