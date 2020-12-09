@@ -110,8 +110,7 @@ public class Controller {
      * populate a deck object using given deck's table
      */
     protected Deck getDeck(String table) throws SQLException {
-        List<Card> cards = new ArrayList<>();
-        Deck deck = new Deck(cards);
+        Deck deck = new Deck();
         writeDataToDeck(table, deck);
         return deck;
     }
