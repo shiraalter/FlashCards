@@ -8,33 +8,18 @@ public class EditController extends Controller{
     public EditController() throws SQLException {
 
     }
-
+    /**
+     * Creates a new card in the deck
+     */
     public void insertCard(String table, String term, String def) throws SQLException {
        super.insertCard(table, term, def);
-        editDeck = super.getDeck(table);
+       editDeck = super.getDeck(table);
     }
-
-    //combined delete methods
+    /**
+     * Deletes the selected card from the deck
+     */
     public void deleteCard(Card card, String deckName) throws SQLException {
-        editDeck.removeCard(card);
         super.deleteCard(card, deckName);
+        editDeck.removeCard(card);
     }
-    //    /**
-//     * Creates a new card in the deck
-//     */
-//    public void createCardInDeck(String term, String def, String deckName) throws SQLException {
-//        editDeck = getDeck(deckName);
-//        Card card = new Card();
-//        insertCard(deckName, term, def);
-//        editDeck.addCard(card);
-//    }
-//
-//    /**
-//     * Deletes the selected card from the deck
-//     */
-//    public void deleteCardFromDeck(Card card, String deckName) throws SQLException {
-//        editDeck = getDeck(deckName);
-//        deleteCard(editDeck.getCard(), deckName);
-//        editDeck.removeCard(card);
-//    }
 }
