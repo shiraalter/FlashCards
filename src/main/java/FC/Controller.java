@@ -24,7 +24,7 @@ public class Controller {
         addDeckToMenuTable(title);
     }
 
-    protected void addDeckToMenuTable(String title) throws SQLException {
+    private void addDeckToMenuTable(String title) throws SQLException {
         String insertToMenuStmt = "INSERT INTO " + menuTable + "VALUES (" + title + ");";
         executeCUD(insertToMenuStmt);
     }
@@ -73,11 +73,11 @@ public class Controller {
      * Add card to an existing table/deck
      */
 
-//    protected void insertCard(String table, String term, String def) throws SQLException {
-//        String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
-//        executeCUD(insertCardStmt);
-//    }
-    //combined both and made public
+    protected void insertCard(String table, String term, String def) throws SQLException {
+        String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
+        executeCUD(insertCardStmt);
+    }
+
 
 
     protected void executeCUD(String cudStatement) throws SQLException {
