@@ -7,8 +7,7 @@ public class StudyController extends Controller{
     private Deck unMastered;
     private final Random rand = new Random();
 
-    public StudyController(String deckName) throws SQLException {
-        this.unMastered = getDeck(deckName);
+    public StudyController() throws SQLException {
     }
 
     /**
@@ -30,5 +29,9 @@ public class StudyController extends Controller{
      */
     public void startNewStudySession(String deckName) throws SQLException {
         unMastered = getDeck(deckName);
+    }
+
+    public int sizeOfUnmastered(){
+        return unMastered.getSize();
     }
 }
