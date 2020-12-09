@@ -5,11 +5,10 @@ import java.util.Random;
 
 public class StudyController extends Controller{
     private Deck unMastered;
-    private Deck mastered;
+    //private Deck mastered;
     private final Random rand = new Random();
 
-    public StudyController(){
-
+    public StudyController() throws SQLException {
     }
 
     /**
@@ -24,7 +23,7 @@ public class StudyController extends Controller{
      */
     public void masterCard(Card card) {
         unMastered.removeCard(card);
-        mastered.addCard(card);
+        //mastered.addCard(card);
     }
 
     /**
@@ -32,6 +31,6 @@ public class StudyController extends Controller{
      */
     public void startNewStudySession(String deckName) throws SQLException {
         unMastered = super.getDeck(deckName);
-        mastered.clear();
+        //mastered.clear();
     }
 }
