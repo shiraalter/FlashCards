@@ -12,7 +12,7 @@ public class CardTest {
         String term = "term";
         String def = "definition";
         Card card = new Card(id, term, def);
-        
+
         //when
         card.setId(id);
 
