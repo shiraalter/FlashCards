@@ -82,9 +82,6 @@ public class Frame extends JFrame {
             }
         });
 
-
-
-
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel, BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
@@ -133,7 +130,7 @@ public class Frame extends JFrame {
         enterDeckButton = new JButton("Enter New Deck!");
         newDeckPanel.add(newDeckLabel);
         newDeckPanel.add(Box.createVerticalStrut(15));
-        newDeckPanel.add(deckNameTb);
+        newDeckPanel.add(deckNameTb, Box.createVerticalStrut(15));
         newDeckPanel.add(Box.createVerticalStrut(15));
         newDeckPanel.add(enterDeckButton);
         newDeckPanel.setVisible(false);
@@ -149,14 +146,13 @@ public class Frame extends JFrame {
     private void comboboxClicked(){
         deckSelected = deckBox.getSelectedItem().toString();
         deckName.setText("Deck: " + deckSelected);
+        numOfCards.setText("");
         newDeckPanel.setVisible(false);
         existingDeckPanel.setVisible(true);
         studyPanel.setVisible(false);
         topPanel.setVisible(true);
 
-
     }
-
 
     private void studyOrResetClicked() throws SQLException {
         studyController = new StudyController();
@@ -182,12 +178,13 @@ public class Frame extends JFrame {
 
     //BUG
     private void correctButtonClicked() {
-
-        currentCard = studyController.getNextToStudy();
-        setNumOfCardsLabel();
-        if(currentCard != null){
+        if(studyController.getNextToStudy() != null){
             studyController.masterCard(currentCard);
-            cardTextArea.setText(currentCard.getTerm());
+            setNumOfCardsLabel();
+            if(studyController.sizeOfUnmastered() != 0) {           //click on correct twice when 0
+                currentCard = studyController.getNextToStudy();
+                cardTextArea.setText(currentCard.getTerm());
+            }
         }
         else{
         cardTextArea.setText("You finished the deck! Click RESET to start over.");
