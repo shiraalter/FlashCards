@@ -1,6 +1,8 @@
 package FC;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditController extends Controller{
     Deck editDeck;
@@ -32,5 +34,10 @@ public class EditController extends Controller{
      */
     public void deleteDeck(String deckName) throws SQLException {
         super.deleteDeck(deckName);
+    }
+
+    public List<Card> getTermsInDeck(String deckname) throws SQLException {
+        editDeck = super.getDeck(deckname);
+        return editDeck.getTermList();
     }
 }
