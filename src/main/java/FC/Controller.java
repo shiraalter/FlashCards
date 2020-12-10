@@ -63,7 +63,7 @@ public class Controller {
     }
 
     protected void removeFromMenu(String table) throws SQLException {
-        String deleteMenuItemStmt = "DELETE FROM " + MENU_TABLE + " WHERE deck_title = " + table + ";";
+        String deleteMenuItemStmt = "DELETE FROM " + MENU_TABLE + " WHERE deck_title = '" + table + "';";
         executeCUD(deleteMenuItemStmt);
     }
 
@@ -72,7 +72,7 @@ public class Controller {
      */
 
     protected void insertCard(String table, String term, String def) throws SQLException {
-        String insertCardStmt = "INSERT INTO " + table + "VALUES (" + term + ", " + def + ");";
+        String insertCardStmt = "INSERT INTO " + table + "VALUES ('" + term + "', '" + def + "');";
         executeCUD(insertCardStmt);
     }
 
