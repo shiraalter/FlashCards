@@ -40,7 +40,7 @@ public class Controller {
      * Update a given card's term
      */
     protected void updateTerm(String table, Card card) throws SQLException {
-        String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
+        String updateTermStmt = "UPDATE " + table + "SET term = '" + card.getTerm() + "' WHERE id = " + card.getId() + ";";
         executeCUD(updateTermStmt);
     }
 
@@ -48,7 +48,7 @@ public class Controller {
      * Update a given card's def
      */
     protected void updateDef(String table, Card card) throws SQLException {
-        String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
+        String updateDefStmt = "UPDATE " + table + "SET def = '" + card.getDef() + "' WHERE id = " + card.getId() + ";";
         executeCUD(updateDefStmt);
     }
 
@@ -57,7 +57,7 @@ public class Controller {
      */
 
     protected void deleteDeck(String table) throws SQLException{
-            String deleteDeckStmt = "DROP TABLE " + table + ";";
+            String deleteDeckStmt = "DROP TABLE '" + table + "';";
             executeCUD(deleteDeckStmt);
             removeFromMenu(table);
     }
@@ -72,7 +72,7 @@ public class Controller {
      */
 
     protected void insertCard(String table, String term, String def) throws SQLException {
-        String insertCardStmt = "INSERT INTO " + table + "VALUES ('" + term + "', '" + def + "');";
+        String insertCardStmt = "INSERT INTO " + table + "(term, def) VALUES ('" + term + "', '" + def + "');";
         executeCUD(insertCardStmt);
     }
 
