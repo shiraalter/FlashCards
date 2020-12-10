@@ -5,14 +5,18 @@ import java.util.List;
 
 public class Deck {
     private List<Card> cards;
+   // private List<String> termList;
+    private List<Card> termList;
 
 
     public Deck(List<Card> cards){
         this.cards = cards;
+
     }
 
     public Deck(){
         this.cards = new ArrayList<>();
+        termList = new ArrayList<>();
     }
 
     public void addCard(Card card){
@@ -34,5 +38,16 @@ public class Deck {
     public void clear(){
         cards.clear();
     }
-    
+
+
+
+  private void createTermList(){
+      termList.addAll(cards);
+    }
+
+    public List<Card> getTermList(){
+        createTermList();
+        return termList;
+    }
+
 }
