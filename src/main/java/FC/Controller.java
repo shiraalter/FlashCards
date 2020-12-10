@@ -1,8 +1,6 @@
 package FC;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Controller {
 
@@ -19,13 +17,13 @@ public class Controller {
      * Create a new table/deck in the database
      */
     protected void addDeck(String title) throws SQLException {
-        String createTableStmt = "CREATE TABLE " + title + " (term TEXT NOT NULL, def TEXT NOT NULL);";
+        String createTableStmt = "CREATE TABLE " + title + " (id INT NOT NULL, term TEXT NOT NULL, def TEXT NOT NULL);";
         executeCUD(createTableStmt);
         addDeckToMenuTable(title);
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
-        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "VALUES (" + title + ");";
+        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "(deck_title) VALUES ('" + title + "');";
         executeCUD(insertToMenuStmt);
     }
 
