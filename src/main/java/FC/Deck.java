@@ -12,7 +12,7 @@ public class Deck {
     }
 
     public Deck(){
-        this.cards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
     }
 
     public void addCard(Card card){
