@@ -31,4 +31,8 @@ public class StudyController extends Controller{
     public void startNewStudySession(String deckName) throws SQLException {
         unMastered = getDeck(deckName);
     }
+
+    public Deck getUnMastered(){
+        return unMastered;
+    }
 }
