@@ -72,7 +72,7 @@ public class Controller {
      */
 
     protected void insertCard(String table, String term, String def) throws SQLException {
-        String insertCardStmt = "INSERT INTO " + table + "VALUES ('" + term + "', '" + def + "');";
+        String insertCardStmt = "INSERT INTO " + table + "(term, def) VALUES ('" + term + "', '" + def + "');";
         executeCUD(insertCardStmt);
     }
 
