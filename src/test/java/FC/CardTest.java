@@ -12,13 +12,12 @@ public class CardTest {
         String term = "term";
         String def = "definition";
         Card card = new Card(id, term, def);
-
-
+        
         //when
         card.setId(id);
 
         //then
-        assert(card.getId().equals("1"));
+        assert (card.getId().equals("1"));
     }
 
     @Test
@@ -29,12 +28,11 @@ public class CardTest {
         String def = "definition";
         Card card = new Card(id, term, def);
 
-
         //when
         card.setDef(def);
 
         //then
-        assert(card.getDef().equals("definition"));
+        assert (card.getDef().equals("definition"));
     }
 
 
@@ -46,12 +44,11 @@ public class CardTest {
         String def = "definition";
         Card card = new Card(id, term, def);
 
-
         //when
         card.setTerm(term);
 
         //then
-        assert(card.getTerm().equals("term"));
+        assert (card.getTerm().equals("term"));
     }
 
     @Test
@@ -68,7 +65,7 @@ public class CardTest {
         card.setId(id);
 
         //then
-        assert(card.equals(card2));
+        assert (card.equals(card2));
 
     }
 
@@ -85,12 +82,11 @@ public class CardTest {
         String def2 = "definitions";
         Card card2 = new Card(id2, term2, def2);
 
-
         //when
         boolean cardE = card.equals(card2);
 
         //then
-        assert(!cardE);
+        assert (!cardE);
 
     }
 
@@ -104,12 +100,11 @@ public class CardTest {
 
         Object obj = new Object();
 
-
         //when
         boolean cardE = card.equals(obj);
 
         //then
-        assert(!cardE);
+        assert (!cardE);
 
     }
 }
