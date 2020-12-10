@@ -1,5 +1,6 @@
 package FC;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Deck {
@@ -8,6 +9,10 @@ public class Deck {
 
     public Deck(List<Card> cards){
         this.cards = cards;
+    }
+
+    public Deck(){
+        this.cards = new ArrayList<>();
     }
 
     public void addCard(Card card){
