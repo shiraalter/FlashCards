@@ -6,7 +6,6 @@ public class EditController extends Controller{
     Deck editDeck;
 
     public EditController() throws SQLException {
-
     }
     /**
      * Creates a new card in the deck
@@ -21,5 +20,17 @@ public class EditController extends Controller{
     public void deleteCard(Card card, String deckName) throws SQLException {
         super.deleteCard(card, deckName);
         editDeck.removeCard(card);
+    }
+    /**
+     * Adds a new deck to the database
+     */
+    public void initializeNewDeck(String deckName) throws SQLException {
+        addDeck(deckName);
+    }
+    /**
+     * Deletes a given deck from the database
+     */
+    public void deleteDeck(String deckName) throws SQLException {
+        super.deleteDeck(deckName);
     }
 }
