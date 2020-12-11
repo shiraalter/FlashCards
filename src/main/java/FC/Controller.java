@@ -1,14 +1,15 @@
 package FC;
 
+import javax.xml.transform.Result;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
 
     private final String MENU_TABLE = "menu";
     private final String DB_FILE = "flash_cards.db";
     private final Connection CONNECTION = new Connector(DB_FILE).connect();
-    private final int MAX_TABLES = 50; //Arbitrary but didn't know how else to do it
-
 
     public Controller() throws SQLException {
     }
@@ -72,7 +73,7 @@ public class Controller {
      */
 
     protected void insertCard(String table, String term, String def) throws SQLException {
-        String insertCardStmt = "INSERT INTO " + table + "VALUES ('" + term + "', '" + def + "');";
+        String insertCardStmt = "INSERT INTO " + table + "(term, def) VALUES ('" + term + "', '" + def + "');";
         executeCUD(insertCardStmt);
     }
 
@@ -85,19 +86,15 @@ public class Controller {
     /**
      * @return Array of all decks in the db
      */
-    protected String[] getAllDecks() throws SQLException {
-
+     protected ArrayList<String> getAllDecks() throws SQLException {
         ResultSet results = selectAll(MENU_TABLE);
-        String[] deckList = new String[MAX_TABLES];
-        int index = 0;
-
+        ArrayList<String> deckList = new ArrayList<>();
         while (results.next()) {
-            deckList[index] = results.getString("deck_title").toString();
-            index ++;
+            deckList.add(results.getString("deck_title"));
         }
-
         return deckList;
     }
+
 
     protected ResultSet selectAll(String table) throws SQLException {
         String selectStmt = "SELECT * FROM " + table;
