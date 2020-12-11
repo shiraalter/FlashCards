@@ -3,7 +3,7 @@ package FC;
 import java.sql.SQLException;
 
 public class EditController extends Controller{
-    Deck editDeck;
+    private Deck editDeck;
 
     public EditController() throws SQLException {
     }
@@ -25,12 +25,16 @@ public class EditController extends Controller{
      * Adds a new deck to the database
      */
     public void initializeNewDeck(String deckName) throws SQLException {
-        addDeck(deckName);
+        super.addDeck(deckName);
     }
     /**
      * Deletes a given deck from the database
      */
     public void deleteDeck(String deckName) throws SQLException {
         super.deleteDeck(deckName);
+    }
+
+    public Deck getEditDeck() {
+        return editDeck;
     }
 }
