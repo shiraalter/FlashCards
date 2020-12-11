@@ -7,6 +7,12 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
+/**
+ * Run tests one by one.
+ * When run all at once, database file becomes locked
+ * and cannot access database, so some fail due to that.
+ */
+
 public class ControllerTest {
 
     @Test
