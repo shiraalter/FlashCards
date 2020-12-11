@@ -3,13 +3,12 @@ package FC;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Vector;
 
 //TODO: bug - re-enters clicked method
-//TODO move top panel to different method
 
 public class Frame extends JFrame {
     Card currentCard;
@@ -45,12 +44,14 @@ public class Frame extends JFrame {
     EditController editController;
 
     private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteButton;
-    private JPanel editPanel, editButtonPanel, addCardPanel, addLabelPanel, addFieldPanel, deleteCardPanel;
+    private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
     private JLabel addTermLabel, addDefLabel;
-    private JTextField addTermField, addDefField;
+    private JTextField addTermField;
+    private JTextArea addDefArea;
 
     JList cardList;
     DefaultListModel model;
+    List<String> listOfDecks;
 
     public Frame() throws SQLException {
         setSize(750, 750);
@@ -136,25 +137,27 @@ public class Frame extends JFrame {
         editPanel.add(editButtonPanel, BorderLayout.NORTH);
 
         //separate method for new deck to use?
-        addCardPanel = new JPanel(new BorderLayout());
-        addLabelPanel = new JPanel(new GridLayout(2, 1));
-        addFieldPanel = new JPanel(new GridLayout(2, 1));
+        addCardPanel = new JPanel(new GridLayout(3,1,10,10));
+        addTermPanel = new JPanel(new GridLayout(1, 2));
+        addDefPanel = new JPanel(new GridLayout(1, 2));
 
         addTermLabel = new JLabel("Term: ");
         addDefLabel = new JLabel("Definition:");
-        addLabelPanel.add(addTermLabel);
-        addLabelPanel.add(addDefLabel);
-
         addTermField = new JTextField();
-        addDefField = new JTextField();
-        addFieldPanel.add(addTermField);
-        addFieldPanel.add(addDefField);
+        addDefArea = new JTextArea(5,19);
+        addDefArea.setLineWrap(true);
+        addTermPanel.add(addTermLabel);
+        addTermPanel.add(addTermField);
+        addDefPanel.add(addDefLabel);
+        addDefPanel.add(addDefArea);
 
         enterAddButton = new JButton("Enter New Card");
 
+
         addCardPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
-        addCardPanel.add(addLabelPanel, BorderLayout.WEST);
-        addCardPanel.add(addFieldPanel, BorderLayout.CENTER);
+        addCardPanel.add(addTermPanel);
+        addCardPanel.add(addDefPanel);
+
         addCardPanel.add(enterAddButton, BorderLayout.SOUTH);
         addCardPanel.setVisible(false);
 
@@ -211,10 +214,10 @@ public class Frame extends JFrame {
 
     private void enterAddCardClicked() {
         try {
-           editController.insertCard(deckSelected, addTermField.getText(), addDefField.getText());
+           editController.insertCard(deckSelected, addTermField.getText(), addDefArea.getText());
            setNumOfCardsEditMode();
            addTermField.setText("");
-           addDefField.setText("");
+           addDefArea.setText("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -272,9 +275,10 @@ public class Frame extends JFrame {
     }
 
     private void enterNewDeckClicked() throws SQLException {
-        editController.initializeNewDeck(deckNameTb.getText());
-        //deckBox.add(deckNameTb.getText());
+        String deckNameEntered = deckNameTb.getText();
+        editController.initializeNewDeck(deckNameEntered);
         deckNameTb.setText("");
+        deckBox.addItem(deckNameEntered);    //TODO: fix so don't have to call deck again and loop through?
 
     }
 
@@ -376,11 +380,9 @@ public class Frame extends JFrame {
         chooseButtonPanel = new JPanel(new GridLayout(2,1));
         boxController = new ComboBoxController();
 
+        listOfDecks =  boxController.getAllDecks();
         deckBox = new JComboBox<>();
-        List<String> listOfDecks =  boxController.getAllDecks();
-        for(String deck : listOfDecks){
-            deckBox.addItem(deck);
-        }
+        populateComboBox(); //TODO: combobox
 
         newDeckButton = new JButton("New Deck");
         chooseButtonPanel.add(deckBox);
@@ -388,6 +390,13 @@ public class Frame extends JFrame {
         chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
         leftPanel.add(chooseDeckPanel);
     }
+
+    private void populateComboBox() throws SQLException {
+        for(String deck : listOfDecks){
+            deckBox.addItem(deck);
+        }
+    }
+
 
 }
 
