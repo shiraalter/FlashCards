@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Deck {
     private List<Card> cards;
-   // private List<String> termList;
     private List<Card> termList;
 
 
