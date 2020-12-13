@@ -3,19 +3,18 @@ package FC;
 import java.sql.SQLException;
 import java.util.Random;
 
-public class StudyController extends Controller{
+public class StudyController extends Controller {
     private Deck unMastered;
     private final Random rand = new Random();
 
-    public StudyController(String deckName) throws SQLException {
-        this.unMastered = getDeck(deckName);
+    public StudyController() throws SQLException {
     }
 
     /**
      * Returns the next card to study
      */
     public Card getNextToStudy() {
-        return unMastered.getCard(rand.nextInt(unMastered.getSize()));
+        return unMastered.getSize() != 0 ? unMastered.getCard(rand.nextInt(unMastered.getSize())) : null;
     }
 
     /**
@@ -32,7 +31,14 @@ public class StudyController extends Controller{
         unMastered = getDeck(deckName);
     }
 
-    public Deck getUnMastered(){
+    public int sizeOfStudyDeck() {
+        return unMastered.getSize();
+
+/*    public Deck getUnMastered(){
         return unMastered;
+
+    }*/
     }
+
+
 }

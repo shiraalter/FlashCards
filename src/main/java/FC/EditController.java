@@ -1,19 +1,22 @@
 package FC;
 
 import java.sql.SQLException;
+import java.util.List;
 
-public class EditController extends Controller{
+public class EditController extends Controller {
     private Deck editDeck;
 
     public EditController() throws SQLException {
     }
+
     /**
      * Creates a new card in the deck
      */
     public void insertCard(String table, String term, String def) throws SQLException {
-       super.insertCard(table, term, def);
-       editDeck = super.getDeck(table);
+        super.insertCard(table, term, def);
+        editDeck = super.getDeck(table);
     }
+
     /**
      * Deletes the selected card from the deck
      */
@@ -21,12 +24,14 @@ public class EditController extends Controller{
         super.deleteCard(card, deckName);
         editDeck.removeCard(card);
     }
+
     /**
      * Adds a new deck to the database
      */
     public void initializeNewDeck(String deckName) throws SQLException {
         super.addDeck(deckName);
     }
+
     /**
      * Deletes a given deck from the database
      */
@@ -34,7 +39,17 @@ public class EditController extends Controller{
         super.deleteDeck(deckName);
     }
 
-    public Deck getEditDeck() {
-        return editDeck;
+    public List<Card> getTermsInDeck(String deckname) throws SQLException {
+        editDeck = super.getDeck(deckname);
+        return editDeck.getTermList();
+    }
+
+    public int sizeOfCurrentDeck(String deckname) throws SQLException {
+        editDeck = super.getDeck(deckname);
+        return editDeck.getSize();
+
+   /*     public Deck getEditDeck() {
+            return editDeck;
+        }*/
     }
 }
