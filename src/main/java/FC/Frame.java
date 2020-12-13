@@ -11,8 +11,8 @@ import java.util.Objects;
 //TODO: bug - re-enters clicked method
 
 public class Frame extends JFrame {
-    Color beige = new Color(207, 182, 146);
-    Card currentCard;
+    private Color beige = new Color(207, 182, 146);
+    private Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
     private JComboBox<String> deckBox;
@@ -38,11 +38,11 @@ public class Frame extends JFrame {
     private JPanel topPanel;
     private JLabel numOfCards;
 
-    StudyController studyController;
-    String deckSelected;
+    private StudyController studyController;
+    private String deckSelected;
 
-    ComboBoxController boxController;
-    EditController editController;
+    private ComboBoxController boxController;
+    private final EditController editController;
 
     private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteCardButton;
     private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
@@ -50,13 +50,13 @@ public class Frame extends JFrame {
     private JTextField addTermField;
     private JTextArea addDefArea;
 
-    JList cardList;
-    DefaultListModel model;
-    List<String> listOfDecks;
-    JPanel deleteDeckPanel;
+    private JList cardList;
+    private DefaultListModel model;
+    private List<String> listOfDecks;
+    private JPanel deleteDeckPanel;
     private JButton enterDeleteDeck;
 
-    String selectExistingDeckString;
+    private String selectExistingDeckString;
     private JPanel welcomePanel;
     private JTextArea welcomeArea;
 
