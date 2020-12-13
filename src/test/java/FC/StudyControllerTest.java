@@ -18,9 +18,9 @@ public class StudyControllerTest {
         Card card = studyController.getNextToStudy();
 
         //then
-        assertNotNull (card.getDef());
-        assertNotNull (card.getTerm());
-        assertNotNull (card.getId());
+        assertNotNull(card.getDef());
+        assertNotNull(card.getTerm());
+        assertNotNull(card.getId());
     }
 
     @Test
@@ -35,7 +35,7 @@ public class StudyControllerTest {
         studyController.masterCard(card);
 
         //then
-        assertEquals (4, deck.getSize());
+        assertEquals(4, deck.getSize());
 
     }
 
@@ -57,7 +57,7 @@ public class StudyControllerTest {
         deck = studyController.getUnMastered();
 
         //then
-        assertEquals (5, deck.getSize());
+        assertEquals(5, deck.getSize());
 
     }
 }
