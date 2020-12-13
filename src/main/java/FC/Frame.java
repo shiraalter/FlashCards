@@ -382,7 +382,8 @@ public class Frame extends JFrame {
     }
 
     private void comboboxClicked() {
-        if(deckBox.getSelectedItem() == selectExistingDeckString){      //TODO: welcome screen - dont auto "sample"
+        if(deckBox.getSelectedItem() == selectExistingDeckString){
+            //TODO: welcome screen - dont auto "sample"
         }
         else {
             deckSelected = Objects.requireNonNull(deckBox.getSelectedItem()).toString();
