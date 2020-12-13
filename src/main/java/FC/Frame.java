@@ -342,8 +342,6 @@ public class Frame extends JFrame {
         newDeckPanel.setVisible(false);
         middlePanel.add(newDeckPanel);
 
-        setupNewCardNewDeck();
-
         enterDeckButton.addActionListener(actionEvent -> {
             try {
                 enterNewDeckClicked();
@@ -354,9 +352,6 @@ public class Frame extends JFrame {
         createAddCardComponents(); // TODO : put this yere????
     }
 
-    private void setupNewCardNewDeck() {
-        JPanel newCardForNewDeck = new JPanel();
-    }
 
     private void enterNewDeckClicked() throws SQLException {
         String deckNameEntered = deckNameTb.getText();
@@ -368,8 +363,6 @@ public class Frame extends JFrame {
         else{
             JOptionPane.showMessageDialog(middlePanel,"You must insert a deck name");
         }
-
-        //addCardPanel.setVisible(true);      //TODO: this here???
     }
 
     private void newDeckClicked() {
@@ -403,20 +396,25 @@ public class Frame extends JFrame {
     }
 
     private void studyOrResetClicked() throws SQLException {
-        studyController = new StudyController();
-        studyController.startNewStudySession(deckSelected);
-        currentCard = studyController.getNextToStudy();
-        cardTextArea.setText(currentCard.getTerm());
-        setNumOfCardsStudyMode();
+        if(editController.sizeOfCurrentDeck(deckSelected) != 0) {
+            studyController = new StudyController();
+            studyController.startNewStudySession(deckSelected);
+            currentCard = studyController.getNextToStudy();
+            cardTextArea.setText(currentCard.getTerm());
+            setNumOfCardsStudyMode();
 
-        correctButton.setEnabled(true);
-        incorrectButton.setEnabled(true);
-        definitionButton.setEnabled(true);
-        definitionButton.addActionListener(actionEvent -> cardTextArea.setText("<html>" + currentCard.getDef() + "</html>"));
-        studyPanel.setVisible(true);
-        topPanel.setVisible(true);
-        editPanel.setVisible(false);
-        deleteDeckPanel.setVisible(false);
+            correctButton.setEnabled(true);
+            incorrectButton.setEnabled(true);
+            definitionButton.setEnabled(true);
+            definitionButton.addActionListener(actionEvent -> cardTextArea.setText("<html>" + currentCard.getDef() + "</html>"));
+            studyPanel.setVisible(true);
+            topPanel.setVisible(true);
+            editPanel.setVisible(false);
+            deleteDeckPanel.setVisible(false);
+        }
+        else{
+            JOptionPane.showMessageDialog(middlePanel,"You cannot study an empty deck. \nPlease add a card");
+        }
     }
 
     private void incorrectButtonClicked() {
@@ -429,7 +427,7 @@ public class Frame extends JFrame {
         if (studyController.getNextToStudy() != null) {
             studyController.masterCard(currentCard);
             setNumOfCardsStudyMode();
-            if (studyController.sizeOfUnmastered() != 0) {           //click on correct twice when 0
+            if (studyController.sizeOfStudyDeck() != 0) {           //click on correct twice when 0
                 currentCard = studyController.getNextToStudy();
                 cardTextArea.setText(currentCard.getTerm());
             }
@@ -444,11 +442,11 @@ public class Frame extends JFrame {
 
     private void setNumOfCardsStudyMode() {
         //pull number of cards from study controller in study mode (unmastered list changes while studying)
-        numOfCards.setText("Cards in deck: " + studyController.sizeOfUnmastered());
+        numOfCards.setText("Cards in deck: " + studyController.sizeOfStudyDeck());
     }
     private void setNumOfCardsEditMode() throws SQLException {
         //pull number of cards from edit controller if in edit mode
-        numOfCards.setText("Cards in deck: " + editController.sizeOfEditDeck(deckSelected));
+        numOfCards.setText("Cards in deck: " + editController.sizeOfCurrentDeck(deckSelected));
         }
 
 
