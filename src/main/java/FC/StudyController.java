@@ -10,6 +10,10 @@ public class StudyController extends Controller {
     public StudyController() throws SQLException {
     }
 
+    public StudyController(String deckName) throws SQLException {
+        unMastered = getDeck(deckName);
+    }
+
     /**
      * Returns the next card to study
      */
@@ -33,12 +37,9 @@ public class StudyController extends Controller {
 
     public int sizeOfStudyDeck() {
         return unMastered.getSize();
-
-/*    public Deck getUnMastered(){
-        return unMastered;
-
-    }*/
     }
 
-
+    public Deck getUnMastered() {
+        return unMastered;
+    }
 }

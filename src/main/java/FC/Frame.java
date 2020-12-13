@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Frame extends JFrame {
-   private Color beige = new Color(207, 182, 146);
+    private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
@@ -40,7 +40,7 @@ public class Frame extends JFrame {
     private String deckSelected;
 
     private ComboBoxController boxController;
-    private final EditController editController;
+    private EditController editController;
 
     private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteCardButton;
     private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
@@ -76,8 +76,7 @@ public class Frame extends JFrame {
         setupStudyMode();
         setupEditMode();
         setupDeleteDeckMode();
-
-        deckBox.addActionListener(actionEvent -> comboboxClicked());    //scope issue with moving
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
 
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel);
@@ -116,6 +115,7 @@ public class Frame extends JFrame {
         populateComboBox();
 
         newDeckButton = new JButton("New Deck");
+
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         chooseButtonPanel.add(newDeckButton);
         chooseButtonPanel.add(deckBox);
@@ -274,8 +274,9 @@ public class Frame extends JFrame {
         //create JList as model to add and remove cards
         model = new DefaultListModel();
         cardList = new JList(model);
-
-        deleteCardPanel.add(cardList);
+        JScrollPane scrollableTextArea = new JScrollPane(cardList);
+        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        deleteCardPanel.add(scrollableTextArea);
         deleteCardPanel.add(enterDeleteCardButton);
     }
 
@@ -378,7 +379,7 @@ public class Frame extends JFrame {
 
     }
 
-    private void comboboxClicked() {
+    private void comboBoxClicked() {
         if(deckBox.getSelectedItem() == selectExistingDeckString){      //TODO: welcome screen - dont auto "sample"
         }
         else {
