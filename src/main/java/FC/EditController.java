@@ -41,15 +41,12 @@ public class EditController extends Controller {
 
     public List<Card> getTermsInDeck(String deckname) throws SQLException {
         editDeck = super.getDeck(deckname);
-        return editDeck.getTermList();
+        return editDeck.getCardsList();
     }
 
     public int sizeOfCurrentDeck(String deckname) throws SQLException {
         editDeck = super.getDeck(deckname);
         return editDeck.getSize();
 
-   /*     public Deck getEditDeck() {
-            return editDeck;
-        }*/
     }
 }
