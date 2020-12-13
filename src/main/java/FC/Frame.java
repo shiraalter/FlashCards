@@ -264,11 +264,11 @@ public class Frame extends JFrame {
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
 
-        List<Card> listOfcards = editController.getTermsInDeck(deckSelected);
+        List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
 
         //add cards from specified deck into list
-        for (int i = 0; i < listOfcards.size(); i++) {
-            model.addElement(listOfcards.get(i));
+        for (int i = 0; i < listOfCards.size(); i++) {
+            model.addElement(listOfCards.get(i));
         }
 
     }
