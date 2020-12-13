@@ -66,7 +66,7 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(8,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(5,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
         middlePanel = new JPanel();
 
         editController = new EditController();
@@ -485,8 +485,8 @@ public class Frame extends JFrame {
         populateComboBox();
 
         newDeckButton = new JButton("New Deck");
-        chooseButtonPanel.add(deckBox);
         chooseButtonPanel.add(newDeckButton);
+        chooseButtonPanel.add(deckBox);
         chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
         leftPanel.add(chooseDeckPanel);
     }
