@@ -5,14 +5,15 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 //TODO: bug - re-enters clicked method
 
 public class Frame extends JFrame {
-    Color beige = new Color(207, 182, 146);
-    Card currentCard;
+   private Color beige = new Color(207, 182, 146);
+    private Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
     private JComboBox<String> deckBox;
@@ -166,6 +167,7 @@ public class Frame extends JFrame {
         if (optionChosen == JOptionPane.YES_OPTION){
             editController.deleteDeck(deckSelected);
             deckBox.removeItem(deckSelected);
+
         }
     }
 
@@ -350,7 +352,7 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
-        createAddCardComponents(); // TODO : put this yere????
+        createAddCardComponents();
     }
 
 
@@ -359,12 +361,7 @@ public class Frame extends JFrame {
         if(!deckNameEntered.isEmpty()) {
             editController.initializeNewDeck(deckNameEntered);
             deckNameTb.setText("");
-            if(boxController.getAllDecks().contains(deckNameEntered)) {
-                deckBox.addItem(deckNameEntered);
-            }
-            else{
-                JOptionPane.showMessageDialog(middlePanel, "ERROR: Deck could not be added");
-            }
+            deckBox.addItem(deckNameEntered);
         }
         else{
             JOptionPane.showMessageDialog(middlePanel,"You must insert a deck name");
@@ -491,14 +488,12 @@ public class Frame extends JFrame {
         leftPanel.add(chooseDeckPanel);
     }
 
-    private void populateComboBox() {
+    private void populateComboBox() throws SQLException {
         selectExistingDeckString = "Select Existing Deck";
         deckBox.addItem(selectExistingDeckString);
         for(String deck : listOfDecks){
             deckBox.addItem(deck);
         }
     }
-
-
 }
 
