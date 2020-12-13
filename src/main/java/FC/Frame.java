@@ -66,7 +66,7 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(2,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(8,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
         middlePanel = new JPanel();
 
         editController = new EditController();
