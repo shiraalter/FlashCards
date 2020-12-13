@@ -26,7 +26,7 @@ public class EditController extends Controller{
      * Adds a new deck to the database
      */
     public void initializeNewDeck(String deckName) throws SQLException {
-        addDeck(deckName);
+        super.addDeck(deckName);
     }
     /**
      * Deletes a given deck from the database

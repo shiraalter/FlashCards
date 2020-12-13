@@ -6,11 +6,12 @@ import java.awt.*;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Vector;
+import java.util.Objects;
 
 //TODO: bug - re-enters clicked method
 
 public class Frame extends JFrame {
+    Color beige = new Color(207, 182, 146);
     Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
@@ -25,7 +26,7 @@ public class Frame extends JFrame {
     private JButton deleteDeckButton;
 
     //creating new deck
-    private JPanel middlePanel, studyPanel, newDeckPanel;
+    private JPanel middlePanel, studyPanel, newDeckPanel, bottomPanel;
 
     private JLabel newDeckLabel;
     private JTextField deckNameTb;
@@ -43,7 +44,7 @@ public class Frame extends JFrame {
     ComboBoxController boxController;
     EditController editController;
 
-    private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteButton;
+    private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteCardButton;
     private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
     private JLabel addTermLabel, addDefLabel;
     private JTextField addTermField;
@@ -52,6 +53,12 @@ public class Frame extends JFrame {
     JList cardList;
     DefaultListModel model;
     List<String> listOfDecks;
+    JPanel deleteDeckPanel;
+    private JButton enterDeleteDeck;
+
+    String selectExistingDeckString;
+    private JPanel welcomePanel;
+    private JTextArea welcomeArea;
 
     public Frame() throws SQLException {
         setSize(750, 750);
@@ -59,17 +66,19 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(2, 1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(2,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
         middlePanel = new JPanel();
 
         editController = new EditController();
 
+        //setupWelcomePanel();
         setupDeckOptions();
         setupTopPanel();
         setupExistingDeckOptions();
-        setupNewDeckField();
+        setupNewDeckMode();
         setupStudyMode();
         setupEditMode();
+        setupDeleteDeckMode();
 
         //action listeners for buttons
         deckBox.addActionListener(actionEvent -> comboboxClicked());
@@ -88,6 +97,8 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
+        correctButton.addActionListener(actionEvent -> correctButtonClicked());
+        incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
         editButton.addActionListener(actionEvent -> {
             try {
                 editButtonClicked();
@@ -95,10 +106,67 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
+        enterDeleteCardButton.addActionListener(actionEvent -> {
+            try {
+                enterDeleteButtonClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
 
         add(leftPanel, BorderLayout.WEST);
-        add(middlePanel, BorderLayout.CENTER);
+        add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
+    }
+
+   /* private void setupWelcomePanel() {
+        welcomePanel = new JPanel(new FlowLayout());
+        welcomePanel.setVisible(true);
+        welcomePanel.setBorder(new EmptyBorder(50,0,0,0));
+
+        welcomeArea = new JTextArea(20,20);
+        welcomeArea.setFont(new Font("Arial", Font.BOLD, 15));
+        welcomeArea.setText("\"<htm>\" + \" Welcome to FlashCards UI. Please select an existing deck or create a new one!\" + \" </html>\"");
+        welcomeArea.setEditable(false);
+        welcomePanel.add(welcomeArea);
+        middlePanel.add(welcomePanel);
+    }
+
+    */
+
+    private void setupDeleteDeckMode() {
+        enterDeleteDeck = new JButton("DELETE THIS DECK");
+        enterDeleteDeck.setPreferredSize(new Dimension(500,100));
+        enterDeleteDeck.setBackground(Color.red);
+        enterDeleteDeck.setFont(new Font("Arial", Font.BOLD, 40));
+        deleteDeckPanel = new JPanel(new FlowLayout());
+        deleteDeckPanel.setBorder(new EmptyBorder(150,0,0,0));
+        deleteDeckPanel.add(enterDeleteDeck);
+        middlePanel.add(deleteDeckPanel);
+        deleteDeckPanel.setVisible(false);
+
+        deleteDeckButton.addActionListener(actionEvent -> deletePanelClicked());
+        enterDeleteDeck.addActionListener(actionEvent -> {
+            try {
+                deleteDeckWarning();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    private void deletePanelClicked() {
+        deleteDeckPanel.setVisible(true);
+        studyPanel.setVisible(false);
+        editPanel.setVisible(false);
+    }
+
+    private void deleteDeckWarning() throws SQLException {
+        int optionChosen = JOptionPane.showConfirmDialog(deleteCardPanel,"THIS IS PERMANENT.\n ARE YOU SURE YOU WANT TO DELETE THIS DECK?");
+        if (optionChosen == JOptionPane.YES_OPTION){
+            editController.deleteDeck(deckSelected);
+            deckBox.removeItem(deckSelected);
+        }
     }
 
     private void setupTopPanel() {
@@ -116,6 +184,7 @@ public class Frame extends JFrame {
         editPanel.setVisible(true);
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(false);
+        deleteDeckPanel.setVisible(false);
         setNumOfCardsEditMode();
     }
 
@@ -137,6 +206,29 @@ public class Frame extends JFrame {
         editPanel.add(editButtonPanel, BorderLayout.NORTH);
 
         //separate method for new deck to use?
+       createAddCardComponents(); //TODO: reuse this method in new deck
+
+        deleteCardPanel = new JPanel(new GridLayout(2, 1,0,20));
+        deleteCardPanel.setBorder(new EmptyBorder(20,0,0,0));
+
+        enterDeleteCardButton = new JButton("Delete me!");
+        enterDeleteCardButton.setBackground(beige);
+
+        //create JList as model to add and remove cards
+        model = new DefaultListModel();
+        cardList = new JList(model);
+
+        deleteCardPanel.add(cardList);
+        deleteCardPanel.add(enterDeleteCardButton);
+
+        editPanel.add(addCardPanel, BorderLayout.CENTER);
+        editPanel.add(deleteCardPanel, BorderLayout.SOUTH);
+        enterAddButton.addActionListener(actionEvent -> enterAddCardClicked());
+        editPanel.setVisible(false);
+        middlePanel.add(editPanel);
+    }
+
+    private void createAddCardComponents() {
         addCardPanel = new JPanel(new GridLayout(3,1,10,10));
         addTermPanel = new JPanel(new GridLayout(1, 2));
         addDefPanel = new JPanel(new GridLayout(1, 2));
@@ -152,30 +244,13 @@ public class Frame extends JFrame {
         addDefPanel.add(addDefArea);
 
         enterAddButton = new JButton("Enter New Card");
-
-
+        enterAddButton.setBackground(beige);
         addCardPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
         addCardPanel.add(addTermPanel);
         addCardPanel.add(addDefPanel);
 
         addCardPanel.add(enterAddButton, BorderLayout.SOUTH);
         addCardPanel.setVisible(false);
-
-        deleteCardPanel = new JPanel(new GridLayout(2, 1));
-        enterDeleteButton = new JButton("Delete me!");
-
-        //create JList as model to add and remove cards
-        model = new DefaultListModel();
-        cardList = new JList(model);
-
-        deleteCardPanel.add(cardList);
-        deleteCardPanel.add(enterDeleteButton);
-
-        editPanel.add(addCardPanel, BorderLayout.CENTER);
-        editPanel.add(deleteCardPanel, BorderLayout.SOUTH);
-        enterAddButton.addActionListener(actionEvent -> enterAddCardClicked());
-        editPanel.setVisible(false);
-        middlePanel.add(editPanel);
     }
 
 
@@ -195,13 +270,7 @@ public class Frame extends JFrame {
         for (int i = 0; i < listOfcards.size(); i++) {
             model.addElement(listOfcards.get(i));
         }
-        enterDeleteButton.addActionListener(actionEvent -> {
-            try {
-                enterDeleteButtonClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+
     }
 
     private void enterDeleteButtonClicked() throws SQLException {
@@ -214,10 +283,16 @@ public class Frame extends JFrame {
 
     private void enterAddCardClicked() {
         try {
-           editController.insertCard(deckSelected, addTermField.getText(), addDefArea.getText());
-           setNumOfCardsEditMode();
-           addTermField.setText("");
-           addDefArea.setText("");
+            if (!addTermField.getText().isEmpty() && !addDefArea.getText().isEmpty()) {
+                editController.insertCard(deckSelected, addTermField.getText(), addDefArea.getText());
+                setNumOfCardsEditMode();
+                addTermField.setText("");
+                addDefArea.setText("");
+            }
+            else{
+                JOptionPane.showMessageDialog(middlePanel,"You must insert a term and a definition");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -250,7 +325,8 @@ public class Frame extends JFrame {
         middlePanel.add(studyPanel);
     }
 
-    private void setupNewDeckField() {
+    private void setupNewDeckMode() {
+
         newDeckPanel = new JPanel();
         newDeckPanel.setLayout(new BoxLayout(newDeckPanel, BoxLayout.Y_AXIS));
         newDeckPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
@@ -265,6 +341,9 @@ public class Frame extends JFrame {
         newDeckPanel.add(enterDeckButton);
         newDeckPanel.setVisible(false);
         middlePanel.add(newDeckPanel);
+
+        setupNewCardNewDeck();
+
         enterDeckButton.addActionListener(actionEvent -> {
             try {
                 enterNewDeckClicked();
@@ -272,33 +351,48 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
+        createAddCardComponents(); // TODO : put this yere????
+    }
+
+    private void setupNewCardNewDeck() {
+        JPanel newCardForNewDeck = new JPanel();
     }
 
     private void enterNewDeckClicked() throws SQLException {
         String deckNameEntered = deckNameTb.getText();
         editController.initializeNewDeck(deckNameEntered);
         deckNameTb.setText("");
-        deckBox.addItem(deckNameEntered);    //TODO: fix so don't have to call deck again and loop through?
-
+        deckBox.addItem(deckNameEntered);
+        addCardPanel.setVisible(true);      //TODO: this here???
     }
 
     private void newDeckClicked() {
         newDeckPanel.setVisible(true);
-        existingDeckPanel.setVisible(false);
+        existingButtonPanel.setVisible(false);
         studyPanel.setVisible(false);
         topPanel.setVisible(false);
         editPanel.setVisible(false);
+        deleteDeckPanel.setVisible(false);
     }
 
     private void comboboxClicked() {
-        deckSelected = deckBox.getSelectedItem().toString();
-        deckName.setText("Deck: " + deckSelected);
-        numOfCards.setText("");
+        if(deckBox.getSelectedItem() == selectExistingDeckString){      //TODO: welcome screen - dont auto "sample"
+
+        }
+        else {
+            deckSelected = Objects.requireNonNull(deckBox.getSelectedItem()).toString();
+            deckName.setText("Deck: " + deckSelected);
+            deckName.setFont(new Font("Arial", Font.BOLD, 14));
+            numOfCards.setText("");
+        }
         newDeckPanel.setVisible(false);
-        existingDeckPanel.setVisible(true);
+        existingButtonPanel.setVisible(true);
+        existingDeckPanel.setVisible(true); //TODO DONT NEED
         studyPanel.setVisible(false);
         topPanel.setVisible(true);
         editPanel.setVisible(false);
+        deleteDeckPanel.setVisible(false);
+
 
     }
 
@@ -313,11 +407,10 @@ public class Frame extends JFrame {
         incorrectButton.setEnabled(true);
         definitionButton.setEnabled(true);
         definitionButton.addActionListener(actionEvent -> cardTextArea.setText("<html>" + currentCard.getDef() + "</html>"));
-        correctButton.addActionListener(actionEvent -> correctButtonClicked());
-        incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
         studyPanel.setVisible(true);
         topPanel.setVisible(true);
         editPanel.setVisible(false);
+        deleteDeckPanel.setVisible(false);
     }
 
     private void incorrectButtonClicked() {
@@ -355,7 +448,7 @@ public class Frame extends JFrame {
 
 
     private void setupExistingDeckOptions() {
-        existingButtonPanel = new JPanel(new GridLayout(3,1));
+        existingButtonPanel = new JPanel(new GridLayout(1,3));
         studyButton = new JButton("Study");
         studyButton.setBackground(Color.PINK);
         editButton = new JButton("Edit Deck");
@@ -365,10 +458,8 @@ public class Frame extends JFrame {
         existingButtonPanel.add(studyButton);
         existingButtonPanel.add(editButton);
         existingButtonPanel.add(deleteDeckButton);
-        existingDeckPanel.add(existingButtonPanel, BorderLayout.CENTER);
-        leftPanel.add(existingDeckPanel);
-
-        existingDeckPanel.setVisible(false);
+        add(existingButtonPanel, BorderLayout.SOUTH);
+        existingButtonPanel.setVisible(false);
     }
 
     private void setupDeckOptions() throws SQLException {
@@ -382,7 +473,7 @@ public class Frame extends JFrame {
 
         listOfDecks =  boxController.getAllDecks();
         deckBox = new JComboBox<>();
-        populateComboBox(); //TODO: combobox
+        populateComboBox();
 
         newDeckButton = new JButton("New Deck");
         chooseButtonPanel.add(deckBox);
@@ -392,6 +483,8 @@ public class Frame extends JFrame {
     }
 
     private void populateComboBox() throws SQLException {
+        selectExistingDeckString = "Select Existing Deck";
+        deckBox.addItem(selectExistingDeckString);
         for(String deck : listOfDecks){
             deckBox.addItem(deck);
         }
