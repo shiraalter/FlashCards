@@ -105,21 +105,16 @@ public class EditControllerTest {
     public void deleteDeck() throws SQLException {
         //given
         EditController editController = new EditController();
-        Controller controller = new Controller();
         String title = "Testing";
 
         //when
-        controller.addDeck(title);
+        editController.initializeNewDeck(title);
         editController.deleteDeck(title);
 
 
         //then
-        try {
-            editController.getDeck(title);
-        } catch (SQLException sqlException) {
-            sqlException.getErrorCode();
-            assertEquals(1, sqlException.getErrorCode());
-        }
+        assertFalse(editController.getAllDecks().contains(title));
+        assertEquals(1, editController.getAllDecks().size());
 
     }
 }

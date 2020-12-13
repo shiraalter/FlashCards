@@ -124,12 +124,8 @@ public class ControllerTest {
         controller.deleteDeck(title);
 
         //then
-        try {
-            controller.getDeck(title);
-        } catch (SQLException sqlException) {
-            sqlException.getErrorCode();
-            assertEquals(1, sqlException.getErrorCode());
-        }
+        assertFalse(controller.getAllDecks().contains(title));
+        assertEquals(1, controller.getAllDecks().size());
     }
 
     @Test

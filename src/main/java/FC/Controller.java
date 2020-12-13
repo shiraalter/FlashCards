@@ -97,7 +97,6 @@ public class Controller {
 
     protected ResultSet selectAll(String table) throws SQLException {
         String selectStmt = "SELECT * FROM '" + table + "'";
-        //String selectStmt = "SELECT * FROM " + table;
         return CONNECTION.createStatement().executeQuery(selectStmt);
     }
 

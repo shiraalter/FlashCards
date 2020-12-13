@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: bug - re-enters clicked method
-
 public class Frame extends JFrame {
    private Color beige = new Color(207, 182, 146);
     private Card currentCard;
@@ -39,11 +37,11 @@ public class Frame extends JFrame {
     private JPanel topPanel;
     private JLabel numOfCards;
 
-    StudyController studyController;
-    String deckSelected;
+    private StudyController studyController;
+    private String deckSelected;
 
-    ComboBoxController boxController;
-    EditController editController;
+    private ComboBoxController boxController;
+    private final EditController editController;
 
     private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteCardButton;
     private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
@@ -51,13 +49,13 @@ public class Frame extends JFrame {
     private JTextField addTermField;
     private JTextArea addDefArea;
 
-    JList cardList;
-    DefaultListModel model;
-    List<String> listOfDecks;
-    JPanel deleteDeckPanel;
+    private JList cardList;
+    private DefaultListModel model;
+    private List<String> listOfDecks;
+    private JPanel deleteDeckPanel;
     private JButton enterDeleteDeck;
 
-    String selectExistingDeckString;
+    private String selectExistingDeckString;
     private JPanel welcomePanel;
     private JTextArea welcomeArea;
 
@@ -67,7 +65,7 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(2,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(5,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
         middlePanel = new JPanel();
 
         editController = new EditController();
@@ -207,8 +205,7 @@ public class Frame extends JFrame {
         editButtonPanel.add(deleteCardButton);
         editPanel.add(editButtonPanel, BorderLayout.NORTH);
 
-        //separate method for new deck to use?
-       createAddCardComponents(); //TODO: reuse this method in new deck
+       createAddCardComponents();
 
         deleteCardPanel = new JPanel(new GridLayout(2, 1,0,20));
         deleteCardPanel.setBorder(new EmptyBorder(20,0,0,0));
@@ -266,11 +263,11 @@ public class Frame extends JFrame {
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
 
-        List<Card> listOfcards = editController.getTermsInDeck(deckSelected);
+        List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
 
         //add cards from specified deck into list
-        for (int i = 0; i < listOfcards.size(); i++) {
-            model.addElement(listOfcards.get(i));
+        for (Card card : listOfCards) {
+            model.addElement(card);
         }
 
     }
@@ -426,13 +423,12 @@ public class Frame extends JFrame {
 
     //BUG
     private void correctButtonClicked() {
+        studyController.masterCard(currentCard);
+        setNumOfCardsStudyMode();
         if (studyController.getNextToStudy() != null) {
-            studyController.masterCard(currentCard);
-            setNumOfCardsStudyMode();
-            if (studyController.sizeOfStudyDeck() != 0) {           //click on correct twice when 0
-                currentCard = studyController.getNextToStudy();
-                cardTextArea.setText(currentCard.getTerm());
-            }
+            currentCard = studyController.getNextToStudy();
+            cardTextArea.setText(currentCard.getTerm());
+
         } else {
             cardTextArea.setText("You finished the deck! Click RESET to start over.");
             correctButton.setEnabled(false);
@@ -482,8 +478,8 @@ public class Frame extends JFrame {
         populateComboBox();
 
         newDeckButton = new JButton("New Deck");
-        chooseButtonPanel.add(deckBox);
         chooseButtonPanel.add(newDeckButton);
+        chooseButtonPanel.add(deckBox);
         chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
         leftPanel.add(chooseDeckPanel);
     }
