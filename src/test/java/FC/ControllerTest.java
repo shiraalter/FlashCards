@@ -125,6 +125,7 @@ public class ControllerTest {
 
         //then
         assertFalse(controller.getAllDecks().contains(title));
+        assertEquals(1, controller.getAllDecks().size());
     }
 
     @Test
