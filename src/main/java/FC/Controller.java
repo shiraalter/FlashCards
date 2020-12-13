@@ -17,13 +17,13 @@ public class Controller {
      * Create a new table/deck in the database
      */
     protected void addDeck(String title) throws SQLException {
-        String createTableStmt = "CREATE TABLE " + title + " (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);";
+        String createTableStmt = "CREATE TABLE '" + title + "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);";
         executeCUD(createTableStmt);
         addDeckToMenuTable(title);
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
-        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "(deck_title) VALUES ('" + title + "');";
+        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "(deck_title) VALUES (' "+ title + " ');";
         executeCUD(insertToMenuStmt);
     }
 
@@ -63,7 +63,7 @@ public class Controller {
     }
 
     protected void removeFromMenu(String table) throws SQLException {
-        String deleteMenuItemStmt = "DELETE FROM " + MENU_TABLE + " WHERE deck_title = '" + table + "';";
+        String deleteMenuItemStmt = "DELETE FROM " + MENU_TABLE + " WHERE deck_title = \'" + table + "\';";
         executeCUD(deleteMenuItemStmt);
     }
 
@@ -96,7 +96,7 @@ public class Controller {
 
 
     protected ResultSet selectAll(String table) throws SQLException {
-        String selectStmt = "SELECT * FROM " + table;
+        String selectStmt = "SELECT * FROM '" + table + "';";
         return CONNECTION.createStatement().executeQuery(selectStmt);
     }
 
