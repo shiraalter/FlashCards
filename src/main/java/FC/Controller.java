@@ -15,6 +15,9 @@ public class Controller {
 
     /**
      * Create a new table/deck in the database
+     *
+     * @param title
+     * @throws SQLException
      */
     protected void addDeck(String title) throws SQLException {
         PreparedStatement createTableStmt = CONNECTION.prepareStatement("CREATE TABLE ? " +
@@ -26,10 +29,10 @@ public class Controller {
 
     /**
      * Adds new deck name to the menu that supplies UI with deck list
+     *
      * @param title
      * @throws SQLException
      */
-
     private void addDeckToMenuTable(String title) throws SQLException {
         PreparedStatement insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO ? (deck_title) VALUES ('" + title + "');");
         insertToMenuStmt.setString(1, title);
@@ -38,6 +41,10 @@ public class Controller {
 
     /**
      * Delete a card/row from a given deck/table
+     *
+     * @param card
+     * @param table
+     * @throws SQLException
      */
     protected void deleteCard(Card card, String table) throws SQLException {
         PreparedStatement removeCardStmt = CONNECTION.prepareStatement("DELETE FROM ? WHERE id = ?;");
@@ -72,7 +79,6 @@ public class Controller {
     /**
      * Delete a table/deck in the database
      */
-
     protected void deleteDeck(String table) throws SQLException {
         PreparedStatement deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE ?;");
         deleteDeckStmt.setString(1, table);
@@ -82,18 +88,19 @@ public class Controller {
 
     /**
      * Removes deck name from the menu that supplies UI with deck list
+     *
      * @param table
      * @throws SQLException
      */
-
     protected void removeFromMenu(String table) throws SQLException {
         PreparedStatement deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM ? WHERE deck_title = ?;");
-        deleteMenuItemStmt.setString(1,MENU_TABLE);
-        deleteMenuItemStmt.setString(2,table);
+        deleteMenuItemStmt.setString(1, MENU_TABLE);
+        deleteMenuItemStmt.setString(2, table);
     }
 
     /**
      * Add card to an existing table/deck
+     *
      * @param table
      * @param term
      * @param def
@@ -102,14 +109,13 @@ public class Controller {
     protected void insertCard(String table, String term, String def) throws SQLException {
         PreparedStatement insertCardStmt = CONNECTION.prepareStatement("INSERT INTO ? (term, def) VALUES (?, ?;");
         insertCardStmt.setString(1, table);
-        insertCardStmt.setString(2,term);
-        insertCardStmt.setString(3,def);
+        insertCardStmt.setString(2, term);
+        insertCardStmt.setString(3, def);
     }
 
     /**
      * @return ArrayList of all decks in the db
      */
-
     protected ArrayList<String> getAllDecks() throws SQLException {
         ResultSet results = selectAll(MENU_TABLE);
         ArrayList<String> deckList = new ArrayList<>();
@@ -119,15 +125,25 @@ public class Controller {
         return deckList;
     }
 
-
+    /**
+     * Retrieves all the data from a given table
+     *
+     * @param table
+     * @return
+     * @throws SQLException
+     */
     protected ResultSet selectAll(String table) throws SQLException {
         PreparedStatement selectStmt = CONNECTION.prepareStatement("SELECT * FROM ?");
-        selectStmt.setString(1,table);
+        selectStmt.setString(1, table);
         return selectStmt.executeQuery();
     }
 
     /**
      * populate a deck object using given deck's table
+     *
+     * @param table
+     * @return
+     * @throws SQLException
      */
     protected Deck getDeck(String table) throws SQLException {
         Deck deck = new Deck();
@@ -135,7 +151,13 @@ public class Controller {
         return deck;
     }
 
-
+    /**
+     * Writes query results to a Deck object
+     *
+     * @param table
+     * @param deck
+     * @throws SQLException
+     */
     private void writeDataToDeck(String table, Deck deck) throws SQLException {
         ResultSet results = selectAll(table);
         while (results.next()) {
@@ -143,10 +165,15 @@ public class Controller {
         }
     }
 
+    /**
+     * Writes query results to Card objects
+     *
+     * @param deck
+     * @param rs
+     * @throws SQLException
+     */
     private void addCardFromDB(Deck deck, ResultSet rs) throws SQLException {
         deck.addCard(new Card(rs.getString("id"),
-
                 rs.getString("term"), rs.getString("def")));
     }
-
 }
