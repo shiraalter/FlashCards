@@ -358,7 +358,13 @@ public class Frame extends JFrame {
         if(!deckNameEntered.isEmpty()) {
             editController.initializeNewDeck(deckNameEntered);
             deckNameTb.setText("");
-            deckBox.addItem(deckNameEntered);
+            if(boxController.getAllDecks().contains(deckNameEntered)) {
+                deckBox.addItem(deckNameEntered);
+            }
+            else{
+                JOptionPane.showMessageDialog(middlePanel, "ERROR: Deck could not be added");
+            }
+           // deckBox.addItem(deckNameEntered);
         }
         else{
             JOptionPane.showMessageDialog(middlePanel,"You must insert a deck name");
