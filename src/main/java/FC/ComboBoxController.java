@@ -2,7 +2,6 @@ package FC;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ComboBoxController extends Controller {
     public ComboBoxController() throws SQLException {

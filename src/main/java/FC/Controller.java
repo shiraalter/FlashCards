@@ -3,7 +3,6 @@ package FC;
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Controller {
 
@@ -18,7 +17,7 @@ public class Controller {
      * Create a new table/deck in the database
      */
     protected void addDeck(String title) throws SQLException {
-        String createTableStmt = "CREATE TABLE " + title + " (id INT NOT NULL, term TEXT NOT NULL, def TEXT NOT NULL);";
+        String createTableStmt = "CREATE TABLE " + title + " (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);";
         executeCUD(createTableStmt);
         addDeckToMenuTable(title);
     }
@@ -41,7 +40,7 @@ public class Controller {
      * Update a given card's term
      */
     protected void updateTerm(String table, Card card) throws SQLException {
-        String updateTermStmt = "UPDATE " + table + "SET term = " + card.getTerm() + "WHERE id = " + card.getId() + ";";
+        String updateTermStmt = "UPDATE " + table + " SET term = '" + card.getTerm() + "' WHERE id = '" + card.getId() + "';";
         executeCUD(updateTermStmt);
     }
 
@@ -49,7 +48,7 @@ public class Controller {
      * Update a given card's def
      */
     protected void updateDef(String table, Card card) throws SQLException {
-        String updateDefStmt = "UPDATE " + table + "SET def = " + card.getDef() + "WHERE id = " + card.getId() + ";";
+        String updateDefStmt = "UPDATE " + table + " SET def = '" + card.getDef() + "' WHERE id = " + card.getId() + ";";
         executeCUD(updateDefStmt);
     }
 
@@ -57,10 +56,10 @@ public class Controller {
      * Delete a table/deck in the database
      */
 
-    protected void deleteDeck(String table) throws SQLException{
-            String deleteDeckStmt = "DROP TABLE " + table + ";";
-            executeCUD(deleteDeckStmt);
-            removeFromMenu(table);
+    protected void deleteDeck(String table) throws SQLException {
+        String deleteDeckStmt = "DROP TABLE '" + table + "';";
+        executeCUD(deleteDeckStmt);
+        removeFromMenu(table);
     }
 
     protected void removeFromMenu(String table) throws SQLException {
@@ -78,7 +77,6 @@ public class Controller {
     }
 
 
-
     protected void executeCUD(String cudStatement) throws SQLException {
         CONNECTION.createStatement().execute(cudStatement);
     }
@@ -86,7 +84,8 @@ public class Controller {
     /**
      * @return Array of all decks in the db
      */
-     protected ArrayList<String> getAllDecks() throws SQLException {
+
+    protected ArrayList<String> getAllDecks() throws SQLException {
         ResultSet results = selectAll(MENU_TABLE);
         ArrayList<String> deckList = new ArrayList<>();
         while (results.next()) {
@@ -112,7 +111,6 @@ public class Controller {
 
 
     private void writeDataToDeck(String table, Deck deck) throws SQLException {
-
         ResultSet results = selectAll(table);
 
         while (results.next()) {
