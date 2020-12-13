@@ -49,4 +49,8 @@ public class EditController extends Controller {
         return editDeck.getSize();
 
     }
+
+    public Deck getEditDeck() {
+        return editDeck;
+    }
 }

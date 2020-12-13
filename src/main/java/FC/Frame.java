@@ -11,7 +11,7 @@ import java.util.Objects;
 //TODO: bug - re-enters clicked method
 
 public class Frame extends JFrame {
-    private Color beige = new Color(207, 182, 146);
+    private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
     private JPanel leftPanel;
     private JPanel chooseDeckPanel;
@@ -81,7 +81,7 @@ public class Frame extends JFrame {
         setupDeleteDeckMode();
 
         //action listeners for buttons
-        deckBox.addActionListener(actionEvent -> comboboxClicked());
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         studyButton.addActionListener(actionEvent -> {
             try {
@@ -217,8 +217,11 @@ public class Frame extends JFrame {
         //create JList as model to add and remove cards
         model = new DefaultListModel();
         cardList = new JList(model);
+        JScrollPane scrollableTextArea = new JScrollPane(cardList);
 
-        deleteCardPanel.add(cardList);
+        scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        deleteCardPanel.add(scrollableTextArea);
         deleteCardPanel.add(enterDeleteCardButton);
 
         editPanel.add(addCardPanel, BorderLayout.CENTER);
@@ -380,6 +383,7 @@ public class Frame extends JFrame {
         deleteDeckPanel.setVisible(false);
 
     }
+
 
     private void comboboxClicked() {
         if(deckBox.getSelectedItem() == selectExistingDeckString){
