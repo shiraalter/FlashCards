@@ -267,8 +267,8 @@ public class Frame extends JFrame {
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
 
         //add cards from specified deck into list
-        for (int i = 0; i < listOfCards.size(); i++) {
-            model.addElement(listOfCards.get(i));
+        for (Card card : listOfCards) {
+            model.addElement(card);
         }
 
     }
