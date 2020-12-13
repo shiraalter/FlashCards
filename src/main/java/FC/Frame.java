@@ -65,7 +65,7 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(5,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(5,1));  
         middlePanel = new JPanel();
 
         editController = new EditController();
@@ -426,7 +426,6 @@ public class Frame extends JFrame {
         cardTextArea.setText(currentCard.getTerm());
     }
 
-    //BUG
     private void correctButtonClicked() {
         studyController.masterCard(currentCard);
         setNumOfCardsStudyMode();
