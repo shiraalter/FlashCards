@@ -44,7 +44,7 @@ public class EditController extends Controller {
         return editDeck.getTermList();
     }
 
-    public int sizeOfEditDeck(String deckname) throws SQLException {
+    public int sizeOfCurrentDeck(String deckname) throws SQLException {
         editDeck = super.getDeck(deckname);
         return editDeck.getSize();
 

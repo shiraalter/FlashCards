@@ -31,7 +31,7 @@ public class StudyController extends Controller {
         unMastered = getDeck(deckName);
     }
 
-    public int sizeOfUnmastered() {
+    public int sizeOfStudyDeck() {
         return unMastered.getSize();
 
 /*    public Deck getUnMastered(){
@@ -39,4 +39,6 @@ public class StudyController extends Controller {
 
     }*/
     }
+
+
 }
