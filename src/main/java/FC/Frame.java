@@ -364,7 +364,6 @@ public class Frame extends JFrame {
             else{
                 JOptionPane.showMessageDialog(middlePanel, "ERROR: Deck could not be added");
             }
-           // deckBox.addItem(deckNameEntered);
         }
         else{
             JOptionPane.showMessageDialog(middlePanel,"You must insert a deck name");
