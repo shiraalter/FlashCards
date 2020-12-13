@@ -360,10 +360,16 @@ public class Frame extends JFrame {
 
     private void enterNewDeckClicked() throws SQLException {
         String deckNameEntered = deckNameTb.getText();
-        editController.initializeNewDeck(deckNameEntered);
-        deckNameTb.setText("");
-        deckBox.addItem(deckNameEntered);
-        addCardPanel.setVisible(true);      //TODO: this here???
+        if(!deckNameEntered.isEmpty()) {
+            editController.initializeNewDeck(deckNameEntered);
+            deckNameTb.setText("");
+            deckBox.addItem(deckNameEntered);
+        }
+        else{
+            JOptionPane.showMessageDialog(middlePanel,"You must insert a deck name");
+        }
+
+        //addCardPanel.setVisible(true);      //TODO: this here???
     }
 
     private void newDeckClicked() {
