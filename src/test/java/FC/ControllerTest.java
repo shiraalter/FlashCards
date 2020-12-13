@@ -29,6 +29,22 @@ public class ControllerTest {
         controller.deleteDeck(title);
     }
 
+
+    @Test
+    public void addDeckWithTwoWords() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Two words";
+
+        //when
+        controller.addDeck(title);
+
+        //then
+        assertNotNull(controller.getDeck(title));
+        controller.deleteDeck(title);
+
+    }
+
     @Test
     public void deleteCard() throws SQLException {
         //given
@@ -131,6 +147,29 @@ public class ControllerTest {
 
         //then
         assertNotNull(deck.getCard(0));
+        controller.deleteDeck(title);
+
+    }
+
+    @Test
+    public void insertCards() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Testing";
+        String term = "term one";
+        String definition = "definition one";
+        String term2 = "term 2";
+        String def2 = "definition with a lot of words to test out that it can handle it";
+
+        //when
+        controller.addDeck(title);
+        controller.insertCard(title, term, definition);
+        controller.insertCard(title, term2, def2);
+        Deck deck = controller.getDeck(title);
+
+        //then
+        assertNotNull(deck.getCard(0));
+        assertEquals(2, deck.getSize());
         controller.deleteDeck(title);
 
     }
