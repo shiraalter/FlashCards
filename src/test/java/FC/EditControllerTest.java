@@ -114,6 +114,7 @@ public class EditControllerTest {
 
         //then
         assertFalse(editController.getAllDecks().contains(title));
+        assertEquals(1, editController.getAllDecks().size());
 
     }
 }
