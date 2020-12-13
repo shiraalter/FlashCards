@@ -1,5 +1,6 @@
 package FC;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Controller {
     }
 
     private void addDeckToMenuTable(String title) throws SQLException {
-        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "(deck_title) VALUES (' "+ title + " ');";
+        String insertToMenuStmt = "INSERT INTO " + MENU_TABLE + "(deck_title) VALUES ('" + title + "');";
         executeCUD(insertToMenuStmt);
     }
 
@@ -30,7 +31,7 @@ public class Controller {
      * Delete a card/row from a given deck/table
      */
     protected void deleteCard(Card card, String table) throws SQLException {
-        String removeCardStmt = "DELETE FROM " + table + " WHERE id = " + card.getId() + ";";
+        String removeCardStmt = "DELETE FROM '" + table + "' WHERE id = " + card.getId() + ";";
         executeCUD(removeCardStmt);
     }
 
@@ -83,6 +84,7 @@ public class Controller {
     /**
      * @return Array of all decks in the db
      */
+
     protected ArrayList<String> getAllDecks() throws SQLException {
         ResultSet results = selectAll(MENU_TABLE);
         ArrayList<String> deckList = new ArrayList<>();
@@ -94,7 +96,7 @@ public class Controller {
 
 
     protected ResultSet selectAll(String table) throws SQLException {
-        String selectStmt = "SELECT * FROM '" + table + "';";
+        String selectStmt = "SELECT * FROM '" + table + "'";
         return CONNECTION.createStatement().executeQuery(selectStmt);
     }
 
@@ -110,7 +112,6 @@ public class Controller {
 
     private void writeDataToDeck(String table, Deck deck) throws SQLException {
         ResultSet results = selectAll(table);
-
         while (results.next()) {
             addCardFromDB(deck, results);
         }
