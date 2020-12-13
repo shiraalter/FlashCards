@@ -429,9 +429,9 @@ public class Frame extends JFrame {
 
     //BUG
     private void correctButtonClicked() {
+        studyController.masterCard(currentCard);
+        setNumOfCardsStudyMode();
         if (studyController.getNextToStudy() != null) {
-            studyController.masterCard(currentCard);
-            setNumOfCardsStudyMode();
             currentCard = studyController.getNextToStudy();
             cardTextArea.setText(currentCard.getTerm());
 
