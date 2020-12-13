@@ -432,10 +432,9 @@ public class Frame extends JFrame {
         if (studyController.getNextToStudy() != null) {
             studyController.masterCard(currentCard);
             setNumOfCardsStudyMode();
-            if (studyController.sizeOfStudyDeck() != 0) {           //click on correct twice when 0
-                currentCard = studyController.getNextToStudy();
-                cardTextArea.setText(currentCard.getTerm());
-            }
+            currentCard = studyController.getNextToStudy();
+            cardTextArea.setText(currentCard.getTerm());
+
         } else {
             cardTextArea.setText("You finished the deck! Click RESET to start over.");
             correctButton.setEnabled(false);
