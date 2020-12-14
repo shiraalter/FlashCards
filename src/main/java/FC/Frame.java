@@ -226,7 +226,7 @@ public class Frame extends JFrame {
         setNumOfCardsEditMode();
     }
 
-    private void setupEditMode() throws SQLException {
+    private void setupEditMode()  {
         JButton addCardButton = new JButton("Add Card");
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
@@ -268,8 +268,8 @@ public class Frame extends JFrame {
         enterDeleteCardButton.setBackground(beige);
 
         //create JList as model to add and remove cards
-        model = new DefaultListModel<Card>();
-        cardList = new JList<Card>(model);
+        model = new DefaultListModel<>();
+        cardList = new JList<>(model);
         JScrollPane scrollableTextArea = new JScrollPane(cardList);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deleteCardPanel.add(scrollableTextArea);
@@ -323,7 +323,7 @@ public class Frame extends JFrame {
 
     private void enterDeleteCardClicked() throws SQLException {
         if (cardList.getSelectedValue() != null) {
-            editController.deleteCard((Card) cardList.getSelectedValue(), deckSelected);
+            editController.deleteCard(cardList.getSelectedValue(), deckSelected);
             model.removeElement(cardList.getSelectedValue());
             setNumOfCardsEditMode();
         }
@@ -486,7 +486,7 @@ public class Frame extends JFrame {
         numOfCards.setText("Cards in deck: " + editController.sizeOfCurrentDeck(deckSelected));
     }
 
-    private void populateComboBox() throws SQLException {
+    private void populateComboBox() {
         selectExistingDeckString = "Select Existing Deck";
         deckBox.addItem(selectExistingDeckString);
         for (String deck : listOfDecks) {
