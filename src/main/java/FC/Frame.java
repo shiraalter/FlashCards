@@ -368,19 +368,36 @@ public class Frame extends JFrame {
     }
 
     private void setupStudyMode() {
+        JPanel studyButtonPanel = setUpStudyControls();
+        setUpStudyPanel(studyButtonPanel);
+
+        topPanel.setVisible(false);
+        middlePanel.add(studyPanel);
+    }
+
+    private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
-        JPanel studyButtonPanel = new JPanel(new FlowLayout()); //just for buttons
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
-        termTextArea = new JLabel(); //text starts in middle
+
+        termTextArea = new JLabel();
         termTextArea.setLayout(new FlowLayout());
         defTextArea = new JTextArea();
         defTextArea.setVisible(false);
 
+        studyPanel.add(termTextArea);
+        studyPanel.add(defTextArea);
+        studyPanel.add(Box.createVerticalStrut(15));
+        studyPanel.add(studyButtonPanel);
+        studyPanel.setVisible(false);
+    }
+
+
+    private JPanel setUpStudyControls() {
+        JPanel studyButtonPanel = new JPanel(new FlowLayout());
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
         definitionButton = new JButton("View Definition");
-
         correctButton.addActionListener(actionEvent -> correctButtonClicked());
         incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
         definitionButton.addActionListener(actionEvent -> definitionButtonClicked());
@@ -393,20 +410,12 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
+
         studyButtonPanel.add(correctButton);
         studyButtonPanel.add(incorrectButton);
         studyButtonPanel.add(definitionButton);
         studyButtonPanel.add(resetButton);
-
-        studyPanel.add(termTextArea);
-        studyPanel.add(defTextArea);
-        studyPanel.add(Box.createVerticalStrut(15));
-        studyPanel.add(studyButtonPanel);
-        studyPanel.setVisible(false);
-
-        topPanel.setVisible(false);
-
-        middlePanel.add(studyPanel);
+        return studyButtonPanel;
     }
 
     private void studyClicked() throws SQLException {
