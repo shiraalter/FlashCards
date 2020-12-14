@@ -49,6 +49,7 @@ public class Frame extends JFrame {
     private void initializePanels() throws SQLException {
         add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
+        add(leftPanel, BorderLayout.WEST);
         setupDeckOptions();
         setupTopPanel();
         setupExistingDeckOptions();
@@ -60,7 +61,6 @@ public class Frame extends JFrame {
     }
 
     private void setupDeckOptions() throws SQLException {
-        add(leftPanel, BorderLayout.WEST);
         JPanel chooseDeckPanel = new JPanel(new BorderLayout());
         chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
