@@ -414,6 +414,7 @@ public class Frame extends JFrame {
         termTextArea.setLayout(new FlowLayout());
         defTextArea = new JTextArea();
         defTextArea.setVisible(false);
+
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
         definitionButton = new JButton("View Definition");
@@ -436,6 +437,7 @@ public class Frame extends JFrame {
         studyButtonPanel.add(resetButton);
 
         studyPanel.add(termTextArea);
+        studyPanel.add(defTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
