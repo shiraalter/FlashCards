@@ -50,8 +50,8 @@ public class Frame extends JFrame {
     private JPanel deleteDeckPanel;
 
     private String selectExistingDeckString;
-    //private JPanel welcomePanel;
-    //private JTextArea welcomeArea;
+    private JPanel welcomePanel;
+    private JTextArea welcomeArea;
 
     public Frame() throws SQLException {
         setSize(750, 500);
@@ -71,6 +71,7 @@ public class Frame extends JFrame {
         setupStudyMode();
         setupEditMode();
         setupDeleteDeckMode();
+        setWelcomePanel();
         deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
 
         add(leftPanel, BorderLayout.WEST);
@@ -98,6 +99,7 @@ public class Frame extends JFrame {
     private void setupDeckOptions() throws SQLException {
         JPanel chooseDeckPanel = new JPanel(new BorderLayout());
         chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
         JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -105,6 +107,7 @@ public class Frame extends JFrame {
         boxController = new ComboBoxController();
 
         listOfDecks = boxController.getAllDecks();
+
         deckBox = new JComboBox<>();
 
         populateComboBox();
@@ -312,9 +315,7 @@ public class Frame extends JFrame {
         model.clear();  //clear old list
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
-
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
-
         for (Card card : listOfCards) {
             model.addElement(card);
         }
@@ -362,6 +363,7 @@ public class Frame extends JFrame {
     }
 
     private void newDeckClicked() {
+        welcomePanel.setVisible(false);
         newDeckPanel.setVisible(true);
         existingButtonPanel.setVisible(false);
         studyPanel.setVisible(false);
@@ -371,20 +373,34 @@ public class Frame extends JFrame {
 
     }
 
+    private void setWelcomePanel(){
+        String welcomeMssg = "Hello! Welcome to our Flash Cards UI.\n\nSelect an existing deck or create a new one!\n\nGood luck studying!";
+        welcomePanel = new JPanel();
+        welcomePanel.setBorder(new EmptyBorder(20,0,0,0));
+        welcomeArea = new JTextArea(welcomeMssg);
+        welcomeArea.setEditable(false);
+        welcomeArea.setBackground(beige);
+        welcomeArea.setFont(new Font("SansSerif", Font.BOLD, 20));
+        welcomePanel.add(welcomeArea);
+        middlePanel.add(welcomePanel);
+    }
 
     private void comboBoxClicked() {
         if (deckBox.getSelectedItem() == selectExistingDeckString) {
-            //TODO: welcome screen - dont auto "sample"
+            topPanel.setVisible(false);
+            existingButtonPanel.setVisible(false);
+            welcomePanel.setVisible(true);
         } else {
             deckSelected = Objects.requireNonNull(deckBox.getSelectedItem()).toString();
             deckName.setText("Deck: " + deckSelected);
             deckName.setFont(new Font("Arial", Font.BOLD, 14));
             numOfCards.setText("");
+            welcomePanel.setVisible(false);
+            topPanel.setVisible(true);
+            existingButtonPanel.setVisible(true);
         }
         newDeckPanel.setVisible(false);
-        existingButtonPanel.setVisible(true);
         studyPanel.setVisible(false);
-        topPanel.setVisible(true);
         editPanel.setVisible(false);
         deleteDeckPanel.setVisible(false);
     }
@@ -394,10 +410,8 @@ public class Frame extends JFrame {
         JPanel studyButtonPanel = new JPanel(new FlowLayout()); //just for buttons
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
-        termTextArea = new JLabel();//text starts in middle
+        termTextArea = new JLabel(); //text starts in middle
         termTextArea.setLayout(new FlowLayout());
-        JLabel defTextArea = new JLabel();
-
 
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
@@ -421,7 +435,6 @@ public class Frame extends JFrame {
         studyButtonPanel.add(resetButton);
 
         studyPanel.add(termTextArea);
-        studyPanel.add(defTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -431,7 +444,6 @@ public class Frame extends JFrame {
         middlePanel.add(studyPanel);
     }
 
-    //TODO: move "setvisibles" to sep method for study button
     private void studyOrResetClicked() throws SQLException {
         if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
             studyController = new StudyController();
@@ -443,6 +455,7 @@ public class Frame extends JFrame {
             correctButton.setEnabled(true);
             incorrectButton.setEnabled(true);
             definitionButton.setEnabled(true);
+
             studyPanel.setVisible(true);
             topPanel.setVisible(true);
             editPanel.setVisible(false);
