@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
-    private final JPanel leftPanel;
+    private final JPanel leftPanel = new JPanel(new GridLayout(5, 1));
     private JComboBox<String> deckBox;
 
     private JPanel existingButtonPanel;
@@ -58,10 +58,21 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(5, 1));
+
         middlePanel = new JPanel();
         editController = new EditController();
 
+        initializePanels();
+
+
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
+
+        add(leftPanel, BorderLayout.WEST);
+        add(middlePanel);
+        add(topPanel, BorderLayout.NORTH);
+    }
+
+    private void initializePanels() throws SQLException {
         setupDeckOptions();
         setupTopPanel();
         setupExistingDeckOptions();
@@ -70,11 +81,6 @@ public class Frame extends JFrame {
         setupEditMode();
         setupDeleteDeckMode();
         setWelcomePanel();
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
-
-        add(leftPanel, BorderLayout.WEST);
-        add(middlePanel);
-        add(topPanel, BorderLayout.NORTH);
     }
 
     private void setupDeckOptions() throws SQLException {
