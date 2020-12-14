@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
 
-    private final JPanel leftPanel = new JPanel(new GridLayout(10, 1));
+    private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
     private JComboBox<String> deckBox;
     private ComboBoxController boxController;
     private List<String> listOfDecks;
@@ -66,11 +66,9 @@ public class Frame extends JFrame {
 
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());
         populateComboBox();
-
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());
         JButton newDeckButton = new JButton("New Deck");
-
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         leftPanel.add(newDeckButton);
         leftPanel.add(deckBox);
