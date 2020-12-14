@@ -61,19 +61,14 @@ public class Frame extends JFrame {
     }
 
     private void setupDeckOptions() throws SQLException {
-        JPanel chooseDeckPanel = new JPanel(new BorderLayout());
-        chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JPanel chooseButtonPanel = new JPanel(new GridLayout(2, 1));
         boxController = new ComboBoxController();
-
         listOfDecks = boxController.getAllDecks();
-
         deckBox = new JComboBox<>();
-
         populateComboBox();
 
         JButton newDeckButton = new JButton("New Deck");
@@ -81,8 +76,7 @@ public class Frame extends JFrame {
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         chooseButtonPanel.add(newDeckButton);
         chooseButtonPanel.add(deckBox);
-        chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
-        leftPanel.add(chooseDeckPanel);
+        leftPanel.add(chooseButtonPanel);
     }
 
     private void setupTopPanel() {
