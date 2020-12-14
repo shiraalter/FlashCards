@@ -316,7 +316,6 @@ public class Frame extends JFrame {
 
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
 
-        //add cards from specified deck into list
         for (Card card : listOfCards) {
             model.addElement(card);
         }
@@ -485,7 +484,6 @@ public class Frame extends JFrame {
     }
 
     private void setNumOfCardsEditMode() throws SQLException {
-        //pull number of cards from edit controller if in edit mode
         numOfCards.setText("Cards in deck: " + editController.sizeOfCurrentDeck(deckSelected));
     }
 
