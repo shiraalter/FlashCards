@@ -30,7 +30,7 @@ public class Frame extends JFrame {
     private JTextArea defTextArea;
 
     private StudyController studyController;
-    private final EditController editController;
+    private EditController editController;
 
     private JList<Card> cardList;
     private DefaultListModel<Card> model;
@@ -41,7 +41,6 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
         initializePanels();
-        editController = new EditController();
     }
 
     private void initializePanels() throws SQLException {
@@ -181,7 +180,8 @@ public class Frame extends JFrame {
         setNumOfCardsEditMode();
     }
 
-    private void setupEditMode() {
+    private void setupEditMode() throws SQLException {
+        editController = new EditController();
         JButton addCardButton = new JButton("Add Card");
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
@@ -264,7 +264,7 @@ public class Frame extends JFrame {
     }
 
     private void deleteCardButtonClicked() throws SQLException {
-        model.clear();  //clear old list
+        model.clear();
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
