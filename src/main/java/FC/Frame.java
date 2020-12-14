@@ -29,7 +29,7 @@ public class Frame extends JFrame {
 
     private JTextArea defTextArea;
 
-    private StudyController studyController;
+    private StudyController studyController = new StudyController();;
     private EditController editController;
 
     private JList<Card> cardList;
@@ -419,7 +419,7 @@ public class Frame extends JFrame {
     }
 
     private void studyClicked() throws SQLException {
-        if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
+        if (studyController.getDeck(deckSelected).getSize() != 0) {
             initializeStudyLogic();
             termTextArea.setText(currentCard.getTerm());
             setRemainingCardsToStudy();
@@ -450,7 +450,7 @@ public class Frame extends JFrame {
     }
 
     private void initializeStudyLogic() throws SQLException {
-        studyController = new StudyController();
+
         studyController.startNewStudySession(deckSelected);
         currentCard = studyController.getNextToStudy();
     }
