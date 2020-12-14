@@ -217,6 +217,7 @@ public class Frame extends JFrame {
         deleteCardPanel = new JPanel(new GridLayout(2, 1, 0, 20));
         deleteCardPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
         JButton enterDeleteCardButton = new JButton("Delete me!");
+        enterDeleteCardButton.setBackground(beige);
         enterDeleteCardButton.addActionListener(actionEvent -> {
             try {
                 enterDeleteCardClicked();
@@ -224,15 +225,17 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
-        enterDeleteCardButton.setBackground(beige);
+        JScrollPane scrollableTextArea = setUpCardList();
+        deleteCardPanel.add(scrollableTextArea);
+        deleteCardPanel.add(enterDeleteCardButton);
+    }
 
-        //create JList as model to add and remove cards
+    private JScrollPane setUpCardList() {
         model = new DefaultListModel<>();
         cardList = new JList<>(model);
         JScrollPane scrollableTextArea = new JScrollPane(cardList);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        deleteCardPanel.add(scrollableTextArea);
-        deleteCardPanel.add(enterDeleteCardButton);
+        return scrollableTextArea;
     }
 
     private void createAddCardComponents() {
@@ -410,7 +413,7 @@ public class Frame extends JFrame {
         if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
             initializeStudyLogic();
             termTextArea.setText(currentCard.getTerm());
-            setNumOfCardsStudyMode();
+            setRemainingCardsToStudy();
 
             enableStudyControls();
             showStudyModePanels();
@@ -433,7 +436,7 @@ public class Frame extends JFrame {
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
         termTextArea.setText(currentCard.getTerm());
-        setNumOfCardsStudyMode();
+        setRemainingCardsToStudy();
         enableStudyControls();
     }
 
@@ -458,7 +461,7 @@ public class Frame extends JFrame {
 
     private void correctButtonClicked() {
         studyController.masterCard(currentCard);
-        setNumOfCardsStudyMode();
+        setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
             termTextArea.setText(currentCard.getTerm());
@@ -482,9 +485,8 @@ public class Frame extends JFrame {
         defTextArea.setWrapStyleWord(true);
     }
 
-    private void setNumOfCardsStudyMode() {
-        //pull number of cards from study controller in study mode (unmastered list changes while studying)
-        numOfCards.setText("Cards in deck: " + studyController.sizeOfStudyDeck());
+    private void setRemainingCardsToStudy() {
+        numOfCards.setText("Remaining cards to master: " + studyController.sizeOfStudyDeck());
     }
 
     private void setNumOfCardsEditMode() throws SQLException {
