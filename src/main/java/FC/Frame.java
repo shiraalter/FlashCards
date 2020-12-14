@@ -17,7 +17,6 @@ public class Frame extends JFrame {
     private JButton newDeckButton;
     private JPanel chooseButtonPanel;
 
-    private JPanel existingDeckPanel;
     private JPanel existingButtonPanel;
     private JButton studyButton;
     private JButton editButton;
@@ -103,19 +102,14 @@ public class Frame extends JFrame {
     private void setupDeckOptions() throws SQLException {
         chooseDeckPanel = new JPanel(new BorderLayout());
         chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        existingDeckPanel = new JPanel(new BorderLayout());
-        existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
         chooseButtonPanel = new JPanel(new GridLayout(2,1));
         boxController = new ComboBoxController();
-
         listOfDecks =  boxController.getAllDecks();
         deckBox = new JComboBox<>();
 
         populateComboBox();
 
         newDeckButton = new JButton("New Deck");
-
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         chooseButtonPanel.add(newDeckButton);
         chooseButtonPanel.add(deckBox);
@@ -379,6 +373,9 @@ public class Frame extends JFrame {
 
     private void comboBoxClicked() {
         if(deckBox.getSelectedItem() == selectExistingDeckString){      //TODO: welcome screen - dont auto "sample"
+            topPanel.setVisible(false);
+
+            System.out.println("selected");
         }
         else {
             deckSelected = Objects.requireNonNull(deckBox.getSelectedItem()).toString();
