@@ -58,19 +58,19 @@ public class Frame extends JFrame {
     }
 
     private void setupDeckOptions() throws SQLException {
-        JPanel existingDeckPanel = new JPanel(new BorderLayout());
-        existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JButton newDeckButton = new JButton("New Deck");
+        newDeckButton.addActionListener(actionEvent -> newDeckClicked());
+        setUpDeckBox();
+        leftPanel.add(newDeckButton);
+        leftPanel.add(deckBox);
+    }
 
+    private void setUpDeckBox() throws SQLException {
         boxController = new ComboBoxController();
-
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
         populateComboBox();
         deckBox.addActionListener(actionEvent -> comboBoxClicked());
-        JButton newDeckButton = new JButton("New Deck");
-        newDeckButton.addActionListener(actionEvent -> newDeckClicked());
-        leftPanel.add(newDeckButton);
-        leftPanel.add(deckBox);
     }
 
     private void setupTopPanel() {
