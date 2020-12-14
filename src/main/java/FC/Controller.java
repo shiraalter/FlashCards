@@ -20,8 +20,8 @@ public class Controller {
      * @throws SQLException
      */
     protected void addDeck(String title) throws SQLException {
-        PreparedStatement createTableStmt = CONNECTION.prepareStatement("CREATE TABLE '"+ escapeApostrophes(title) +
-                "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
+        PreparedStatement createTableStmt = CONNECTION.prepareStatement("CREATE TABLE '" + escapeApostrophes(title) +
+                        "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
         createTableStmt.execute();
         addDeckToMenuTable(title);
     }
