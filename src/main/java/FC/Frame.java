@@ -63,7 +63,6 @@ public class Frame extends JFrame {
         editController = new EditController();
 
         setupDeckOptions();
-        //setupWelcomePanel();
         setupTopPanel();
         setupExistingDeckOptions();
         setupNewDeckMode();
@@ -77,23 +76,6 @@ public class Frame extends JFrame {
         add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
     }
-
-
-
-   /* private void setupWelcomePanel() {
-        welcomePanel = new JPanel(new FlowLayout());
-        welcomePanel.setVisible(true);
-        welcomePanel.setBorder(new EmptyBorder(50,0,0,0));
-
-        welcomeArea = new JTextArea(20,20);
-        welcomeArea.setFont(new Font("Arial", Font.BOLD, 15));
-        welcomeArea.setText("\"<htm>\" + \" Welcome to FlashCards UI. Please select an existing deck or create a new one!\" + \" </html>\"");
-        welcomeArea.setEditable(false);
-        welcomePanel.add(welcomeArea);
-        middlePanel.add(welcomePanel);
-    }
-
-    */
 
     private void setupDeckOptions() throws SQLException {
         JPanel chooseDeckPanel = new JPanel(new BorderLayout());
@@ -451,9 +433,7 @@ public class Frame extends JFrame {
             termTextArea.setText(currentCard.getTerm());
             setNumOfCardsStudyMode();
 
-            correctButton.setEnabled(true);
-            incorrectButton.setEnabled(true);
-            definitionButton.setEnabled(true);
+            enableStudyControls();
 
             studyPanel.setVisible(true);
             topPanel.setVisible(true);
@@ -462,6 +442,22 @@ public class Frame extends JFrame {
         } else {
             JOptionPane.showMessageDialog(middlePanel, "You cannot study an empty deck. \nPlease add a card");
         }
+    }
+    private void resetClicked() throws SQLException {
+
+            studyController = new StudyController();
+            studyController.startNewStudySession(deckSelected);
+            currentCard = studyController.getNextToStudy();
+            termTextArea.setText(currentCard.getTerm());
+            setNumOfCardsStudyMode();
+
+        enableStudyControls();
+    }
+
+    private void enableStudyControls() {
+        correctButton.setEnabled(true);
+        incorrectButton.setEnabled(true);
+        definitionButton.setEnabled(true);
     }
 
     private void incorrectButtonClicked() {
