@@ -62,19 +62,19 @@ public class Frame extends JFrame {
         JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        JPanel chooseButtonPanel = new JPanel(new GridLayout(2, 1));
+
         boxController = new ComboBoxController();
         deckBox.addActionListener(actionEvent -> comboBoxClicked());
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
+
         populateComboBox();
 
         JButton newDeckButton = new JButton("New Deck");
 
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
-        chooseButtonPanel.add(newDeckButton);
-        chooseButtonPanel.add(deckBox);
-        leftPanel.add(chooseButtonPanel);
+        leftPanel.add(newDeckButton);
+        leftPanel.add(deckBox);
     }
 
     private void setupTopPanel() {
