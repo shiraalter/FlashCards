@@ -42,15 +42,12 @@ public class Frame extends JFrame {
         setLayout(new BorderLayout());
         initializePanels();
         editController = new EditController();
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
-
     }
 
     private void initializePanels() throws SQLException {
         add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);
-        setupDeckOptions();
         setupTopPanel();
         setupExistingDeckOptions();
         setupNewDeckMode();
@@ -58,15 +55,16 @@ public class Frame extends JFrame {
         setupEditMode();
         setupDeleteDeckMode();
         setWelcomePanel();
+        setupDeckOptions();
     }
 
     private void setupDeckOptions() throws SQLException {
-
         JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         JPanel chooseButtonPanel = new JPanel(new GridLayout(2, 1));
         boxController = new ComboBoxController();
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
         populateComboBox();
