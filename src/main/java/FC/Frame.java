@@ -11,45 +11,35 @@ import java.util.Objects;
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
+
     private final JPanel leftPanel = new JPanel(new GridLayout(5, 1));
     private JComboBox<String> deckBox;
+    private String selectExistingDeckString;
+    private ComboBoxController boxController;
+    private List<String> listOfDecks;
 
-    private JPanel existingButtonPanel;
-    private JButton deleteDeckButton;
 
-    //creating new deck
-    private final JPanel middlePanel;
-    private JPanel studyPanel;
-    private JPanel newDeckPanel;
+    private final JPanel middlePanel = new JPanel();
+    private final JPanel topPanel = new JPanel();
+    private JPanel studyPanel, newDeckPanel, editPanel, addCardPanel,
+            deleteCardPanel, deleteDeckPanel, existingButtonPanel;
+    private JTextField deckNameTb, addTermField;
 
-    private JTextField deckNameTb;
-
-    private JLabel termTextArea;
-    private JLabel deckName;
-    private JButton correctButton;
-    private JButton incorrectButton;
-    private JButton definitionButton;
-    private JPanel topPanel;
-    private JLabel numOfCards;
+    private JLabel termTextArea, deckName, numOfCards;
+    private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
     private StudyController studyController;
     private String deckSelected;
 
-    private ComboBoxController boxController;
+
     private final EditController editController;
 
-    private JPanel editPanel;
-    private JPanel addCardPanel;
-    private JPanel deleteCardPanel;
-    private JTextField addTermField;
     private JTextArea addDefArea;
 
     private JList<Card> cardList;
     private DefaultListModel<Card> model;
-    private List<String> listOfDecks;
-    private JPanel deleteDeckPanel;
 
-    private String selectExistingDeckString;
+
     private JPanel welcomePanel;
 
     public Frame() throws SQLException {
@@ -58,12 +48,9 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-
-        middlePanel = new JPanel();
         editController = new EditController();
 
         initializePanels();
-
 
         deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
 
@@ -109,7 +96,6 @@ public class Frame extends JFrame {
     }
 
     private void setupTopPanel() {
-        topPanel = new JPanel();
         topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
         deckName = new JLabel();
         numOfCards = new JLabel();
