@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
 
-    private final JPanel leftPanel = new JPanel(new GridLayout(5, 1));
+    private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
     private JComboBox<String> deckBox;
     private ComboBoxController boxController;
     private List<String> listOfDecks;
@@ -30,7 +30,7 @@ public class Frame extends JFrame {
     private JTextArea defTextArea;
 
     private StudyController studyController;
-    private final EditController editController;
+    private EditController editController;
 
     private JList<Card> cardList;
     private DefaultListModel<Card> model;
@@ -40,20 +40,13 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
-
-        editController = new EditController();
-
         initializePanels();
-
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
-
-        add(leftPanel, BorderLayout.WEST);
-        add(middlePanel);
-        add(topPanel, BorderLayout.NORTH);
     }
 
     private void initializePanels() throws SQLException {
-        setupDeckOptions();
+        add(middlePanel);
+        add(topPanel, BorderLayout.NORTH);
+        add(leftPanel, BorderLayout.WEST);
         setupTopPanel();
         setupExistingDeckOptions();
         setupNewDeckMode();
@@ -61,31 +54,25 @@ public class Frame extends JFrame {
         setupEditMode();
         setupDeleteDeckMode();
         setWelcomePanel();
+        setupDeckOptions();
     }
 
     private void setupDeckOptions() throws SQLException {
-        JPanel chooseDeckPanel = new JPanel(new BorderLayout());
-        chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JPanel existingDeckPanel = new JPanel(new BorderLayout());
-        existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JPanel chooseButtonPanel = new JPanel(new GridLayout(2, 1));
-        boxController = new ComboBoxController();
-
-        listOfDecks = boxController.getAllDecks();
-
-        deckBox = new JComboBox<>();
-
-        populateComboBox();
-
         JButton newDeckButton = new JButton("New Deck");
-
+        newDeckButton.setBackground(SystemColor.PINK);
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
-        chooseButtonPanel.add(newDeckButton);
-        chooseButtonPanel.add(deckBox);
-        chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
-        leftPanel.add(chooseDeckPanel);
+        setUpDeckBox();
+        leftPanel.add(newDeckButton);
+        leftPanel.add(deckBox);
+    }
+
+    private void setUpDeckBox() throws SQLException {
+        boxController = new ComboBoxController();
+        listOfDecks = boxController.getAllDecks();
+        deckBox = new JComboBox<>();
+        deckBox.setBackground(Color.PINK);
+        populateComboBox();
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());
     }
 
     private void setupTopPanel() {
@@ -195,10 +182,13 @@ public class Frame extends JFrame {
         setNumOfCardsEditMode();
     }
 
-    private void setupEditMode() {
+    private void setupEditMode() throws SQLException {
+        editController = new EditController();
         JButton addCardButton = new JButton("Add Card");
+        addCardButton.setBackground(beige);
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
+        deleteCardButton.setBackground(beige);
         deleteCardButton.addActionListener(actionEvent ->
         {
             try {
@@ -227,6 +217,7 @@ public class Frame extends JFrame {
         deleteCardPanel = new JPanel(new GridLayout(2, 1, 0, 20));
         deleteCardPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
         JButton enterDeleteCardButton = new JButton("Delete me!");
+        enterDeleteCardButton.setBackground(beige);
         enterDeleteCardButton.addActionListener(actionEvent -> {
             try {
                 enterDeleteCardClicked();
@@ -234,15 +225,17 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
-        enterDeleteCardButton.setBackground(beige);
+        JScrollPane scrollableTextArea = setUpCardList();
+        deleteCardPanel.add(scrollableTextArea);
+        deleteCardPanel.add(enterDeleteCardButton);
+    }
 
-        //create JList as model to add and remove cards
+    private JScrollPane setUpCardList() {
         model = new DefaultListModel<>();
         cardList = new JList<>(model);
         JScrollPane scrollableTextArea = new JScrollPane(cardList);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        deleteCardPanel.add(scrollableTextArea);
-        deleteCardPanel.add(enterDeleteCardButton);
+        return scrollableTextArea;
     }
 
     private void createAddCardComponents() {
@@ -278,7 +271,7 @@ public class Frame extends JFrame {
     }
 
     private void deleteCardButtonClicked() throws SQLException {
-        model.clear();  //clear old list
+        model.clear();
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
@@ -420,7 +413,7 @@ public class Frame extends JFrame {
         if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
             initializeStudyLogic();
             termTextArea.setText(currentCard.getTerm());
-            setNumOfCardsStudyMode();
+            setRemainingCardsToStudy();
 
             enableStudyControls();
             showStudyModePanels();
@@ -443,7 +436,7 @@ public class Frame extends JFrame {
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
         termTextArea.setText(currentCard.getTerm());
-        setNumOfCardsStudyMode();
+        setRemainingCardsToStudy();
         enableStudyControls();
     }
 
@@ -468,7 +461,7 @@ public class Frame extends JFrame {
 
     private void correctButtonClicked() {
         studyController.masterCard(currentCard);
-        setNumOfCardsStudyMode();
+        setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
             termTextArea.setText(currentCard.getTerm());
@@ -492,10 +485,8 @@ public class Frame extends JFrame {
         defTextArea.setWrapStyleWord(true);
     }
 
-
-    private void setNumOfCardsStudyMode() {
-        //pull number of cards from study controller in study mode (unmastered list changes while studying)
-        numOfCards.setText("Cards in deck: " + studyController.sizeOfStudyDeck());
+    private void setRemainingCardsToStudy() {
+        numOfCards.setText("Remaining cards to master: " + studyController.sizeOfStudyDeck());
     }
 
     private void setNumOfCardsEditMode() throws SQLException {
