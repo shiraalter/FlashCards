@@ -45,6 +45,21 @@ public class ControllerTest {
 
     }
 
+
+    @Test
+    public void addDeckApostrophe() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Testing apostrophe'";
+
+        //when
+        controller.addDeck(title);
+
+        //then
+        assertNotNull(controller.getDeck(title));
+        controller.deleteDeck(title);
+    }
+
     @Test
     public void deleteCard() throws SQLException {
         //given
@@ -52,6 +67,29 @@ public class ControllerTest {
         String title = "Testing";
         String term = "term";
         String def = "definition";
+
+        //when
+        controller.addDeck(title);
+        controller.insertCard(title, term, def);
+        Deck deck = controller.getDeck(title);
+        Card card = deck.getCard(0);
+        controller.deleteCard(card, title);
+        deck = controller.getDeck(title);
+
+        //then
+        assertEquals(0, deck.getSize());
+        controller.deleteDeck(title);
+
+    }
+
+
+    @Test
+    public void deleteCardApostrophe() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Testing";
+        String term = "term apostrophe '";
+        String def = "definition apostrophe '";
 
         //when
         controller.addDeck(title);
@@ -128,6 +166,24 @@ public class ControllerTest {
         assertEquals(1, controller.getAllDecks().size());
     }
 
+
+    @Test()
+    public void deleteDeckApostrophe() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Testing apostrophe '";
+
+
+        //when
+        controller.addDeck(title);
+        controller.getDeck(title);
+        controller.deleteDeck(title);
+
+        //then
+        assertFalse(controller.getAllDecks().contains(title));
+        assertEquals(1, controller.getAllDecks().size());
+    }
+
     @Test
     public void insertCard() throws SQLException {
         //given
@@ -135,6 +191,26 @@ public class ControllerTest {
         String title = "Testing";
         String term = "term";
         String definition = "definition";
+
+        //when
+        controller.addDeck(title);
+        controller.insertCard(title, term, definition);
+        Deck deck = controller.getDeck(title);
+
+        //then
+        assertNotNull(deck.getCard(0));
+        controller.deleteDeck(title);
+
+    }
+
+
+    @Test
+    public void insertCardApostrophe() throws SQLException {
+        //given
+        Controller controller = new Controller();
+        String title = "Testing";
+        String term = "term apostrophe '";
+        String definition = "definition apostrophe '";
 
         //when
         controller.addDeck(title);
