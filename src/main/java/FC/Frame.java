@@ -316,9 +316,7 @@ public class Frame extends JFrame {
         model.clear();  //clear old list
         addCardPanel.setVisible(false);
         deleteCardPanel.setVisible(true);
-
         List<Card> listOfCards = editController.getTermsInDeck(deckSelected);
-
         //add cards from specified deck into list
         for (Card card : listOfCards) {
             model.addElement(card);
@@ -405,7 +403,6 @@ public class Frame extends JFrame {
         termTextArea.setLayout(new FlowLayout());
         defTextArea = new JLabel();
 
-
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
         definitionButton = new JButton("View Definition");
@@ -450,6 +447,7 @@ public class Frame extends JFrame {
             correctButton.setEnabled(true);
             incorrectButton.setEnabled(true);
             definitionButton.setEnabled(true);
+
             studyPanel.setVisible(true);
             topPanel.setVisible(true);
             editPanel.setVisible(false);
