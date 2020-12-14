@@ -1,7 +1,9 @@
 package FC;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 import java.sql.SQLException;
@@ -377,12 +379,15 @@ public class Frame extends JFrame {
 
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
-
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termDefTextArea = new JTextArea(12,15);
-
+        Font font = new Font ("Arial", Font.PLAIN, 26);
+        termDefTextArea = new JTextArea(8,15);
+        termDefTextArea.setBorder(new LineBorder(Color.BLACK));
+        termDefTextArea.setFont(font);
+        termDefTextArea.setWrapStyleWord(true);
+        termDefTextArea.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
 
         studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
