@@ -96,6 +96,7 @@ public class Controller {
         PreparedStatement deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes(MENU_TABLE) +
                 "' WHERE deck_title = ?;");
         deleteMenuItemStmt.setString(1, table);
+        deleteMenuItemStmt.execute();
     }
 
     /**
