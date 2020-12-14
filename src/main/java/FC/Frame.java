@@ -40,19 +40,15 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
-
-        editController = new EditController();
-
         initializePanels();
-
+        editController = new EditController();
         deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
 
-        add(leftPanel, BorderLayout.WEST);
-        add(middlePanel);
-        add(topPanel, BorderLayout.NORTH);
     }
 
     private void initializePanels() throws SQLException {
+        add(middlePanel);
+        add(topPanel, BorderLayout.NORTH);
         setupDeckOptions();
         setupTopPanel();
         setupExistingDeckOptions();
@@ -64,6 +60,7 @@ public class Frame extends JFrame {
     }
 
     private void setupDeckOptions() throws SQLException {
+        add(leftPanel, BorderLayout.WEST);
         JPanel chooseDeckPanel = new JPanel(new BorderLayout());
         chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
