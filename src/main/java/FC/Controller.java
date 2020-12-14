@@ -108,6 +108,7 @@ public class Controller {
                 "' (term, def) VALUES (?, ?);");
         insertCardStmt.setString(1, term);
         insertCardStmt.setString(2, def);
+        insertCardStmt.execute();
     }
 
     /**
