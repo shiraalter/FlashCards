@@ -64,10 +64,10 @@ public class Frame extends JFrame {
 
 
         boxController = new ComboBoxController();
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());
+
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
-
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());
         populateComboBox();
 
         JButton newDeckButton = new JButton("New Deck");
