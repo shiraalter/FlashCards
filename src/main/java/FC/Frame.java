@@ -11,19 +11,17 @@ import java.util.Objects;
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
-    private JPanel leftPanel;
-    private JPanel chooseDeckPanel;
+    private final JPanel leftPanel;
     private JComboBox<String> deckBox;
-    private JPanel chooseButtonPanel;
 
-    private JPanel existingDeckPanel;
     private JPanel existingButtonPanel;
     private JButton deleteDeckButton;
 
     //creating new deck
-    private JPanel middlePanel, studyPanel, newDeckPanel;
+    private final JPanel middlePanel;
+    private JPanel studyPanel;
+    private JPanel newDeckPanel;
 
-    private JLabel newDeckLabel;
     private JTextField deckNameTb;
 
     private JLabel termTextArea;
@@ -38,7 +36,7 @@ public class Frame extends JFrame {
     private String deckSelected;
 
     private ComboBoxController boxController;
-    private EditController editController;
+    private final EditController editController;
 
     private JPanel editPanel;
     private JPanel addCardPanel;
@@ -52,8 +50,8 @@ public class Frame extends JFrame {
     private JPanel deleteDeckPanel;
 
     private String selectExistingDeckString;
-    private JPanel welcomePanel;
-    private JTextArea welcomeArea;
+    //private JPanel welcomePanel;
+    //private JTextArea welcomeArea;
 
     public Frame() throws SQLException {
         setSize(750, 500);
@@ -98,12 +96,12 @@ public class Frame extends JFrame {
     */
 
     private void setupDeckOptions() throws SQLException {
-        chooseDeckPanel = new JPanel(new BorderLayout());
+        JPanel chooseDeckPanel = new JPanel(new BorderLayout());
         chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        existingDeckPanel = new JPanel(new BorderLayout());
+        JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        chooseButtonPanel = new JPanel(new GridLayout(2, 1));
+        JPanel chooseButtonPanel = new JPanel(new GridLayout(2, 1));
         boxController = new ComboBoxController();
 
         listOfDecks = boxController.getAllDecks();
@@ -163,7 +161,7 @@ public class Frame extends JFrame {
         newDeckPanel.setLayout(new BoxLayout(newDeckPanel, BoxLayout.Y_AXIS));
         newDeckPanel.setBorder(new EmptyBorder(150, 0, 0, 0));
 
-        newDeckLabel = new JLabel("Please Enter The Name Of Your New Deck");
+        JLabel newDeckLabel = new JLabel("Please Enter The Name Of Your New Deck");
         deckNameTb = new JTextField();
         JButton enterDeckButton = new JButton("Enter New Deck!");
         enterDeckButton.setBackground(beige);
@@ -232,7 +230,8 @@ public class Frame extends JFrame {
         JButton addCardButton = new JButton("Add Card");
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
-        deleteCardButton.addActionListener(actionEvent -> {
+        deleteCardButton.addActionListener(actionEvent ->
+        {
             try {
                 deleteCardButtonClicked();
             } catch (SQLException e) {
@@ -269,8 +268,8 @@ public class Frame extends JFrame {
         enterDeleteCardButton.setBackground(beige);
 
         //create JList as model to add and remove cards
-        model = new DefaultListModel();
-        cardList = new JList(model);
+        model = new DefaultListModel<Card>();
+        cardList = new JList<Card>(model);
         JScrollPane scrollableTextArea = new JScrollPane(cardList);
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         deleteCardPanel.add(scrollableTextArea);
