@@ -24,12 +24,12 @@ public class Frame extends JFrame {
             deleteCardPanel, deleteDeckPanel, existingButtonPanel;
     private JTextField deckNameTb, addTermField;
     private JTextArea addDefArea;
-    private JLabel termTextArea, deckName, numOfCards;
+    private JLabel deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
-    private JTextArea defTextArea;
+    private JTextArea termTextArea;
 
-    private final StudyController studyController = new StudyController();;
+    private final StudyController studyController = new StudyController();
     private EditController editController;
 
     private JList<Card> cardList;
@@ -377,16 +377,15 @@ public class Frame extends JFrame {
 
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
-        studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
+
+        //studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
+        //studyPanel.setLayout(new GridLayout(3, 1));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termTextArea = new JLabel();
-        termTextArea.setLayout(new FlowLayout());
-        defTextArea = new JTextArea();
-        defTextArea.setVisible(false);
+        termTextArea = new JTextArea();
+        termTextArea.setSize(240, 160);
 
         studyPanel.add(termTextArea);
-        studyPanel.add(defTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -464,7 +463,6 @@ public class Frame extends JFrame {
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
         termTextArea.setText(currentCard.getTerm());
-        defTextArea.setVisible(false);
         termTextArea.setVisible(true);
     }
 
@@ -474,7 +472,6 @@ public class Frame extends JFrame {
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
             termTextArea.setText(currentCard.getTerm());
-            defTextArea.setVisible(false);
             termTextArea.setVisible(true);
 
         } else {
@@ -486,12 +483,9 @@ public class Frame extends JFrame {
     }
 
     private void definitionButtonClicked() {
-        termTextArea.setVisible(false);
-        defTextArea.setVisible(true);
-        defTextArea.setText(currentCard.getDef());
-        defTextArea.setEditable(false);
-        defTextArea.setLineWrap(true);
-        defTextArea.setWrapStyleWord(true);
+        termTextArea.setText(currentCard.getDef());
+        termTextArea.setLineWrap(true);
+
     }
 
     private void setRemainingCardsToStudy() {
