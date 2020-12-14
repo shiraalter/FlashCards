@@ -12,7 +12,7 @@ public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
 
-    private final JPanel leftPanel = new JPanel(new GridLayout(5, 1));
+    private final JPanel leftPanel = new JPanel(new GridLayout(10, 1));
     private JComboBox<String> deckBox;
     private ComboBoxController boxController;
     private List<String> listOfDecks;
@@ -61,7 +61,6 @@ public class Frame extends JFrame {
     private void setupDeckOptions() throws SQLException {
         JPanel existingDeckPanel = new JPanel(new BorderLayout());
         existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
 
         boxController = new ComboBoxController();
 
