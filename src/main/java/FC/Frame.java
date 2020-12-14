@@ -14,33 +14,24 @@ public class Frame extends JFrame {
 
     private final JPanel leftPanel = new JPanel(new GridLayout(5, 1));
     private JComboBox<String> deckBox;
-    private String selectExistingDeckString;
     private ComboBoxController boxController;
     private List<String> listOfDecks;
-
+    private String selectExistingDeckString, deckSelected;
 
     private final JPanel middlePanel = new JPanel();
     private final JPanel topPanel = new JPanel();
-    private JPanel studyPanel, newDeckPanel, editPanel, addCardPanel,
+    private JPanel welcomePanel, studyPanel, newDeckPanel, editPanel, addCardPanel,
             deleteCardPanel, deleteDeckPanel, existingButtonPanel;
     private JTextField deckNameTb, addTermField;
-
+    private JTextArea addDefArea;
     private JLabel termTextArea, deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
     private StudyController studyController;
-    private String deckSelected;
-
-
     private final EditController editController;
-
-    private JTextArea addDefArea;
 
     private JList<Card> cardList;
     private DefaultListModel<Card> model;
-
-
-    private JPanel welcomePanel;
 
     public Frame() throws SQLException {
         setSize(750, 500);
