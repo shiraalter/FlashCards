@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: bug - re-enters clicked method
-
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
@@ -32,7 +30,7 @@ public class Frame extends JFrame {
     private JTextField deckNameTb;
     private JButton enterDeckButton;
 
-    private JLabel cardTextArea, deckName;
+    private JLabel termTextArea, deckName, defTextArea;
     private JButton correctButton, incorrectButton, definitionButton, resetButton;
     private JPanel studyButtonPanel;
     private JPanel topPanel;
@@ -42,7 +40,7 @@ public class Frame extends JFrame {
     private String deckSelected;
 
     private ComboBoxController boxController;
-    private final EditController editController;
+    private EditController editController;
 
     private JButton addCardButton, deleteCardButton, enterAddButton, enterDeleteCardButton;
     private JPanel editPanel, editButtonPanel, addCardPanel, addTermPanel, addDefPanel, deleteCardPanel;
@@ -66,58 +64,26 @@ public class Frame extends JFrame {
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
 
-        leftPanel = new JPanel(new GridLayout(5,1));   //will hold two panels (new deck/existing & study/edit/delete deck)
+        leftPanel = new JPanel(new GridLayout(5,1));
         middlePanel = new JPanel();
-
         editController = new EditController();
 
-        //setupWelcomePanel();
         setupDeckOptions();
+        //setupWelcomePanel();
         setupTopPanel();
         setupExistingDeckOptions();
         setupNewDeckMode();
         setupStudyMode();
         setupEditMode();
         setupDeleteDeckMode();
-
-        //action listeners for buttons
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());
-        newDeckButton.addActionListener(actionEvent -> newDeckClicked());
-        studyButton.addActionListener(actionEvent -> {
-            try {
-                studyOrResetClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        resetButton.addActionListener(actionEvent -> {
-            try {
-                studyOrResetClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        correctButton.addActionListener(actionEvent -> correctButtonClicked());
-        incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
-        editButton.addActionListener(actionEvent -> {
-            try {
-                editButtonClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        enterDeleteCardButton.addActionListener(actionEvent -> {
-            try {
-                enterDeleteCardClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
 
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
     }
+
+
 
    /* private void setupWelcomePanel() {
         welcomePanel = new JPanel(new FlowLayout());
@@ -133,6 +99,93 @@ public class Frame extends JFrame {
     }
 
     */
+
+    private void setupDeckOptions() throws SQLException {
+        chooseDeckPanel = new JPanel(new BorderLayout());
+        chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        existingDeckPanel = new JPanel(new BorderLayout());
+        existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        chooseButtonPanel = new JPanel(new GridLayout(2,1));
+        boxController = new ComboBoxController();
+
+        listOfDecks =  boxController.getAllDecks();
+        deckBox = new JComboBox<>();
+
+        populateComboBox();
+
+        newDeckButton = new JButton("New Deck");
+
+        newDeckButton.addActionListener(actionEvent -> newDeckClicked());
+        chooseButtonPanel.add(newDeckButton);
+        chooseButtonPanel.add(deckBox);
+        chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
+        leftPanel.add(chooseDeckPanel);
+    }
+
+    private void setupTopPanel() {
+        topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20,0));
+        deckName = new JLabel();
+        numOfCards = new JLabel();
+        topPanel.add(deckName);
+        topPanel.add(numOfCards);
+    }
+
+    private void setupExistingDeckOptions() {
+        existingButtonPanel = new JPanel(new GridLayout(1,3));
+        studyButton = new JButton("Study");
+        studyButton.setBackground(Color.PINK);
+        studyButton.addActionListener(actionEvent -> {
+            try {
+                studyOrResetClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        editButton = new JButton("Edit Deck");
+        editButton.addActionListener(actionEvent -> {
+            try {
+                editButtonClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        editButton.setBackground(Color.PINK);
+        deleteDeckButton = new JButton("Delete Deck");
+        deleteDeckButton.setBackground(Color.PINK);
+        existingButtonPanel.add(studyButton);
+        existingButtonPanel.add(editButton);
+        existingButtonPanel.add(deleteDeckButton);
+        add(existingButtonPanel, BorderLayout.SOUTH);
+        existingButtonPanel.setVisible(false);
+    }
+
+    private void setupNewDeckMode() {
+        newDeckPanel = new JPanel();
+        newDeckPanel.setLayout(new BoxLayout(newDeckPanel, BoxLayout.Y_AXIS));
+        newDeckPanel.setBorder(new EmptyBorder(150, 0, 0, 0));
+
+        newDeckLabel = new JLabel("Please Enter The Name Of Your New Deck");
+        deckNameTb = new JTextField();
+        enterDeckButton = new JButton("Enter New Deck!");
+        enterDeckButton.setBackground(beige);
+        enterDeckButton.addActionListener(actionEvent -> {
+            try {
+                enterNewDeckClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        newDeckPanel.add(newDeckLabel);
+        newDeckPanel.add(Box.createVerticalStrut(15));
+        newDeckPanel.add(deckNameTb, Box.createVerticalStrut(15));
+        newDeckPanel.add(Box.createVerticalStrut(15));
+        newDeckPanel.add(enterDeckButton);
+        newDeckPanel.setVisible(false);
+        middlePanel.add(newDeckPanel);
+        createAddCardComponents();
+    }
 
     private void setupDeleteDeckMode() {
         enterDeleteDeck = new JButton("DELETE THIS DECK");
@@ -169,16 +222,6 @@ public class Frame extends JFrame {
         }
     }
 
-    private void setupTopPanel() {
-        topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20,0));
-        deckName = new JLabel();
-        numOfCards = new JLabel();
-        topPanel.add(deckName);
-        topPanel.add(numOfCards);
-
-    }
-
     private void editButtonClicked() throws SQLException {
         studyPanel.setVisible(false);
         editPanel.setVisible(true);
@@ -199,36 +242,42 @@ public class Frame extends JFrame {
                 e.printStackTrace();
             }
         });
+
         editPanel = new JPanel(new BorderLayout());
         editButtonPanel = new JPanel(new FlowLayout());
         editButtonPanel.add(addCardButton);
         editButtonPanel.add(deleteCardButton);
         editPanel.add(editButtonPanel, BorderLayout.NORTH);
 
-        //separate method for new deck to use?
-       createAddCardComponents(); //TODO: reuse this method in new deck
+        createAddCardComponents();
+        createDeleteCardComponents();
 
+        editPanel.add(addCardPanel, BorderLayout.CENTER);
+        editPanel.add(deleteCardPanel, BorderLayout.SOUTH);
+        editPanel.setVisible(false);
+        middlePanel.add(editPanel);
+    }
+
+    private void createDeleteCardComponents() {
         deleteCardPanel = new JPanel(new GridLayout(2, 1,0,20));
         deleteCardPanel.setBorder(new EmptyBorder(20,0,0,0));
-
         enterDeleteCardButton = new JButton("Delete me!");
+        enterDeleteCardButton.addActionListener(actionEvent -> {
+            try {
+                enterDeleteCardClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
         enterDeleteCardButton.setBackground(beige);
 
         //create JList as model to add and remove cards
         model = new DefaultListModel();
         cardList = new JList(model);
         JScrollPane scrollableTextArea = new JScrollPane(cardList);
-
         scrollableTextArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-
         deleteCardPanel.add(scrollableTextArea);
         deleteCardPanel.add(enterDeleteCardButton);
-
-        editPanel.add(addCardPanel, BorderLayout.CENTER);
-        editPanel.add(deleteCardPanel, BorderLayout.SOUTH);
-        enterAddButton.addActionListener(actionEvent -> enterAddCardClicked());
-        editPanel.setVisible(false);
-        middlePanel.add(editPanel);
     }
 
     private void createAddCardComponents() {
@@ -247,6 +296,7 @@ public class Frame extends JFrame {
         addDefPanel.add(addDefArea);
 
         enterAddButton = new JButton("Enter New Card");
+        enterAddButton.addActionListener(actionEvent -> enterAddCardClicked());
         enterAddButton.setBackground(beige);
         addCardPanel.setBorder(BorderFactory.createEmptyBorder(50, 0, 0, 0));
         addCardPanel.add(addTermPanel);
@@ -301,61 +351,6 @@ public class Frame extends JFrame {
         }
     }
 
-    private void setupStudyMode() {
-        studyPanel = new JPanel();
-        studyButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
-        studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
-        cardTextArea = new JLabel();    //text starts in middle
-
-        correctButton = new JButton("CORRECT!");
-        incorrectButton = new JButton("INCORRECT!");
-        definitionButton = new JButton("View Definition");
-        resetButton = new JButton("RESET");
-        studyButtonPanel.add(correctButton);
-        studyButtonPanel.add(incorrectButton);
-        studyButtonPanel.add(definitionButton);
-        studyButtonPanel.add(resetButton);
-
-        studyPanel.add(cardTextArea);
-        studyPanel.add(Box.createVerticalStrut(15));
-        studyPanel.add(studyButtonPanel);
-        studyPanel.setVisible(false);
-
-
-        topPanel.setVisible(false);
-
-        middlePanel.add(studyPanel);
-    }
-
-    private void setupNewDeckMode() {
-
-        newDeckPanel = new JPanel();
-        newDeckPanel.setLayout(new BoxLayout(newDeckPanel, BoxLayout.Y_AXIS));
-        newDeckPanel.setBorder(new EmptyBorder(150, 0, 0, 0));
-
-        newDeckLabel = new JLabel("Please Enter The Name Of Your New Deck");
-        deckNameTb = new JTextField();
-        enterDeckButton = new JButton("Enter New Deck!");
-        enterDeckButton.setBackground(beige);
-        newDeckPanel.add(newDeckLabel);
-        newDeckPanel.add(Box.createVerticalStrut(15));
-        newDeckPanel.add(deckNameTb, Box.createVerticalStrut(15));
-        newDeckPanel.add(Box.createVerticalStrut(15));
-        newDeckPanel.add(enterDeckButton);
-        newDeckPanel.setVisible(false);
-        middlePanel.add(newDeckPanel);
-
-        enterDeckButton.addActionListener(actionEvent -> {
-            try {
-                enterNewDeckClicked();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-        createAddCardComponents(); // TODO : put this yere????
-    }
-
 
     private void enterNewDeckClicked() throws SQLException {
         String deckNameEntered = deckNameTb.getText();
@@ -401,22 +396,62 @@ public class Frame extends JFrame {
         topPanel.setVisible(true);
         editPanel.setVisible(false);
         deleteDeckPanel.setVisible(false);
-
-
     }
 
+    private void setupStudyMode() {
+        studyPanel = new JPanel();
+        studyButtonPanel = new JPanel(new FlowLayout()); //just for buttons
+        studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
+        studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
+        termTextArea = new JLabel();//text starts in middle
+        termTextArea.setLayout(new FlowLayout());
+        defTextArea = new JLabel();
+
+
+        correctButton = new JButton("CORRECT!");
+        incorrectButton = new JButton("INCORRECT!");
+        definitionButton = new JButton("View Definition");
+
+        correctButton.addActionListener(actionEvent -> correctButtonClicked());
+        incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
+        definitionButton.addActionListener(actionEvent -> definitionButtonClicked());
+
+        resetButton = new JButton("RESET");
+        resetButton.addActionListener(actionEvent -> {
+            try {
+                studyOrResetClicked();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+        studyButtonPanel.add(correctButton);
+        studyButtonPanel.add(incorrectButton);
+        studyButtonPanel.add(definitionButton);
+        studyButtonPanel.add(resetButton);
+
+        studyPanel.add(termTextArea);
+        studyPanel.add(defTextArea);
+        studyPanel.add(Box.createVerticalStrut(15));
+        studyPanel.add(studyButtonPanel);
+        studyPanel.setVisible(false);
+
+        topPanel.setVisible(false);
+
+        middlePanel.add(studyPanel);
+    }
+
+    //TODO: move "setvisibles" to sep method for study button
     private void studyOrResetClicked() throws SQLException {
         if(editController.sizeOfCurrentDeck(deckSelected) != 0) {
             studyController = new StudyController();
             studyController.startNewStudySession(deckSelected);
             currentCard = studyController.getNextToStudy();
-            cardTextArea.setText(currentCard.getTerm());
+            termTextArea.setText(currentCard.getTerm());
             setNumOfCardsStudyMode();
 
             correctButton.setEnabled(true);
             incorrectButton.setEnabled(true);
             definitionButton.setEnabled(true);
-            definitionButton.addActionListener(actionEvent -> cardTextArea.setText("<html>" + currentCard.getDef() + "</html>"));
             studyPanel.setVisible(true);
             topPanel.setVisible(true);
             editPanel.setVisible(false);
@@ -429,23 +464,25 @@ public class Frame extends JFrame {
 
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
-        cardTextArea.setText(currentCard.getTerm());
+        termTextArea.setText(currentCard.getTerm());
     }
 
-    //BUG
     private void correctButtonClicked() {
         studyController.masterCard(currentCard);
         setNumOfCardsStudyMode();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
-            cardTextArea.setText(currentCard.getTerm());
+            termTextArea.setText(currentCard.getTerm());
 
         } else {
-            cardTextArea.setText("You finished the deck! Click RESET to start over.");
+            termTextArea.setText("You finished the deck! Click RESET to start over.");
             correctButton.setEnabled(false);
             incorrectButton.setEnabled(false);
             definitionButton.setEnabled(false);
         }
+    }
+    private void definitionButtonClicked() {
+        termTextArea.setText("<html>" + currentCard.getDef() + "</html>");
     }
 
 
@@ -458,51 +495,12 @@ public class Frame extends JFrame {
         numOfCards.setText("Cards in deck: " + editController.sizeOfCurrentDeck(deckSelected));
         }
 
-
-
-    private void setupExistingDeckOptions() {
-        existingButtonPanel = new JPanel(new GridLayout(1,3));
-        studyButton = new JButton("Study");
-        studyButton.setBackground(Color.PINK);
-        editButton = new JButton("Edit Deck");
-        editButton.setBackground(Color.PINK);
-        deleteDeckButton = new JButton("Delete Deck");
-        deleteDeckButton.setBackground(Color.PINK);
-        existingButtonPanel.add(studyButton);
-        existingButtonPanel.add(editButton);
-        existingButtonPanel.add(deleteDeckButton);
-        add(existingButtonPanel, BorderLayout.SOUTH);
-        existingButtonPanel.setVisible(false);
-    }
-
-    private void setupDeckOptions() throws SQLException {
-        chooseDeckPanel = new JPanel(new BorderLayout());
-        chooseDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        existingDeckPanel = new JPanel(new BorderLayout());
-        existingDeckPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        chooseButtonPanel = new JPanel(new GridLayout(2,1));
-        boxController = new ComboBoxController();
-
-        listOfDecks =  boxController.getAllDecks();
-        deckBox = new JComboBox<>();
-        populateComboBox();
-
-        newDeckButton = new JButton("New Deck");
-        chooseButtonPanel.add(newDeckButton);
-        chooseButtonPanel.add(deckBox);
-        chooseDeckPanel.add(chooseButtonPanel, BorderLayout.CENTER);
-        leftPanel.add(chooseDeckPanel);
-    }
-
-    private void populateComboBox() {
+    private void populateComboBox() throws SQLException {
         selectExistingDeckString = "Select Existing Deck";
         deckBox.addItem(selectExistingDeckString);
         for(String deck : listOfDecks){
             deckBox.addItem(deck);
         }
     }
-
-
 }
 
