@@ -1,7 +1,9 @@
 package FC;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 
 import java.sql.SQLException;
@@ -382,8 +384,10 @@ public class Frame extends JFrame {
 
         Font font = new Font ("Arial", Font.PLAIN, 26);
         termDefTextArea = new JTextArea(8,15);
+        termDefTextArea.setBorder(new LineBorder(Color.BLACK));
         termDefTextArea.setFont(font);
         termDefTextArea.setWrapStyleWord(true);
+        termDefTextArea.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
 
         studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
