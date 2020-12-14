@@ -377,12 +377,13 @@ public class Frame extends JFrame {
 
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
-
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termDefTextArea = new JTextArea(12,15);
-
+        Font font = new Font ("Arial", Font.PLAIN, 26);
+        termDefTextArea = new JTextArea(8,15);
+        termDefTextArea.setFont(font);
+        termDefTextArea.setWrapStyleWord(true);
 
         studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
