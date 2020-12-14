@@ -27,7 +27,7 @@ public class Frame extends JFrame {
     private JLabel deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
-    private JTextArea termTextArea;
+    private JTextArea termDefTextArea;
 
     private final StudyController studyController = new StudyController();
     private EditController editController;
@@ -382,10 +382,10 @@ public class Frame extends JFrame {
         //studyPanel.setLayout(new GridLayout(3, 1));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termTextArea = new JTextArea();
-        termTextArea.setSize(240, 160);
+        termDefTextArea = new JTextArea();
+        termDefTextArea.setSize(240, 160);
 
-        studyPanel.add(termTextArea);
+        studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -420,7 +420,7 @@ public class Frame extends JFrame {
     private void studyClicked() throws SQLException {
         if (studyController.getDeck(deckSelected).getSize() != 0) {
             initializeStudyLogic();
-            termTextArea.setText(currentCard.getTerm());
+            termDefTextArea.setText(currentCard.getTerm());
             setRemainingCardsToStudy();
 
             enableStudyControls();
@@ -443,7 +443,7 @@ public class Frame extends JFrame {
 
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
-        termTextArea.setText(currentCard.getTerm());
+        termDefTextArea.setText(currentCard.getTerm());
         setRemainingCardsToStudy();
         enableStudyControls();
     }
@@ -462,8 +462,8 @@ public class Frame extends JFrame {
 
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
-        termTextArea.setText(currentCard.getTerm());
-        termTextArea.setVisible(true);
+        termDefTextArea.setText(currentCard.getTerm());
+        termDefTextArea.setVisible(true);
     }
 
     private void correctButtonClicked() {
@@ -471,11 +471,11 @@ public class Frame extends JFrame {
         setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
-            termTextArea.setText(currentCard.getTerm());
-            termTextArea.setVisible(true);
+            termDefTextArea.setText(currentCard.getTerm());
+            termDefTextArea.setVisible(true);
 
         } else {
-            termTextArea.setText("You finished the deck! Click RESET to start over.");
+            termDefTextArea.setText("You finished the deck! Click RESET to start over.");
             correctButton.setEnabled(false);
             incorrectButton.setEnabled(false);
             definitionButton.setEnabled(false);
@@ -483,8 +483,8 @@ public class Frame extends JFrame {
     }
 
     private void definitionButtonClicked() {
-        termTextArea.setText(currentCard.getDef());
-        termTextArea.setLineWrap(true);
+        termDefTextArea.setText(currentCard.getDef());
+        termDefTextArea.setLineWrap(true);
 
     }
 
