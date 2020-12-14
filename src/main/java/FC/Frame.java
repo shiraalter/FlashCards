@@ -63,7 +63,7 @@ public class Frame extends JFrame {
         middlePanel = new JPanel();
         editController = new EditController();
 
-        setupDeckOptions();
+
         //setupWelcomePanel();
         setupTopPanel();
         setupExistingDeckOptions();
@@ -72,7 +72,8 @@ public class Frame extends JFrame {
         setupEditMode();
         setupDeleteDeckMode();
         setWelcomePanel();
-        deckBox.addActionListener(actionEvent -> comboBoxClicked());    //scope issue with moving
+        setupDeckOptions();
+
 
         add(leftPanel, BorderLayout.WEST);
         add(middlePanel);
@@ -109,7 +110,7 @@ public class Frame extends JFrame {
         listOfDecks = boxController.getAllDecks();
 
         deckBox = new JComboBox<>();
-
+        deckBox.addActionListener(actionEvent -> comboBoxClicked());   
         populateComboBox();
 
         JButton newDeckButton = new JButton("New Deck");
