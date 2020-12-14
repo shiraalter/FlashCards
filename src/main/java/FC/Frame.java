@@ -27,6 +27,8 @@ public class Frame extends JFrame {
     private JLabel termTextArea, deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
+    private JTextArea defTextArea;
+
     private StudyController studyController;
     private final EditController editController;
 
@@ -379,7 +381,8 @@ public class Frame extends JFrame {
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
         termTextArea = new JLabel(); //text starts in middle
         termTextArea.setLayout(new FlowLayout());
-
+        defTextArea = new JTextArea();
+        defTextArea.setVisible(false);
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
         definitionButton = new JButton("View Definition");
@@ -416,6 +419,7 @@ public class Frame extends JFrame {
             initializeStudyLogic();
             termTextArea.setText(currentCard.getTerm());
             setNumOfCardsStudyMode();
+
             enableStudyControls();
             showStudyModePanels();
             disableMutatorPanels();
@@ -456,6 +460,8 @@ public class Frame extends JFrame {
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
         termTextArea.setText(currentCard.getTerm());
+        defTextArea.setVisible(false);
+        termTextArea.setVisible(true);
     }
 
     private void correctButtonClicked() {
@@ -464,6 +470,8 @@ public class Frame extends JFrame {
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
             termTextArea.setText(currentCard.getTerm());
+            defTextArea.setVisible(false);
+            termTextArea.setVisible(true);
 
         } else {
             termTextArea.setText("You finished the deck! Click RESET to start over.");
@@ -474,7 +482,12 @@ public class Frame extends JFrame {
     }
 
     private void definitionButtonClicked() {
-        termTextArea.setText("<html>" + currentCard.getDef() + "</html>");
+        termTextArea.setVisible(false);
+        defTextArea.setVisible(true);
+        defTextArea.setText(currentCard.getDef());
+        defTextArea.setEditable(false);
+        defTextArea.setLineWrap(true);
+        defTextArea.setWrapStyleWord(true);
     }
 
 
