@@ -117,7 +117,7 @@ public class Frame extends JFrame {
         studyButton.setBackground(Color.PINK);
         studyButton.addActionListener(actionEvent -> {
             try {
-                studyOrResetClicked();
+                studyClicked();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -210,7 +210,7 @@ public class Frame extends JFrame {
         setNumOfCardsEditMode();
     }
 
-    private void setupEditMode()  {
+    private void setupEditMode() {
         JButton addCardButton = new JButton("Add Card");
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
@@ -349,15 +349,19 @@ public class Frame extends JFrame {
         existingButtonPanel.setVisible(false);
         studyPanel.setVisible(false);
         topPanel.setVisible(false);
-        editPanel.setVisible(false);
-        deleteDeckPanel.setVisible(false);
+        disableMutatorPanels();
 
     }
 
-    private void setWelcomePanel(){
-        String welcomeMssg = "Hello! Welcome to our Flash Cards UI.\n\nSelect an existing deck or create a new one!\n\nGood luck studying!";
+    private void setWelcomePanel() {
+        String welcomeMssg = """
+                Hello! Welcome to our Flash Cards UI.
+
+                Select an existing deck or create a new one!
+
+                Good luck studying!""";
         welcomePanel = new JPanel();
-        welcomePanel.setBorder(new EmptyBorder(20,0,0,0));
+        welcomePanel.setBorder(new EmptyBorder(20, 0, 0, 0));
         JTextArea welcomeArea = new JTextArea(welcomeMssg);
         welcomeArea.setEditable(false);
         welcomeArea.setBackground(beige);
@@ -382,8 +386,7 @@ public class Frame extends JFrame {
         }
         newDeckPanel.setVisible(false);
         studyPanel.setVisible(false);
-        editPanel.setVisible(false);
-        deleteDeckPanel.setVisible(false);
+        disableMutatorPanels();
     }
 
     private void setupStudyMode() {
@@ -405,7 +408,7 @@ public class Frame extends JFrame {
         JButton resetButton = new JButton("RESET");
         resetButton.addActionListener(actionEvent -> {
             try {
-                studyOrResetClicked();
+                resetClicked();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -425,33 +428,40 @@ public class Frame extends JFrame {
         middlePanel.add(studyPanel);
     }
 
-    private void studyOrResetClicked() throws SQLException {
+    private void studyClicked() throws SQLException {
         if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
-            studyController = new StudyController();
-            studyController.startNewStudySession(deckSelected);
-            currentCard = studyController.getNextToStudy();
+            initializeStudyLogic();
             termTextArea.setText(currentCard.getTerm());
             setNumOfCardsStudyMode();
-
             enableStudyControls();
-
-            studyPanel.setVisible(true);
-            topPanel.setVisible(true);
-            editPanel.setVisible(false);
-            deleteDeckPanel.setVisible(false);
+            showStudyModePanels();
+            disableMutatorPanels();
         } else {
             JOptionPane.showMessageDialog(middlePanel, "You cannot study an empty deck. \nPlease add a card");
         }
     }
+
+    private void disableMutatorPanels() {
+        editPanel.setVisible(false);
+        deleteDeckPanel.setVisible(false);
+    }
+
+    private void showStudyModePanels() {
+        studyPanel.setVisible(true);
+        topPanel.setVisible(true);
+    }
+
     private void resetClicked() throws SQLException {
-
-            studyController = new StudyController();
-            studyController.startNewStudySession(deckSelected);
-            currentCard = studyController.getNextToStudy();
-            termTextArea.setText(currentCard.getTerm());
-            setNumOfCardsStudyMode();
-
+        initializeStudyLogic();
+        termTextArea.setText(currentCard.getTerm());
+        setNumOfCardsStudyMode();
         enableStudyControls();
+    }
+
+    private void initializeStudyLogic() throws SQLException {
+        studyController = new StudyController();
+        studyController.startNewStudySession(deckSelected);
+        currentCard = studyController.getNextToStudy();
     }
 
     private void enableStudyControls() {
