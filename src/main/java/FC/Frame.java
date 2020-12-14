@@ -24,19 +24,19 @@ public class Frame extends JFrame {
             deleteCardPanel, deleteDeckPanel, existingButtonPanel;
     private JTextField deckNameTb, addTermField;
     private JTextArea addDefArea;
-    private JLabel termTextArea, deckName, numOfCards;
+    private JLabel deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
 
-    private JTextArea defTextArea;
+    private JTextArea termDefTextArea;
 
-    private StudyController studyController;
+    private final StudyController studyController = new StudyController();
     private EditController editController;
 
     private JList<Card> cardList;
     private DefaultListModel<Card> model;
 
     public Frame() throws SQLException {
-        setSize(750, 500);
+        setSize(750, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
@@ -377,16 +377,14 @@ public class Frame extends JFrame {
 
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
+
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termTextArea = new JLabel();
-        termTextArea.setLayout(new FlowLayout());
-        defTextArea = new JTextArea();
-        defTextArea.setVisible(false);
+        termDefTextArea = new JTextArea(12,15);
 
-        studyPanel.add(termTextArea);
-        studyPanel.add(defTextArea);
+
+        studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -419,9 +417,9 @@ public class Frame extends JFrame {
     }
 
     private void studyClicked() throws SQLException {
-        if (editController.sizeOfCurrentDeck(deckSelected) != 0) {
+        if (studyController.getDeck(deckSelected).getSize() != 0) {
             initializeStudyLogic();
-            termTextArea.setText(currentCard.getTerm());
+            termDefTextArea.setText(currentCard.getTerm());
             setRemainingCardsToStudy();
 
             enableStudyControls();
@@ -444,13 +442,13 @@ public class Frame extends JFrame {
 
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
-        termTextArea.setText(currentCard.getTerm());
+        termDefTextArea.setText(currentCard.getTerm());
         setRemainingCardsToStudy();
         enableStudyControls();
     }
 
     private void initializeStudyLogic() throws SQLException {
-        studyController = new StudyController();
+
         studyController.startNewStudySession(deckSelected);
         currentCard = studyController.getNextToStudy();
     }
@@ -463,9 +461,8 @@ public class Frame extends JFrame {
 
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
-        termTextArea.setText(currentCard.getTerm());
-        defTextArea.setVisible(false);
-        termTextArea.setVisible(true);
+        termDefTextArea.setText(currentCard.getTerm());
+        termDefTextArea.setVisible(true);
     }
 
     private void correctButtonClicked() {
@@ -473,12 +470,11 @@ public class Frame extends JFrame {
         setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
-            termTextArea.setText(currentCard.getTerm());
-            defTextArea.setVisible(false);
-            termTextArea.setVisible(true);
+            termDefTextArea.setText(currentCard.getTerm());
+            termDefTextArea.setVisible(true);
 
         } else {
-            termTextArea.setText("You finished the deck! Click RESET to start over.");
+            termDefTextArea.setText("You finished the deck! Click RESET to start over.");
             correctButton.setEnabled(false);
             incorrectButton.setEnabled(false);
             definitionButton.setEnabled(false);
@@ -486,12 +482,9 @@ public class Frame extends JFrame {
     }
 
     private void definitionButtonClicked() {
-        termTextArea.setVisible(false);
-        defTextArea.setVisible(true);
-        defTextArea.setText(currentCard.getDef());
-        defTextArea.setEditable(false);
-        defTextArea.setLineWrap(true);
-        defTextArea.setWrapStyleWord(true);
+        termDefTextArea.setText(currentCard.getDef());
+        termDefTextArea.setLineWrap(true);
+
     }
 
     private void setRemainingCardsToStudy() {
