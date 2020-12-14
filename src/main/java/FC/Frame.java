@@ -29,7 +29,7 @@ public class Frame extends JFrame {
 
     private JTextArea defTextArea;
 
-    private StudyController studyController = new StudyController();;
+    private final StudyController studyController = new StudyController();;
     private EditController editController;
 
     private JList<Card> cardList;
