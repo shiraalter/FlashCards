@@ -59,6 +59,7 @@ public class Frame extends JFrame {
 
     private void setupDeckOptions() throws SQLException {
         JButton newDeckButton = new JButton("New Deck");
+        newDeckButton.setBackground(SystemColor.PINK);
         newDeckButton.addActionListener(actionEvent -> newDeckClicked());
         setUpDeckBox();
         leftPanel.add(newDeckButton);
@@ -69,6 +70,7 @@ public class Frame extends JFrame {
         boxController = new ComboBoxController();
         listOfDecks = boxController.getAllDecks();
         deckBox = new JComboBox<>();
+        deckBox.setBackground(Color.PINK);
         populateComboBox();
         deckBox.addActionListener(actionEvent -> comboBoxClicked());
     }
@@ -183,8 +185,10 @@ public class Frame extends JFrame {
     private void setupEditMode() throws SQLException {
         editController = new EditController();
         JButton addCardButton = new JButton("Add Card");
+        addCardButton.setBackground(beige);
         addCardButton.addActionListener(actionEvent -> addCardClicked());
         JButton deleteCardButton = new JButton("Delete Card");
+        deleteCardButton.setBackground(beige);
         deleteCardButton.addActionListener(actionEvent ->
         {
             try {
@@ -477,7 +481,6 @@ public class Frame extends JFrame {
         defTextArea.setLineWrap(true);
         defTextArea.setWrapStyleWord(true);
     }
-
 
     private void setNumOfCardsStudyMode() {
         //pull number of cards from study controller in study mode (unmastered list changes while studying)
