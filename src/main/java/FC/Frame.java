@@ -51,7 +51,6 @@ public class Frame extends JFrame {
 
     private String selectExistingDeckString;
     private JPanel welcomePanel;
-    private JTextArea welcomeArea;
 
     public Frame() throws SQLException {
         setSize(750, 500);
@@ -377,7 +376,7 @@ public class Frame extends JFrame {
         String welcomeMssg = "Hello! Welcome to our Flash Cards UI.\n\nSelect an existing deck or create a new one!\n\nGood luck studying!";
         welcomePanel = new JPanel();
         welcomePanel.setBorder(new EmptyBorder(20,0,0,0));
-        welcomeArea = new JTextArea(welcomeMssg);
+        JTextArea welcomeArea = new JTextArea(welcomeMssg);
         welcomeArea.setEditable(false);
         welcomeArea.setBackground(beige);
         welcomeArea.setFont(new Font("SansSerif", Font.BOLD, 20));
