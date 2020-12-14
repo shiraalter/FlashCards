@@ -20,9 +20,8 @@ public class Controller {
      * @throws SQLException
      */
     protected void addDeck(String title) throws SQLException {
-        PreparedStatement createTableStmt = CONNECTION.prepareStatement("CREATE TABLE ? " +
-                "(id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
-        createTableStmt.setString(1, title);
+        PreparedStatement createTableStmt = CONNECTION.prepareStatement("CREATE TABLE '" + title +
+                "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
         createTableStmt.execute();
         addDeckToMenuTable(title);
     }
@@ -34,7 +33,8 @@ public class Controller {
      * @throws SQLException
      */
     private void addDeckToMenuTable(String title) throws SQLException {
-        PreparedStatement insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO ? (deck_title) VALUES ('" + title + "');");
+        PreparedStatement insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO " + MENU_TABLE
+                + "' (deck_title) VALUES (?);");
         insertToMenuStmt.setString(1, title);
         insertToMenuStmt.execute();
     }
@@ -47,9 +47,8 @@ public class Controller {
      * @throws SQLException
      */
     protected void deleteCard(Card card, String table) throws SQLException {
-        PreparedStatement removeCardStmt = CONNECTION.prepareStatement("DELETE FROM ? WHERE id = ?;");
-        removeCardStmt.setString(1, table);
-        removeCardStmt.setString(2, card.getId());
+        PreparedStatement removeCardStmt = CONNECTION.prepareStatement("DELETE FROM " + table + " WHERE id = ?;");
+        removeCardStmt.setString(1, card.getId());
         removeCardStmt.execute();
     }
 
@@ -58,11 +57,11 @@ public class Controller {
      * Update a given card's term
      */
     protected void updateTerm(String table, Card card) throws SQLException {
-        PreparedStatement updateTermStmt = CONNECTION.prepareStatement("UPDATE ? " +
-                "SET term = ? WHERE id = ?;");
-        updateTermStmt.setString(1, table);
-        updateTermStmt.setString(2, card.getTerm());
-        updateTermStmt.setString(3, card.getId());
+        PreparedStatement updateTermStmt = CONNECTION.prepareStatement("UPDATE " + table +
+                " SET term = ? WHERE id = ?;");
+
+        updateTermStmt.setString(1, card.getTerm());
+        updateTermStmt.setString(2, card.getId());
         updateTermStmt.execute();
     }
 
@@ -70,18 +69,16 @@ public class Controller {
      * Update a given card's def
      */
     protected void updateDef(String table, Card card) throws SQLException {
-        PreparedStatement updateDefStmt = CONNECTION.prepareStatement("UPDATE ? SET def = ? WHERE id = ?;");
-        updateDefStmt.setString(1, table);
-        updateDefStmt.setString(2, card.getDef());
-        updateDefStmt.setString(3, card.getId());
+        PreparedStatement updateDefStmt = CONNECTION.prepareStatement("UPDATE" + table + "SET def = ? WHERE id = ?;");
+        updateDefStmt.setString(1, card.getDef());
+        updateDefStmt.setString(2, card.getId());
     }
 
     /**
      * Delete a table/deck in the database
      */
     protected void deleteDeck(String table) throws SQLException {
-        PreparedStatement deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE ?;");
-        deleteDeckStmt.setString(1, table);
+        PreparedStatement deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE" + table + ";");
         deleteDeckStmt.execute();
         removeFromMenu(table);
     }
@@ -93,9 +90,8 @@ public class Controller {
      * @throws SQLException
      */
     protected void removeFromMenu(String table) throws SQLException {
-        PreparedStatement deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM ? WHERE deck_title = ?;");
-        deleteMenuItemStmt.setString(1, MENU_TABLE);
-        deleteMenuItemStmt.setString(2, table);
+        PreparedStatement deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + MENU_TABLE + " WHERE deck_title = ?;");
+        deleteMenuItemStmt.setString(1, table);
     }
 
     /**
@@ -107,10 +103,9 @@ public class Controller {
      * @throws SQLException
      */
     protected void insertCard(String table, String term, String def) throws SQLException {
-        PreparedStatement insertCardStmt = CONNECTION.prepareStatement("INSERT INTO ? (term, def) VALUES (?, ?;");
-        insertCardStmt.setString(1, table);
-        insertCardStmt.setString(2, term);
-        insertCardStmt.setString(3, def);
+        PreparedStatement insertCardStmt = CONNECTION.prepareStatement("INSERT INTO '" + table + "' (term, def) VALUES (?, ?);");
+        insertCardStmt.setString(1, term);
+        insertCardStmt.setString(2, def);
     }
 
     /**
@@ -133,8 +128,7 @@ public class Controller {
      * @throws SQLException
      */
     protected ResultSet selectAll(String table) throws SQLException {
-        PreparedStatement selectStmt = CONNECTION.prepareStatement("SELECT * FROM ?");
-        selectStmt.setString(1, table);
+        PreparedStatement selectStmt = CONNECTION.prepareStatement("SELECT * FROM '" + table + "';");
         return selectStmt.executeQuery();
     }
 
