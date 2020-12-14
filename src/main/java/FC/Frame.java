@@ -36,7 +36,7 @@ public class Frame extends JFrame {
     private DefaultListModel<Card> model;
 
     public Frame() throws SQLException {
-        setSize(750, 500);
+        setSize(750, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
@@ -378,12 +378,11 @@ public class Frame extends JFrame {
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
 
-        //studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
-        //studyPanel.setLayout(new GridLayout(3, 1));
+        studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        termDefTextArea = new JTextArea();
-        termDefTextArea.setSize(240, 160);
+        termDefTextArea = new JTextArea(12,15);
+
 
         studyPanel.add(termDefTextArea);
         studyPanel.add(Box.createVerticalStrut(15));
