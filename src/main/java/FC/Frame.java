@@ -30,7 +30,9 @@ public class Frame extends JFrame {
     private JTextField deckNameTb;
     private JButton enterDeckButton;
 
-    private JLabel termTextArea, deckName, defTextArea;
+    private JLabel termTextArea;
+    private JLabel deckName;
+    private JTextArea defTextArea;
     private JButton correctButton, incorrectButton, definitionButton, resetButton;
     private JPanel studyButtonPanel;
     private JPanel topPanel;
@@ -405,8 +407,8 @@ public class Frame extends JFrame {
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
         termTextArea = new JLabel();//text starts in middle
         termTextArea.setLayout(new FlowLayout());
-        defTextArea = new JLabel();
-
+        defTextArea = new JTextArea();
+        defTextArea.setVisible(false);
 
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
@@ -456,6 +458,8 @@ public class Frame extends JFrame {
             topPanel.setVisible(true);
             editPanel.setVisible(false);
             deleteDeckPanel.setVisible(false);
+            defTextArea.setVisible(false);
+            termTextArea.setVisible(true);
         }
         else{
             JOptionPane.showMessageDialog(middlePanel,"You cannot study an empty deck. \nPlease add a card");
@@ -465,6 +469,8 @@ public class Frame extends JFrame {
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
         termTextArea.setText(currentCard.getTerm());
+        defTextArea.setVisible(false);
+        termTextArea.setVisible(true);
     }
 
     private void correctButtonClicked() {
@@ -473,6 +479,8 @@ public class Frame extends JFrame {
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
             termTextArea.setText(currentCard.getTerm());
+            defTextArea.setVisible(false);
+            termTextArea.setVisible(true);
 
         } else {
             termTextArea.setText("You finished the deck! Click RESET to start over.");
@@ -482,7 +490,12 @@ public class Frame extends JFrame {
         }
     }
     private void definitionButtonClicked() {
-        termTextArea.setText("<html>" + currentCard.getDef() + "</html>");
+        termTextArea.setVisible(false);
+        defTextArea.setVisible(true);
+        defTextArea.setText(currentCard.getDef());
+        defTextArea.setEditable(false);
+        defTextArea.setLineWrap(true);
+        defTextArea.setWrapStyleWord(true);
     }
 
 
