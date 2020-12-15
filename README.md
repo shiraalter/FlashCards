@@ -8,15 +8,16 @@ Contributors:
 
 ##### User Interface
 1. Opening
-![Alt](screenshots/FC_open.jpeg)
+![Alt](screenshots/fc-open.PNG)
 1. Study Deck
-![Alt](screenshots/FC_studyterm.jpeg)
+![Alt](screenshots/fc-study.PNG)
 1. Create New Deck
-![Alt](screenshots/FC_newdeck.jpeg)
+![Alt](screenshots/fc-newdeck.PNG)
 1. Edit Deck
-![Alt](screenshots/FC_addcard.jpeg)
-![Alt](screenshots/FC_deletecard.jpeg)
-![Alt](screenshots/FC_deletedeck.jpeg)
+![Alt](screenshots/fc-addcard.PNG)
+![Alt](screenshots/fc-deletecard.PNG)
+![Alt](screenshots/fc-deletedeck.PNG)
+
 ##### Design Pattern
 
 ##### Database Schema
