@@ -1,6 +1,5 @@
 package controller_flashcards;
 
-import controller_flashcards.ComboBoxController;
 import org.junit.Test;
 
 import java.sql.SQLException;
