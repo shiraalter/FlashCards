@@ -8,11 +8,15 @@ Contributors:
 
 ##### User Interface
 1. Opening
+
 ![Alt](screenshots/fc-open.PNG)
+
 1. Study Deck
 ![Alt](screenshots/fc-study.PNG)
+
 1. Create New Deck
 ![Alt](screenshots/fc-newdeck.PNG)
+
 1. Edit Deck
 ![Alt](screenshots/fc-addcard.PNG)
 ![Alt](screenshots/fc-deletecard.PNG)
