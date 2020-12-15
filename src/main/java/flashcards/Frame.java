@@ -47,6 +47,7 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
+        setIconImage(new ImageIcon(getClass().getResource("/fcimage.jpeg")).getImage());
         initializePanels();
     }
 
