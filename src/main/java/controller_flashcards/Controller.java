@@ -1,6 +1,8 @@
-package FC;
+package controller_flashcards;
 
-import javax.xml.transform.Result;
+import flashcards.Card;
+import flashcards.Deck;
+
 import java.sql.*;
 import java.util.ArrayList;
 

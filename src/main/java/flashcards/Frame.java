@@ -1,4 +1,8 @@
-package FC;
+package flashcards;
+
+import controller_flashcards.ComboBoxController;
+import controller_flashcards.EditController;
+import controller_flashcards.StudyController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -433,8 +437,8 @@ public class Frame extends JFrame {
     }
 
     private void studyClicked() throws SQLException {
-        if (studyController.getDeck(deckSelected).getSize() != 0) {
-            initializeStudyLogic();
+        initializeStudyLogic();
+        if (studyController.getUnMastered().getSize() != 0) {
             textPane.setText(currentCard.getTerm());
             setRemainingCardsToStudy();
 

@@ -1,5 +1,6 @@
-package FC;
+package flashcards;
 
+import controller_flashcards.Controller;
 import org.junit.Test;
 
 import java.sql.SQLException;

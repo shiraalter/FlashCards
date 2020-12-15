@@ -1,4 +1,4 @@
-package FC;
+package flashcards;
 
 import java.sql.SQLException;
 

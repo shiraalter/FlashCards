@@ -1,4 +1,7 @@
-package FC;
+package controller_flashcards;
+
+import flashcards.Card;
+import flashcards.Deck;
 
 import java.sql.SQLException;
 import java.util.Random;

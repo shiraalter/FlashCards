@@ -1,4 +1,4 @@
-package FC;
+package controller_flashcards;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package FC;
+package flashcards;
 
 public class Card {
 
