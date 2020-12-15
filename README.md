@@ -18,7 +18,6 @@ Contributors:
 ![Alt](screenshots/fc-newdeck.PNG)
 
 1. Edit Deck
-
 ![Alt](screenshots/fc-addcard.PNG)
 ![Alt](screenshots/fc-deletecard.PNG)
 ![Alt](screenshots/fc-deletedeck.PNG)
