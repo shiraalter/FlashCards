@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 import java.sql.SQLException;
@@ -13,6 +16,7 @@ import java.util.Objects;
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
     private Card currentCard;
+    JTextPane textPane;
 
     private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
     private JComboBox<String> deckBox;
@@ -334,15 +338,11 @@ public class Frame extends JFrame {
     }
 
     private void setWelcomePanel() {
-        String welcomeMssg = """
-                Hello! Welcome to our Flash Cards UI.
-
-                Select an existing deck or create a new one!
-
-                Good luck studying!""";
+        String welcomeMessage = " Hello! Welcome to our Flash Cards UI.\n\n Select an existing deck or create a new one!\n\n " +
+                "Good luck studying!";
         welcomePanel = new JPanel();
         welcomePanel.setBorder(new EmptyBorder(20, 0, 0, 0));
-        JTextArea welcomeArea = new JTextArea(welcomeMssg);
+        JTextArea welcomeArea = new JTextArea(welcomeMessage);
         welcomeArea.setEditable(false);
         welcomeArea.setBackground(beige);
         welcomeArea.setFont(new Font("SansSerif", Font.BOLD, 20));
@@ -388,8 +388,21 @@ public class Frame extends JFrame {
         termDefTextArea.setFont(font);
         termDefTextArea.setWrapStyleWord(true);
         termDefTextArea.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
+        textPane = new JTextPane();
 
-        studyPanel.add(termDefTextArea);
+        StyledDocument doc = textPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
+        textPane.setCharacterAttributes(center, true);
+        textPane.setBorder(new LineBorder((Color.BLACK)));
+        textPane.setFont(font);
+        textPane.setPreferredSize(new Dimension(15, 200));
+        JScrollPane scrollPane = new JScrollPane(textPane);
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+
+        //studyPanel.add(termDefTextArea);
+        studyPanel.add(scrollPane, BorderLayout.CENTER);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -424,7 +437,8 @@ public class Frame extends JFrame {
     private void studyClicked() throws SQLException {
         if (studyController.getDeck(deckSelected).getSize() != 0) {
             initializeStudyLogic();
-            termDefTextArea.setText(currentCard.getTerm());
+            textPane.setText(currentCard.getTerm());
+//            termDefTextArea.setText(currentCard.getTerm());
             setRemainingCardsToStudy();
 
             enableStudyControls();
@@ -447,7 +461,8 @@ public class Frame extends JFrame {
 
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
-        termDefTextArea.setText(currentCard.getTerm());
+        textPane.setText(currentCard.getTerm());
+        //termDefTextArea.setText(currentCard.getTerm());
         setRemainingCardsToStudy();
         enableStudyControls();
     }
@@ -466,7 +481,8 @@ public class Frame extends JFrame {
 
     private void incorrectButtonClicked() {
         currentCard = studyController.getNextToStudy();
-        termDefTextArea.setText(currentCard.getTerm());
+        textPane.setText(currentCard.getTerm());
+//        termDefTextArea.setText(currentCard.getTerm());
         termDefTextArea.setVisible(true);
     }
 
@@ -475,8 +491,9 @@ public class Frame extends JFrame {
         setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
             currentCard = studyController.getNextToStudy();
-            termDefTextArea.setText(currentCard.getTerm());
-            termDefTextArea.setVisible(true);
+            textPane.setText(currentCard.getTerm());
+//            termDefTextArea.setText(currentCard.getTerm());
+  //          termDefTextArea.setVisible(true);
 
         } else {
             termDefTextArea.setText("You finished the deck! Click RESET to start over.");
@@ -487,7 +504,8 @@ public class Frame extends JFrame {
     }
 
     private void definitionButtonClicked() {
-        termDefTextArea.setText(currentCard.getDef());
+        textPane.setText(currentCard.getDef());
+        //termDefTextArea.setText(currentCard.getDef());
         termDefTextArea.setLineWrap(true);
 
     }
