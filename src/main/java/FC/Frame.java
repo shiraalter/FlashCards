@@ -393,7 +393,7 @@ public class Frame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-        Rectangle rect = new Rectangle(0, 0, 350, 210);
+        Rectangle rect = new Rectangle(0, 0, 415, 249);
         JPanel container = new JPanel();
         scrollPane.setPreferredSize(new Dimension(rect.width, rect.height));
         scrollPane.setBounds(rect);
