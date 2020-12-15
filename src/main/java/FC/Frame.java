@@ -382,13 +382,14 @@ public class Frame extends JFrame {
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
         studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
 
-        Font font = new Font ("Arial", Font.PLAIN, 26);
-        termDefTextArea = new JTextArea(8,15);
+        Font font = new Font("Arial", Font.PLAIN, 26);
+        termDefTextArea = new JTextArea(8, 15);
         termDefTextArea.setBorder(new LineBorder(Color.BLACK));
         termDefTextArea.setFont(font);
         termDefTextArea.setWrapStyleWord(true);
         termDefTextArea.setAlignmentX(JTextArea.CENTER_ALIGNMENT);
         textPane = new JTextPane();
+
 
         StyledDocument doc = textPane.getStyledDocument();
         SimpleAttributeSet center = new SimpleAttributeSet();
@@ -397,12 +398,18 @@ public class Frame extends JFrame {
         textPane.setCharacterAttributes(center, true);
         textPane.setBorder(new LineBorder((Color.BLACK)));
         textPane.setFont(font);
-        textPane.setPreferredSize(new Dimension(15, 200));
         JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+        Rectangle rect = new Rectangle(0, 0, 350, 210);
+        JPanel container = new JPanel();
+        scrollPane.setPreferredSize(new Dimension(rect.width, rect.height));
+        scrollPane.setBounds(rect);
+        container.add(scrollPane);
+
+
         //studyPanel.add(termDefTextArea);
-        studyPanel.add(scrollPane, BorderLayout.CENTER);
+        studyPanel.add(container, BorderLayout.CENTER);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
         studyPanel.setVisible(false);
@@ -493,7 +500,7 @@ public class Frame extends JFrame {
             currentCard = studyController.getNextToStudy();
             textPane.setText(currentCard.getTerm());
 //            termDefTextArea.setText(currentCard.getTerm());
-  //          termDefTextArea.setVisible(true);
+            //          termDefTextArea.setVisible(true);
 
         } else {
             termDefTextArea.setText("You finished the deck! Click RESET to start over.");
