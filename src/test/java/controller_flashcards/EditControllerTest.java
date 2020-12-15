@@ -1,6 +1,7 @@
-package flashcards;
+package controller_flashcards;
 
-import controller_flashcards.EditController;
+import flashcards.Card;
+import flashcards.Deck;
 import org.junit.Test;
 
 import java.sql.SQLException;
