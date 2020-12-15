@@ -18,6 +18,9 @@ import java.util.Objects;
 
 public class Frame extends JFrame {
     private final Color beige = new Color(207, 182, 146);
+    private final Color paleBlue = new Color(117, 215, 236);
+    private final Color paleGreen = new Color(115, 238, 142);
+    private final Color paleRed = new Color(226, 63, 96);
     private Card currentCard;
     JTextPane textPane;
 
@@ -416,11 +419,18 @@ public class Frame extends JFrame {
         correctButton = new JButton("CORRECT!");
         incorrectButton = new JButton("INCORRECT!");
         definitionButton = new JButton("View Definition");
+        JButton resetButton = new JButton("RESET");
+
+        correctButton.setBackground(paleGreen);
+        incorrectButton.setBackground(paleRed);
+        definitionButton.setBackground(paleBlue);
+        resetButton.setBackground(beige);
+
         correctButton.addActionListener(actionEvent -> correctButtonClicked());
         incorrectButton.addActionListener(actionEvent -> incorrectButtonClicked());
         definitionButton.addActionListener(actionEvent -> definitionButtonClicked());
 
-        JButton resetButton = new JButton("RESET");
+
         resetButton.addActionListener(actionEvent -> {
             try {
                 resetClicked();
