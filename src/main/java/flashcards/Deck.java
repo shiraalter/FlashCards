@@ -35,12 +35,8 @@ public class Deck {
         cards.clear();
     }
 
-    protected List<Card> getCardsList() {
-        List<Card> tempCards = new ArrayList<Card>();
-        for (Card card : cards) {
-            tempCards.add(card);
-        }
-        return tempCards;
+    public List<Card> getCardsList() {
+        return new ArrayList<>(cards);
     }
 
 }
