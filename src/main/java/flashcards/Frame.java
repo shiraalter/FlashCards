@@ -12,6 +12,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
+import java.awt.image.BufferedImage;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +22,8 @@ public class Frame extends JFrame {
     private final Color paleBlue = new Color(117, 215, 236);
     private final Color paleGreen = new Color(115, 238, 142);
     private final Color paleRed = new Color(226, 63, 96);
-    private Card currentCard;
-    JTextPane textPane;
+    private Card currentCard
+
 
     private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
     private JComboBox<String> deckBox;
@@ -38,7 +39,7 @@ public class Frame extends JFrame {
     private JTextArea addDefArea;
     private JLabel deckName, numOfCards;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
-
+    private JTextPane textPane;
     private final StudyController studyController = new StudyController();
     private EditController editController;
 
