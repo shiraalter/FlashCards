@@ -1,6 +1,5 @@
 package controller_flashcards;
 
-import controller_flashcards.StudyController;
 import flashcards.Card;
 import flashcards.Deck;
 import org.junit.Test;
