@@ -50,6 +50,7 @@ public class Frame extends JFrame {
         add(middlePanel);
         add(topPanel, BorderLayout.NORTH);
         add(leftPanel, BorderLayout.WEST);
+
         setupTopPanel();
         setupExistingDeckOptions();
         setupNewDeckMode();
@@ -377,7 +378,7 @@ public class Frame extends JFrame {
     private void setUpStudyPanel(JPanel studyButtonPanel) {
         studyPanel = new JPanel();
         studyPanel.setLayout(new BoxLayout(studyPanel, BoxLayout.Y_AXIS));
-        studyPanel.setBorder(new EmptyBorder(200, 0, 0, 0));
+        studyPanel.setBorder(new EmptyBorder(100, 0, 0, 0));
 
         Font font = new Font("Arial", Font.PLAIN, 26);
         textPane = new JTextPane();
