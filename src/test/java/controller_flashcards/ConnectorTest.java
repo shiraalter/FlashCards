@@ -1,4 +1,4 @@
-package flashcards;
+package controller_flashcards;
 
 import controller_flashcards.Connector;
 import org.junit.Test;
