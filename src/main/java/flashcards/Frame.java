@@ -47,7 +47,7 @@ public class Frame extends JFrame {
     private DefaultListModel<Card> model;
 
     public Frame() throws SQLException {
-        setSize(750, 600);
+        setSize(690, 580);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Flashcard UI");
         setLayout(new BorderLayout());
