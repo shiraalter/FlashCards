@@ -22,7 +22,7 @@ public class Frame extends JFrame {
     private final Color paleBlue = new Color(117, 215, 236);
     private final Color paleGreen = new Color(115, 238, 142);
     private final Color paleRed = new Color(226, 63, 96);
-    private Card currentCard
+    private Card currentCard;
 
 
     private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
