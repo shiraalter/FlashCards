@@ -1,4 +1,4 @@
-package controller_flashcards;
+package flashcards.controller;
 
 import java.sql.*;
 

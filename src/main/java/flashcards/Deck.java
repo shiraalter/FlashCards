@@ -1,4 +1,4 @@
-package controller_flashcards.flashcards;
+package flashcards;
 
 import java.util.ArrayList;
 import java.util.List;
