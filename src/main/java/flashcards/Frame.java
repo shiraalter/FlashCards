@@ -387,6 +387,7 @@ public class Frame extends JFrame {
 
         Font font = new Font("Arial", Font.PLAIN, 26);
         textPane = new JTextPane();
+        textPane.setEditable(false);
 
 
         StyledDocument doc = textPane.getStyledDocument();
