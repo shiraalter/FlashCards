@@ -1,8 +1,8 @@
-package controller_flashcards.flashcards;
+package flashcards;
 
-import controller_flashcards.ComboBoxController;
-import controller_flashcards.EditController;
-import controller_flashcards.StudyController;
+import flashcards.controller.ComboBoxController;
+import flashcards.controller.EditController;
+import flashcards.controller.StudyController;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

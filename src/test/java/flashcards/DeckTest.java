@@ -1,5 +1,7 @@
-package controller_flashcards.flashcards;
+package flashcards;
 
+import flashcards.Card;
+import flashcards.Deck;
 import org.junit.Test;
 
 import java.util.ArrayList;

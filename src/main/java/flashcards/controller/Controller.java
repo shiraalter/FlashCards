@@ -1,7 +1,7 @@
-package controller_flashcards;
+package flashcards.controller;
 
-import controller_flashcards.flashcards.Card;
-import controller_flashcards.flashcards.Deck;
+import flashcards.Card;
+import flashcards.Deck;
 
 import java.sql.*;
 import java.util.ArrayList;

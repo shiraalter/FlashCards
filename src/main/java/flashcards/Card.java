@@ -1,4 +1,4 @@
-package controller_flashcards.flashcards;
+package flashcards;
 
 public class Card {
 
