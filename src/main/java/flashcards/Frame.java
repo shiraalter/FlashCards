@@ -293,7 +293,7 @@ public class Frame extends JFrame {
 
     private void enterDeleteCardClicked() throws SQLException {
         if (cardList.getSelectedValue() != null) {
-            editController.deleteCard(cardList.getSelectedValue(), deckSelected);
+            editController.deleteCard(cardList.getSelectedValue());
             model.removeElement(cardList.getSelectedValue());
             setNumOfCardsEditMode();
         }
