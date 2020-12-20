@@ -17,6 +17,5 @@ public class ComboBoxControllerTest {
 
         //then
         assertEquals(1, comboBoxController.getAllDecks().size());
-
     }
 }

@@ -1,4 +1,4 @@
-package flashcards;
+package controller_flashcards.flashcards;
 
 public class Card {
 
@@ -43,7 +43,6 @@ public class Card {
         } else {
             return false;
         }
-
     }
 
    @Override

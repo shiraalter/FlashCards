@@ -12,5 +12,4 @@ public class ComboBoxController extends Controller {
     public ArrayList<String> getAllDecks() throws SQLException {
         return super.getAllDecks();
     }
-
 }

@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,8 +12,7 @@ public class Controller {
     private final String DB_FILE = "flash_cards.db";
     private final Connection CONNECTION = new Connector(DB_FILE).connect();
 
-    public Controller() throws SQLException {
-    }
+    public Controller() throws SQLException { }
 
     /**
      * Create a new table/deck in the database
@@ -53,7 +52,6 @@ public class Controller {
         removeCardStmt.setString(1, card.getId());
         removeCardStmt.execute();
     }
-
 
     /**
      * Update a given card's term

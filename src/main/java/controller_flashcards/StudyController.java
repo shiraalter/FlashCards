@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 
 import java.sql.SQLException;
 import java.util.Random;
@@ -10,8 +10,7 @@ public class StudyController extends Controller {
     private Deck unMastered;
     private final Random rand = new Random();
 
-    public StudyController() throws SQLException {
-    }
+    public StudyController() throws SQLException { }
 
     public StudyController(String deckName) throws SQLException {
         unMastered = getDeck(deckName);

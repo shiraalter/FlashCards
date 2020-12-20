@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -38,7 +38,6 @@ public class StudyControllerTest {
 
         //then
         assertEquals(4, deck.getSize());
-
     }
 
     @Test
@@ -60,6 +59,5 @@ public class StudyControllerTest {
 
         //then
         assertEquals(5, deck.getSize());
-
     }
 }

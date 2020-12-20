@@ -1,4 +1,4 @@
-package flashcards;
+package controller_flashcards.flashcards;
 
 import controller_flashcards.ComboBoxController;
 import controller_flashcards.EditController;
@@ -12,7 +12,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
 
-import java.awt.image.BufferedImage;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +22,6 @@ public class Frame extends JFrame {
     private final Color paleGreen = new Color(115, 238, 142);
     private final Color paleRed = new Color(226, 63, 96);
     private Card currentCard;
-
 
     private final JPanel leftPanel = new JPanel(new GridLayout(11, 1));
     private JComboBox<String> deckBox;
@@ -291,7 +289,6 @@ public class Frame extends JFrame {
         for (Card card : listOfCards) {
             model.addElement(card);
         }
-
     }
 
     private void enterDeleteCardClicked() throws SQLException {
@@ -341,7 +338,6 @@ public class Frame extends JFrame {
         studyPanel.setVisible(false);
         topPanel.setVisible(false);
         disableMutatorPanels();
-
     }
 
     private void setWelcomePanel() {

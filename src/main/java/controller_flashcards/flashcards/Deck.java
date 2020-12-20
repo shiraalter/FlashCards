@@ -1,4 +1,4 @@
-package flashcards;
+package controller_flashcards.flashcards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +38,4 @@ public class Deck {
     public List<Card> getCardsList() {
         return new ArrayList<>(cards);
     }
-
 }

@@ -18,7 +18,5 @@ public class ConnectorTest {
 
         //then
         assert(connection.isValid(0));
-
     }
-
 }

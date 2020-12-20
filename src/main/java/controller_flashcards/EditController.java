@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 public class EditController extends Controller {
     private Deck editDeck;
 
-    public EditController() throws SQLException {
-    }
+    public EditController() throws SQLException { }
 
     /**
      * Creates a new card in the deck

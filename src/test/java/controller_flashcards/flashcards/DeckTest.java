@@ -1,4 +1,4 @@
-package flashcards;
+package controller_flashcards.flashcards;
 
 import org.junit.Test;
 
@@ -127,6 +127,5 @@ public class DeckTest {
 
         //then
         assert (deck.getSize() == 0);
-
     }
 }

@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -44,7 +44,6 @@ public class ControllerTest {
         //then
         assertNotNull(controller.getDeck(title));
         controller.deleteDeck(title);
-
     }
 
 
@@ -81,7 +80,6 @@ public class ControllerTest {
         //then
         assertEquals(0, deck.getSize());
         controller.deleteDeck(title);
-
     }
 
 
@@ -104,7 +102,6 @@ public class ControllerTest {
         //then
         assertEquals(0, deck.getSize());
         controller.deleteDeck(title);
-
     }
 
     @Test
@@ -202,7 +199,6 @@ public class ControllerTest {
         //then
         assertNotNull(deck.getCard(0));
         controller.deleteDeck(title);
-
     }
 
 
@@ -222,7 +218,6 @@ public class ControllerTest {
         //then
         assertNotNull(deck.getCard(0));
         controller.deleteDeck(title);
-
     }
 
     @Test
@@ -245,7 +240,6 @@ public class ControllerTest {
         assertNotNull(deck.getCard(0));
         assertEquals(2, deck.getSize());
         controller.deleteDeck(title);
-
     }
 
     @Test
@@ -288,5 +282,4 @@ public class ControllerTest {
         //then
         assertEquals(5, deck.getSize());
     }
-
 }

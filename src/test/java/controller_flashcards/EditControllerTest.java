@@ -1,7 +1,7 @@
 package controller_flashcards;
 
-import flashcards.Card;
-import flashcards.Deck;
+import controller_flashcards.flashcards.Card;
+import controller_flashcards.flashcards.Deck;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -26,7 +26,6 @@ public class EditControllerTest {
         //then
         assertEquals(1, deck.getSize());
         editController.deleteDeck(title);
-
     }
 
     @Test
@@ -48,7 +47,6 @@ public class EditControllerTest {
         //then
         assertEquals(2, deck.getSize());
         editController.deleteDeck(title);
-
     }
 
     @Test
@@ -70,7 +68,6 @@ public class EditControllerTest {
         //then
         assertEquals(2, deck.getSize());
         editController.deleteDeck(title);
-
     }
 
     @Test
@@ -91,7 +88,6 @@ public class EditControllerTest {
         //then
         assertEquals(0, deck.getSize());
         editController.deleteDeck(title);
-
     }
 
 
@@ -113,7 +109,6 @@ public class EditControllerTest {
         //then
         assertEquals(0, deck.getSize());
         editController.deleteDeck(title);
-
     }
 
     @Test
@@ -128,7 +123,6 @@ public class EditControllerTest {
         //then
         assertNotNull(editController.getDeck(title));
         editController.deleteDeck(title);
-
     }
 
 
@@ -144,7 +138,6 @@ public class EditControllerTest {
         //then
         assertNotNull(editController.getDeck(title));
         editController.deleteDeck(title);
-
     }
 
 
@@ -160,7 +153,6 @@ public class EditControllerTest {
         //then
         assertNotNull(editController.getDeck(title));
         editController.deleteDeck(title);
-
     }
 
     @Test
@@ -177,7 +169,6 @@ public class EditControllerTest {
         //then
         assertFalse(editController.getAllDecks().contains(title));
         assertEquals(1, editController.getAllDecks().size());
-
     }
 
 
@@ -195,6 +186,5 @@ public class EditControllerTest {
         //then
         assertFalse(editController.getAllDecks().contains(title));
         assertEquals(1, editController.getAllDecks().size());
-
     }
 }

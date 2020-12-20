@@ -16,5 +16,4 @@ public class Connector {
         String url = "jdbc:sqlite:" + dBFile;
         return DriverManager.getConnection(url);
     }
-
 }
