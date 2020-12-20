@@ -40,7 +40,7 @@ public class Controller {
         removeCardStmt.setString(1, card.getId());
         removeCardStmt.execute();
     }
-
+    
 //    /**
 //     * Update a given card's term
 //     */
