@@ -2,7 +2,6 @@ package flashcards.controller;
 
 import flashcards.Card;
 import flashcards.Deck;
-import flashcards.controller.Controller;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -75,7 +74,7 @@ public class ControllerTest {
         controller.insertCard(title, term, def);
         Deck deck = controller.getDeck(title);
         Card card = deck.getCard(0);
-        controller.deleteCard(card, title);
+        controller.deleteCard(card);
         deck = controller.getDeck(title);
 
         //then
@@ -97,7 +96,7 @@ public class ControllerTest {
         controller.insertCard(title, term, def);
         Deck deck = controller.getDeck(title);
         Card card = deck.getCard(0);
-        controller.deleteCard(card, title);
+        controller.deleteCard(card);
         deck = controller.getDeck(title);
 
         //then
@@ -105,49 +104,28 @@ public class ControllerTest {
         controller.deleteDeck(title);
     }
 
-    @Test
-    public void updateTerm() throws SQLException {
-        //given
-        Controller controller = new Controller();
-        String title = "Testing";
-        String term = "term";
-        String def = "definition";
+//    @Test
+//    public void updateTerm() throws SQLException {
+//        //given
+//        Controller controller = new Controller();
+//        String title = "Testing";
+//        String term = "term";
+//        String def = "definition";
+//
+//        //when
+//        controller.addDeck(title);
+//        controller.insertCard(title, term, def);
+//        Deck deck = controller.getDeck(title);
+//        Card card = deck.getCard(0);
+//        String newTerm = "newTerm";
+//        card.setTerm(newTerm);
+//
+//        //then
+//        controller.updateTerm(title, card);
+//        assertEquals("newTerm", card.getTerm());
+//        controller.deleteDeck(title);
+//    }
 
-        //when
-        controller.addDeck(title);
-        controller.insertCard(title, term, def);
-        Deck deck = controller.getDeck(title);
-        Card card = deck.getCard(0);
-        String newTerm = "newTerm";
-        card.setTerm(newTerm);
-
-        //then
-        controller.updateTerm(title, card);
-        assertEquals("newTerm", card.getTerm());
-        controller.deleteDeck(title);
-    }
-
-    @Test
-    public void updateDef() throws SQLException {
-        //given
-        Controller controller = new Controller();
-        String title = "Testing";
-        String term = "term";
-        String def = "definition";
-
-        //when
-        controller.addDeck(title);
-        controller.insertCard(title, term, def);
-        Deck deck = controller.getDeck(title);
-        Card card = deck.getCard(0);
-        String newDef = "newDef";
-        card.setDef(newDef);
-
-        //then
-        controller.updateDef(title, card);
-        assertEquals("newDef", card.getDef());
-        controller.deleteDeck(title);
-    }
 
     @Test()
     public void deleteDeck() throws SQLException {
@@ -268,7 +246,7 @@ public class ControllerTest {
 
 
         //then
-        assertNotNull(controller.selectAll(title));
+        assertNotNull(controller.getAllDecks());
     }
 
     @Test
@@ -281,6 +259,6 @@ public class ControllerTest {
         Deck deck = controller.getDeck(title);
 
         //then
-        assertEquals(5, deck.getSize());
+        assertEquals(6, deck.getSize());
     }
 }
