@@ -75,6 +75,7 @@ public class Controller {
         PreparedStatement updateDefStmt = CONNECTION.prepareStatement("UPDATE '" + escapeApostrophes(table) + "' SET def = ? WHERE id = ?;");
         updateDefStmt.setString(1, card.getDef());
         updateDefStmt.setString(2, card.getId());
+        updateDefStmt.execute();
     }
 
     /**
