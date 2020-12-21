@@ -84,7 +84,7 @@ public class EditControllerTest {
         editController.insertCard(title, term, def);
         Deck deck = editController.getEditDeck();
         Card card = deck.getCard(0);
-        editController.deleteCard(card, title);
+        editController.deleteCard(card);
 
         //then
         assertEquals(0, deck.getSize());
@@ -105,7 +105,7 @@ public class EditControllerTest {
         editController.insertCard(title, term, def);
         Deck deck = editController.getEditDeck();
         Card card = deck.getCard(0);
-        editController.deleteCard(card, title);
+        editController.deleteCard(card);
 
         //then
         assertEquals(0, deck.getSize());
