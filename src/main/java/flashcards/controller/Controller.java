@@ -6,7 +6,7 @@ import flashcards.Deck;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Controller {
+public abstract class Controller {
 
     private final String MENU_TABLE = "menu";
     private final String CARDS_TABLE = "cards";
