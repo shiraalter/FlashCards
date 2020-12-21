@@ -12,11 +12,8 @@ public abstract class Controller {
     private final String CARDS_TABLE = "cards";
     private final String DB_FILE = "flash_cards.db";
     private final Connection CONNECTION = new Connector(DB_FILE).connect();
-    private PreparedStatement createTableStmt;
     private PreparedStatement insertToMenuStmt;
     private PreparedStatement removeCardStmt;
-    private PreparedStatement updateTermStmt;
-    private PreparedStatement updateDefStmt;
     private PreparedStatement deleteDeckStmt;
     private PreparedStatement deleteMenuItemStmt;
     private PreparedStatement insertCardStmt;
@@ -31,8 +28,6 @@ public abstract class Controller {
                 "' (deck_title) VALUES (?);");
         removeCardStmt = CONNECTION.prepareStatement("DELETE FROM '" +  escapeApostrophes(CARDS_TABLE)  +
                 "' WHERE id = ?;");
-        createTableStmt = CONNECTION.prepareStatement("CREATE TABLE '" +  escapeApostrophes("?")  +
-                "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
         deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE '" + escapeApostrophes(CARDS_TABLE) + "';");
         deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes(MENU_TABLE) +
                 "' WHERE deck_title = ?;");
