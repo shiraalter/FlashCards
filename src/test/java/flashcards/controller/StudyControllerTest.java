@@ -38,7 +38,7 @@ public class StudyControllerTest {
         studyController.masterCard(card);
 
         //then
-        assertEquals(4, deck.getSize());
+        assertEquals(5, deck.getSize());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class StudyControllerTest {
         deck = studyController.getUnMastered();
 
         //then
-        assertEquals(5, deck.getSize());
+        assertEquals(6, deck.getSize());
     }
 }

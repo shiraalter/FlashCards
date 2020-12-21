@@ -14,16 +14,16 @@ public class EditController extends Controller {
     /**
      * Creates a new card in the deck
      */
-    public void insertCard(String table, String term, String def) throws SQLException {
-        super.insertCard(table, term, def);
-        editDeck = super.getDeck(table);
+    public void insertCard(String deck, String term, String def) throws SQLException {
+        super.insertCard(deck, term, def);
+        editDeck = super.getDeck(deck);
     }
 
     /**
      * Deletes the selected card from the deck
      */
-    public void deleteCard(Card card, String deckName) throws SQLException {
-        super.deleteCard(card, deckName);
+    public void deleteCard(Card card) throws SQLException {
+        super.deleteCard(card);
         editDeck.removeCard(card);
     }
 
@@ -31,14 +31,15 @@ public class EditController extends Controller {
      * Adds a new deck to the database
      */
     public void initializeNewDeck(String deckName) throws SQLException {
+//        super.addDeck(deckName);
         super.addDeck(deckName);
     }
 
     /**
      * Deletes a given deck from the database
      */
-    public void deleteDeck(String deckName) throws SQLException {
-        super.deleteDeck(deckName);
+    public void deleteDeck(String deck) throws SQLException {
+        super.deleteDeck(deck);
     }
 
     public List<Card> getTermsInDeck(String deckname) throws SQLException {

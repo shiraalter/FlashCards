@@ -35,7 +35,7 @@ public class Frame extends JFrame {
             deleteCardPanel, deleteDeckPanel, existingButtonPanel;
     private JTextField deckNameTb, addTermField;
     private JTextArea addDefArea;
-    private JLabel deckName, numOfCards;
+    private JLabel deckName, numOfCards, term;
     private JButton correctButton, incorrectButton, definitionButton, deleteDeckButton;
     private JTextPane textPane;
     private final StudyController studyController = new StudyController();
@@ -293,7 +293,7 @@ public class Frame extends JFrame {
 
     private void enterDeleteCardClicked() throws SQLException {
         if (cardList.getSelectedValue() != null) {
-            editController.deleteCard(cardList.getSelectedValue(), deckSelected);
+            editController.deleteCard(cardList.getSelectedValue());
             model.removeElement(cardList.getSelectedValue());
             setNumOfCardsEditMode();
         }
@@ -387,6 +387,7 @@ public class Frame extends JFrame {
 
         Font font = new Font("Arial", Font.PLAIN, 26);
         textPane = new JTextPane();
+        textPane.setEditable(false);
 
 
         StyledDocument doc = textPane.getStyledDocument();
@@ -399,12 +400,16 @@ public class Frame extends JFrame {
         JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
+        term = new JLabel(" "); //added space so label takes up the same amt of room when full or empty
+        term.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         Rectangle rect = new Rectangle(0, 0, 415, 249);
         JPanel container = new JPanel();
         scrollPane.setPreferredSize(new Dimension(rect.width, rect.height));
         scrollPane.setBounds(rect);
         container.add(scrollPane);
 
+        studyPanel.add(term, BorderLayout.PAGE_START);
         studyPanel.add(container, BorderLayout.CENTER);
         studyPanel.add(Box.createVerticalStrut(15));
         studyPanel.add(studyButtonPanel);
@@ -470,6 +475,7 @@ public class Frame extends JFrame {
 
     private void resetClicked() throws SQLException {
         initializeStudyLogic();
+        term.setText(" ");
         textPane.setText(currentCard.getTerm());
         setRemainingCardsToStudy();
         enableStudyControls();
@@ -488,11 +494,13 @@ public class Frame extends JFrame {
     }
 
     private void incorrectButtonClicked() {
+        term.setText(" ");
         currentCard = studyController.getNextToStudy();
         textPane.setText(currentCard.getTerm());
     }
 
     private void correctButtonClicked() {
+        term.setText(" ");
         studyController.masterCard(currentCard);
         setRemainingCardsToStudy();
         if (studyController.getNextToStudy() != null) {
@@ -510,6 +518,7 @@ public class Frame extends JFrame {
 
     private void definitionButtonClicked() {
         textPane.setText(currentCard.getDef());
+        term.setText("Term: " + currentCard.getTerm());
     }
 
     private void setRemainingCardsToStudy() {
