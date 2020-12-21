@@ -11,20 +11,24 @@ public class Controller {
     private final String MENU_TABLE = "menu";
     private final String DB_FILE = "flash_cards.db";
     private final Connection CONNECTION = new Connector(DB_FILE).connect();
-    private final PreparedStatement createTableStmt;
-    private final PreparedStatement insertToMenuStmt;
-    private final PreparedStatement removeCardStmt;
-    private final PreparedStatement updateTermStmt;
-    private final PreparedStatement updateDefStmt;
-    private final PreparedStatement deleteDeckStmt;
-    private final PreparedStatement deleteMenuItemStmt;
-    private final PreparedStatement insertCardStmt;
-    private final PreparedStatement selectStmt;
+    private PreparedStatement createTableStmt;
+    private PreparedStatement insertToMenuStmt;
+    private PreparedStatement removeCardStmt;
+    private PreparedStatement updateTermStmt;
+    private PreparedStatement updateDefStmt;
+    private PreparedStatement deleteDeckStmt;
+    private PreparedStatement deleteMenuItemStmt;
+    private PreparedStatement insertCardStmt;
+    private PreparedStatement selectStmt;
 
     public Controller() throws SQLException {
+        setUpPreparedStatements();
+    }
+
+    private void setUpPreparedStatements() throws SQLException{
         createTableStmt = CONNECTION.prepareStatement("CREATE TABLE '" +  escapeApostrophes("?")  +
                 "' (id INTEGER PRIMARY KEY AUTOINCREMENT, term TEXT NOT NULL, def TEXT NOT NULL);");
-        insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO '" +  escapeApostrophes("?")  +
+        insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO '" +  escapeApostrophes(MENU_TABLE)  +
                 "' (deck_title) VALUES (?);");
         removeCardStmt = CONNECTION.prepareStatement("DELETE FROM '" +  escapeApostrophes("?")  +
                 "' WHERE id = ?;");
@@ -33,7 +37,7 @@ public class Controller {
         updateDefStmt = CONNECTION.prepareStatement("UPDATE '" + escapeApostrophes("?") +
                 "' SET def = ? WHERE id = ?;");
         deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE '" + escapeApostrophes("?") + "';");
-        deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes("?") +
+        deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes(MENU_TABLE) +
                 "' WHERE deck_title = ?;");
         insertCardStmt = CONNECTION.prepareStatement("INSERT INTO '" + escapeApostrophes("?") +
                 "' (term, def) VALUES (?, ?);");
@@ -59,8 +63,7 @@ public class Controller {
      * @throws SQLException
      */
     private void addDeckToMenuTable(String title) throws SQLException {
-        insertToMenuStmt.setString(1, MENU_TABLE);
-        insertToMenuStmt.setString(2, title);
+        insertToMenuStmt.setString(1, title);
         insertToMenuStmt.execute();
     }
 
@@ -116,8 +119,7 @@ public class Controller {
      * @throws SQLException
      */
     protected void removeFromMenu(String table) throws SQLException {
-        deleteMenuItemStmt.setString(1, MENU_TABLE);
-        deleteMenuItemStmt.setString(2, table);
+        deleteMenuItemStmt.setString(1, table);
         deleteMenuItemStmt.execute();
     }
 
