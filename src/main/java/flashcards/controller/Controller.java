@@ -40,26 +40,6 @@ public abstract class Controller {
         removeCardStmt.setString(1, card.getId());
         removeCardStmt.execute();
     }
-    
-//    /**
-//     * Update a given card's term
-//     */
-//    protected void updateTerm(String table, Card card) throws SQLException {
-//        PreparedStatement updateTermStmt = CONNECTION.prepareStatement("UPDATE '" + escapeApostrophes(table) +
-//                "' SET term = ? WHERE id = ?;");
-//        updateTermStmt.setString(1, card.getTerm());
-//        updateTermStmt.setString(2, card.getId());
-//        updateTermStmt.execute();
-//    }
-
-//    /**
-//     * Update a given card's def
-//     */
-//    protected void updateDef(String table, Card card) throws SQLException {
-//        PreparedStatement updateDefStmt = CONNECTION.prepareStatement("UPDATE '" + escapeApostrophes(table) + "' SET def = ? WHERE id = ?;");
-//        updateDefStmt.setString(1, card.getDef());
-//        updateDefStmt.setString(2, card.getId());
-//    }
 
     /**
      * Delete a table/deck in the database
