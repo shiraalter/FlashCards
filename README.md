@@ -5,6 +5,9 @@ Contributors:
 * Jennifer Komendant (@jkomendant)
 * Shira Alter(@shiraalter)
 * Ricki Peikes (@rpeikes)
+* Michal Berger (@bergerm613)
+* Mindy Gottlieb (@Mindy712)
+* Tamar Aufrichtig (@TamarAuf)
 
 How to use the application:
 * The user can begin by creating a new deck or selecting an existing one. 

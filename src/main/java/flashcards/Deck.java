@@ -38,5 +38,4 @@ public class Deck {
     public List<Card> getCardsList() {
         return new ArrayList<>(cards);
     }
-
 }

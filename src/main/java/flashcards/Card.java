@@ -43,7 +43,6 @@ public class Card {
         } else {
             return false;
         }
-
     }
 
    @Override

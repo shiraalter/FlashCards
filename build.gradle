@@ -5,8 +5,23 @@ plugins {
 group 'org.example'
 version '1.0-SNAPSHOT'
 
+sourceCompatibility = 1.8
+
 repositories {
     mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "flashcards.Main"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+
+    destinationDirectory = file("$rootDir/jar-file")
+    archivesBaseName = 'app'
 }
 
 dependencies {

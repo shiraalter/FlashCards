@@ -1,5 +1,6 @@
 package flashcards;
 
+import flashcards.Card;
 import org.junit.Test;
 
 public class CardTest {
@@ -66,7 +67,6 @@ public class CardTest {
 
         //then
         assert (card.equals(card2));
-
     }
 
     @Test
@@ -87,7 +87,6 @@ public class CardTest {
 
         //then
         assert (!cardE);
-
     }
 
     @Test
@@ -105,6 +104,5 @@ public class CardTest {
 
         //then
         assert (!cardE);
-
     }
 }
