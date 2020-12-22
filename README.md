@@ -5,6 +5,9 @@ Contributors:
 * Jennifer Komendant (@jkomendant)
 * Shira Alter(@shiraalter)
 * Ricki Peikes (@rpeikes)
+* Michal Berger (@bergerm613)
+* Mindy Gottlieb (@Mindy712)
+* Tamar Aufrichtig (@TamarAuf)
 
 ##### User Interface
 1. Opening
