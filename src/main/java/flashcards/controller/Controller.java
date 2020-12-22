@@ -17,6 +17,7 @@ public abstract class Controller {
     private PreparedStatement deleteDeckStmt;
     private PreparedStatement deleteMenuItemStmt;
     private PreparedStatement insertCardStmt;
+    private PreparedStatement selectDecksStmt;
     private PreparedStatement selectStmt;
 
     public Controller() throws SQLException {
@@ -24,16 +25,19 @@ public abstract class Controller {
     }
 
     private void setUpPreparedStatements() throws SQLException{
-        insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO '" +  escapeApostrophes(MENU_TABLE)  +
-                "' (deck_title) VALUES (?);");
-        removeCardStmt = CONNECTION.prepareStatement("DELETE FROM '" +  escapeApostrophes(CARDS_TABLE)  +
-                "' WHERE id = ?;");
-        deleteDeckStmt = CONNECTION.prepareStatement("DROP TABLE '" + escapeApostrophes(CARDS_TABLE) + "';");
+        insertToMenuStmt = CONNECTION.prepareStatement("INSERT INTO '" + escapeApostrophes(MENU_TABLE)
+                + "' (deck_title) VALUES (?);");
+        removeCardStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes(CARDS_TABLE) +
+                "' WHERE card_id = ?;");
+        deleteDeckStmt = CONNECTION.prepareStatement("DELETE from '" + escapeApostrophes(CARDS_TABLE) +
+                "'Where deck_id = (select id from menu where deck_title = ?);");
         deleteMenuItemStmt = CONNECTION.prepareStatement("DELETE FROM '" + escapeApostrophes(MENU_TABLE) +
                 "' WHERE deck_title = ?;");
         insertCardStmt = CONNECTION.prepareStatement("INSERT INTO '" + escapeApostrophes(CARDS_TABLE) +
-                "' (term, def) VALUES (?, ?);");
-        selectStmt = CONNECTION.prepareStatement("SELECT * FROM '" + escapeApostrophes(MENU_TABLE)  + "';");
+                "' (term, def, deck_id) VALUES (?, ?, (select id from menu where deck_title = ?));");
+        selectDecksStmt = CONNECTION.prepareStatement("SELECT deck_title FROM '" + escapeApostrophes(MENU_TABLE) + "';");
+        selectStmt = CONNECTION.prepareStatement("SELECT * FROM '" + escapeApostrophes(CARDS_TABLE) +
+                "'Where deck_id = (select id from menu where deck_title = ?);");
     }
 
     /**
@@ -133,7 +137,7 @@ public abstract class Controller {
      * @throws SQLException
      */
     protected ResultSet getAllDecksFromDB() throws SQLException {
-        return selectStmt.executeQuery();
+        return selectDecksStmt.executeQuery();
     }
 
     /**
