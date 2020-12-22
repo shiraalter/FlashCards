@@ -2,12 +2,12 @@ package flashcards.controller;
 
 import flashcards.Card;
 import flashcards.Deck;
-import flashcards.controller.StudyController;
 import org.junit.Test;
 
 import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StudyControllerTest {
 
@@ -38,7 +38,7 @@ public class StudyControllerTest {
         studyController.masterCard(card);
 
         //then
-        assertEquals(4, deck.getSize());
+        assertEquals(5, deck.getSize());
     }
 
     @Test
@@ -59,6 +59,6 @@ public class StudyControllerTest {
         deck = studyController.getUnMastered();
 
         //then
-        assertEquals(5, deck.getSize());
+        assertEquals(6, deck.getSize());
     }
 }

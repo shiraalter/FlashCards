@@ -2,7 +2,6 @@ package flashcards.controller;
 
 import flashcards.Card;
 import flashcards.Deck;
-import flashcards.controller.EditController;
 import org.junit.Test;
 
 import java.sql.SQLException;
@@ -84,7 +83,7 @@ public class EditControllerTest {
         editController.insertCard(title, term, def);
         Deck deck = editController.getEditDeck();
         Card card = deck.getCard(0);
-        editController.deleteCard(card, title);
+        editController.deleteCard(card);
 
         //then
         assertEquals(0, deck.getSize());
@@ -105,7 +104,7 @@ public class EditControllerTest {
         editController.insertCard(title, term, def);
         Deck deck = editController.getEditDeck();
         Card card = deck.getCard(0);
-        editController.deleteCard(card, title);
+        editController.deleteCard(card);
 
         //then
         assertEquals(0, deck.getSize());
