@@ -22,6 +22,12 @@ Enjoy!
 
 ![Alt](screenshots/fc-newdeck.PNG)
 
+![Alt](screenshots/fc-open.PNG)
+
+![Alt](screenshots/fc-study.PNG)
+
+![Alt](screenshots/fc-newdeck.PNG)
+
 ![Alt](screenshots/fc-addcard.PNG)
 ![Alt](screenshots/fc-deletecard.PNG)
 ![Alt](screenshots/fc-deletedeck.PNG)
