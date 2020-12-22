@@ -2,12 +2,12 @@ package flashcards.controller;
 
 import flashcards.Card;
 import flashcards.Deck;
-import flashcards.controller.StudyController;
 import org.junit.Test;
 
 import java.sql.SQLException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class StudyControllerTest {
 

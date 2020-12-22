@@ -1,6 +1,8 @@
 package flashcards.controller;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Connector {
     private final String dBFile;
@@ -13,7 +15,7 @@ public class Connector {
      * est. connection to a database file
      */
     Connection connect() throws SQLException {
-        String url = "jdbc:sqlite:" + dBFile;
+        String url = "jdbc:sqlite::resource:" + dBFile;
         return DriverManager.getConnection(url);
     }
 }

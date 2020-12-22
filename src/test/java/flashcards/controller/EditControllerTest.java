@@ -2,7 +2,6 @@ package flashcards.controller;
 
 import flashcards.Card;
 import flashcards.Deck;
-import flashcards.controller.EditController;
 import org.junit.Test;
 
 import java.sql.SQLException;
